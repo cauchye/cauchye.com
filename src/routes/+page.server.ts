@@ -8,6 +8,22 @@ import { getLocale } from '$lib/paraglide/runtime';
 /** Fields a bot fills in and a person never sees. */
 const HONEYPOT = 'website';
 
+/**
+ * Slack reserves `&`, `<` and `>` for its own markup, so anything typed into
+ * the form has to be escaped before it goes into a message.
+ */
+function slack(text: string) {
+	return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/** Renders the message as a blockquote — every line needs the marker. */
+function quote(text: string) {
+	return slack(text)
+		.split('\n')
+		.map((line) => `> ${line}`)
+		.join('\n');
+}
+
 function readValues(data: FormData): ContactValues {
 	return Object.fromEntries(
 		CONTACT_FIELDS.map((field) => [field, String(data.get(field) ?? '')])
@@ -36,26 +52,31 @@ export const actions = {
 		}
 
 		const { name, company, email, message } = parsed.data;
+
+		// One `section` per item. Slack lays a section's `fields` array out in two
+		// columns, which is what pairs unrelated values onto the same line.
+		const detail = (label: string, value: string) => ({
+			type: 'section',
+			text: { type: 'mrkdwn', text: `*${label}*\n${value}` }
+		});
+
 		const response = await fetch(webhook, {
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({
-				text: `New enquiry from ${name}`,
+				text: `お問い合わせ: ${slack(name)}`,
 				blocks: [
+					{ type: 'header', text: { type: 'plain_text', text: '新しいお問い合わせ' } },
+					detail('お名前', slack(name)),
+					...(company ? [detail('会社名', slack(company))] : []),
+					// Linkified so it can be replied to without retyping.
+					detail('メールアドレス', `<mailto:${slack(email)}|${slack(email)}>`),
+					{ type: 'divider' },
+					detail('ご相談内容', quote(message)),
 					{
-						type: 'header',
-						text: { type: 'plain_text', text: 'New enquiry — cauchye.com' }
-					},
-					{
-						type: 'section',
-						fields: [
-							{ type: 'mrkdwn', text: `*Name*\n${name}` },
-							{ type: 'mrkdwn', text: `*Company*\n${company || '—'}` },
-							{ type: 'mrkdwn', text: `*Email*\n${email}` },
-							{ type: 'mrkdwn', text: `*Locale*\n${getLocale()}` }
-						]
-					},
-					{ type: 'section', text: { type: 'mrkdwn', text: `*Message*\n${message}` } }
+						type: 'context',
+						elements: [{ type: 'mrkdwn', text: `${getLocale()} · cauchye.com` }]
+					}
 				]
 			})
 		});
