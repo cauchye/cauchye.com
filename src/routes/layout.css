@@ -1,81 +1,121 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
-@import "shadcn-svelte/tailwind.css";
-@import "@fontsource-variable/inter";
+@import 'tw-animate-css';
+@import 'shadcn-svelte/tailwind.css';
+@import '@fontsource-variable/inter';
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * ---------------------------------------------------------------------------
+ * Design tokens
+ * ---------------------------------------------------------------------------
+ * The whole site is styled from here. Neutrals carry a faint blue-ink tint
+ * (hue 265) instead of pure gray, and a single `--brand` accent does all the
+ * emphasis work. Change these values and every shadcn component follows —
+ * that is the point: no per-page color decisions anywhere else in the app.
+ */
 :root {
-	--background: oklch(1 0 0);
-	--foreground: oklch(0.145 0 0);
+	--background: oklch(0.994 0.002 265);
+	--foreground: oklch(0.17 0.016 265);
+
 	--card: oklch(1 0 0);
-	--card-foreground: oklch(0.145 0 0);
+	--card-foreground: oklch(0.17 0.016 265);
 	--popover: oklch(1 0 0);
-	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0.205 0 0);
-	--primary-foreground: oklch(0.985 0 0);
-	--secondary: oklch(0.97 0 0);
-	--secondary-foreground: oklch(0.205 0 0);
-	--muted: oklch(0.97 0 0);
-	--muted-foreground: oklch(0.556 0 0);
-	--accent: oklch(0.97 0 0);
-	--accent-foreground: oklch(0.205 0 0);
+	--popover-foreground: oklch(0.17 0.016 265);
+
+	/* Ink, not black — buttons and headings read as deliberate. */
+	--primary: oklch(0.215 0.021 265);
+	--primary-foreground: oklch(0.985 0.002 265);
+
+	--secondary: oklch(0.966 0.005 265);
+	--secondary-foreground: oklch(0.215 0.021 265);
+	--muted: oklch(0.966 0.005 265);
+	--muted-foreground: oklch(0.505 0.017 265);
+	--accent: oklch(0.955 0.013 265);
+	--accent-foreground: oklch(0.215 0.021 265);
+
 	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.922 0 0);
-	--input: oklch(0.922 0 0);
-	--ring: oklch(0.708 0 0);
-	--chart-1: oklch(0.87 0 0);
-	--chart-2: oklch(0.556 0 0);
-	--chart-3: oklch(0.439 0 0);
-	--chart-4: oklch(0.371 0 0);
-	--chart-5: oklch(0.269 0 0);
-	--radius: 0.625rem;
-	--sidebar: oklch(0.985 0 0);
-	--sidebar-foreground: oklch(0.145 0 0);
-	--sidebar-primary: oklch(0.205 0 0);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.97 0 0);
-	--sidebar-accent-foreground: oklch(0.205 0 0);
-	--sidebar-border: oklch(0.922 0 0);
-	--sidebar-ring: oklch(0.708 0 0);
+	--border: oklch(0.915 0.006 265);
+	--input: oklch(0.915 0.006 265);
+	--ring: oklch(0.55 0.2 264);
+
+	/* Accent. Used for emphasis, never for large fills. */
+	--brand: oklch(0.53 0.205 264);
+	--brand-foreground: oklch(0.99 0.005 265);
+	--brand-subtle: oklch(0.955 0.032 264);
+
+	--chart-1: oklch(0.53 0.205 264);
+	--chart-2: oklch(0.62 0.16 250);
+	--chart-3: oklch(0.7 0.12 232);
+	--chart-4: oklch(0.45 0.15 278);
+	--chart-5: oklch(0.34 0.1 272);
+
+	--radius: 0.7rem;
+
+	--sidebar: oklch(0.985 0.003 265);
+	--sidebar-foreground: oklch(0.17 0.016 265);
+	--sidebar-primary: oklch(0.215 0.021 265);
+	--sidebar-primary-foreground: oklch(0.985 0.002 265);
+	--sidebar-accent: oklch(0.966 0.005 265);
+	--sidebar-accent-foreground: oklch(0.215 0.021 265);
+	--sidebar-border: oklch(0.915 0.006 265);
+	--sidebar-ring: oklch(0.55 0.2 264);
 }
 
 .dark {
-	--background: oklch(0.145 0 0);
-	--foreground: oklch(0.985 0 0);
-	--card: oklch(0.205 0 0);
-	--card-foreground: oklch(0.985 0 0);
-	--popover: oklch(0.205 0 0);
-	--popover-foreground: oklch(0.985 0 0);
-	--primary: oklch(0.922 0 0);
-	--primary-foreground: oklch(0.205 0 0);
-	--secondary: oklch(0.269 0 0);
-	--secondary-foreground: oklch(0.985 0 0);
-	--muted: oklch(0.269 0 0);
-	--muted-foreground: oklch(0.708 0 0);
-	--accent: oklch(0.269 0 0);
-	--accent-foreground: oklch(0.985 0 0);
+	--background: oklch(0.155 0.013 265);
+	--foreground: oklch(0.968 0.003 265);
+
+	--card: oklch(0.192 0.015 265);
+	--card-foreground: oklch(0.968 0.003 265);
+	--popover: oklch(0.192 0.015 265);
+	--popover-foreground: oklch(0.968 0.003 265);
+
+	--primary: oklch(0.95 0.005 265);
+	--primary-foreground: oklch(0.196 0.02 265);
+
+	--secondary: oklch(0.255 0.015 265);
+	--secondary-foreground: oklch(0.968 0.003 265);
+	--muted: oklch(0.255 0.015 265);
+	--muted-foreground: oklch(0.705 0.017 265);
+	--accent: oklch(0.28 0.028 265);
+	--accent-foreground: oklch(0.968 0.003 265);
+
 	--destructive: oklch(0.704 0.191 22.216);
-	--border: oklch(1 0 0 / 10%);
+	--border: oklch(1 0 0 / 11%);
 	--input: oklch(1 0 0 / 15%);
-	--ring: oklch(0.556 0 0);
-	--chart-1: oklch(0.87 0 0);
-	--chart-2: oklch(0.556 0 0);
-	--chart-3: oklch(0.439 0 0);
-	--chart-4: oklch(0.371 0 0);
-	--chart-5: oklch(0.269 0 0);
-	--sidebar: oklch(0.205 0 0);
-	--sidebar-foreground: oklch(0.985 0 0);
-	--sidebar-primary: oklch(0.488 0.243 264.376);
-	--sidebar-primary-foreground: oklch(0.985 0 0);
-	--sidebar-accent: oklch(0.269 0 0);
-	--sidebar-accent-foreground: oklch(0.985 0 0);
-	--sidebar-border: oklch(1 0 0 / 10%);
-	--sidebar-ring: oklch(0.556 0 0);
+	--ring: oklch(0.7 0.16 264);
+
+	--brand: oklch(0.72 0.155 264);
+	--brand-foreground: oklch(0.17 0.03 264);
+	--brand-subtle: oklch(0.29 0.06 264);
+
+	--chart-1: oklch(0.72 0.155 264);
+	--chart-2: oklch(0.66 0.14 250);
+	--chart-3: oklch(0.76 0.11 232);
+	--chart-4: oklch(0.58 0.16 278);
+	--chart-5: oklch(0.45 0.12 272);
+
+	--sidebar: oklch(0.192 0.015 265);
+	--sidebar-foreground: oklch(0.968 0.003 265);
+	--sidebar-primary: oklch(0.72 0.155 264);
+	--sidebar-primary-foreground: oklch(0.17 0.03 264);
+	--sidebar-accent: oklch(0.255 0.015 265);
+	--sidebar-accent-foreground: oklch(0.968 0.003 265);
+	--sidebar-border: oklch(1 0 0 / 11%);
+	--sidebar-ring: oklch(0.7 0.16 264);
 }
 
 @theme inline {
-	--font-sans: 'Inter Variable', sans-serif;
+	/* Inter carries Latin; the CJK fallbacks keep Japanese consistent off-macOS. */
+	--font-sans:
+		'Inter Variable', ui-sans-serif, system-ui, 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic',
+		Meiryo, sans-serif;
+
+	--color-brand: var(--brand);
+	--color-brand-foreground: var(--brand-foreground);
+	--color-brand-subtle: var(--brand-subtle);
+
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -116,14 +156,75 @@
 	--radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/*
+ * `container` is redefined so that `container mx-auto` alone produces a
+ * centred, gutter-safe column at every width — no per-section padding classes.
+ */
+@utility container {
+	width: 100%;
+	max-width: 80rem;
+	margin-inline: auto;
+	padding-inline: --spacing(5);
+
+	@media (width >= 48rem) {
+		padding-inline: --spacing(8);
+	}
+}
+
+/* Section rhythm. One class instead of repeating py-20 md:py-28 everywhere. */
+@utility section {
+	padding-block: --spacing(16);
+
+	@media (width >= 48rem) {
+		padding-block: --spacing(24);
+	}
+}
+
+/* Blueprint grid, faded at the edges. Used behind the hero. */
+@utility grid-backdrop {
+	background-image:
+		linear-gradient(to right, var(--border) 1px, transparent 1px),
+		linear-gradient(to bottom, var(--border) 1px, transparent 1px);
+	background-size: 4rem 4rem;
+	mask-image: radial-gradient(ellipse 65% 55% at 50% -5%, #000 5%, transparent 70%);
+}
+
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
 	}
+
 	body {
 		@apply bg-background text-foreground;
 	}
+
 	html {
 		@apply font-sans;
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
+
+	/* Tighten display type; Inter is loose by default at large sizes. */
+	h1,
+	h2,
+	h3 {
+		@apply text-balance;
+		letter-spacing: -0.022em;
+	}
+
+	::selection {
+		background-color: var(--brand);
+		color: var(--brand-foreground);
+	}
+
+	/* Anchor targets clear the sticky header. */
+	:target {
+		scroll-margin-top: --spacing(24);
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		html {
+			scroll-behavior: smooth;
+		}
 	}
 }
