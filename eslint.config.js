@@ -34,8 +34,12 @@ export default defineConfig(
 		}
 	},
 	{
-		// Override or add rule settings here, such as:
-		// 'svelte/button-has-type': 'error'
-		rules: {}
+		rules: {
+			// Internal hrefs are built by Paraglide's `localizeHref()`, which returns
+			// locale-prefixed paths (`/ja/#services`). Those are not typed routes —
+			// hooks.ts strips the prefix via `reroute` before matching — so
+			// `resolve()` cannot accept them and the rule can never be satisfied.
+			'svelte/no-navigation-without-resolve': ['error', { ignoreLinks: true }]
+		}
 	}
 );

@@ -24,7 +24,21 @@ export default defineConfig({
 		paraglideVitePlugin({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide',
-			emitTsDeclarations: true
+			emitTsDeclarations: true,
+			strategy: ['url'],
+
+			// Prefix *every* locale, base included. Paraglide's default leaves the
+			// base locale bare, which would make hooks.server.ts redirect `/` to
+			// `/en` — a path it would then fail to de-localize back to `/`.
+			urlPatterns: [
+				{
+					pattern: '/:path(.*)?',
+					localized: [
+						['en', '/en/:path(.*)?'],
+						['ja', '/ja/:path(.*)?']
+					]
+				}
+			]
 		})
 	],
 	test: {
