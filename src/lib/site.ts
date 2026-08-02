@@ -7,7 +7,8 @@ import { m } from '$lib/paraglide/messages';
 export const site = {
 	legalName: 'CAUCHYE ASIA PTE. LTD.',
 	shortName: 'CAUCHYE',
-	url: 'https://cauchye.com',
+	// The apex redirects here, so this is the canonical form for og:url and JSON-LD.
+	url: 'https://www.cauchye.com',
 	address: {
 		street: '105 Cecil Street',
 		unit: '#24-02 The Octagon',
