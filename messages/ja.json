@@ -1,4 +1,79 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from ja!"
+
+	"brand_name": "CAUCHYE",
+	"brand_legal_name": "CAUCHYE ASIA PTE. LTD.",
+	"brand_descriptor": "AI統合システム開発と、事業資産運用コンサルティング。",
+
+	"nav_services": "事業内容",
+	"nav_about": "私たちについて",
+	"nav_leadership": "代表",
+	"nav_company": "会社概要",
+	"nav_contact": "お問い合わせ",
+	"nav_menu_open": "メニューを開く",
+	"nav_menu_label": "ナビゲーション",
+
+	"d6e_link_site": "d6e.ai",
+	"d6e_link_docs": "開発者ドキュメント",
+
+	"locale_label": "言語",
+	"locale_en": "English",
+	"locale_ja": "日本語",
+
+	"hero_title_lead": "平均に、",
+	"hero_title_accent": "答えはない。",
+	"hero_body": "期待どおりの成果は、期待どおりの手段からしか生まれません。業界の平均値、国内の常識、前例のある選択肢——その内側にある答えは、すでに誰かが手にしています。私たちはシンガポールを拠点に、国境と業種をまたぎながら、平均の外側にある解を取りに行きます。",
+
+	"about_eyebrow": "About",
+	"about_title": "社名について",
+	"about_body_1": "CAUCHYE という社名は、コーシー分布に由来します。19世紀の数学者オーギュスタン・ルイ・コーシーの名を冠したこの分布には、期待値が存在しません。標本をいくら増やしても標本平均は収束せず、大数の法則が成り立たない。平均という道具が、そもそも通用しない世界です。",
+	"about_body_2": "私たちはそこを出発点にしています。平均で片のつく仕事は、すでに誰かが片をつけている。私たちが引き受けるのは、前例の乏しいAIの実装、まだ市場にない基盤の開発、そして国内の物差しでは測れないクロスボーダーの資産です。いずれも平均から結果を予測することはできません。だからこそ、平均を大きく超える余地があります。",
+
+	"services_eyebrow": "Business",
+	"services_title": "事業内容",
+	"services_body": "受託開発、自社プロダクト、コンサルティングの三事業を運営しています。データ設計からシステムの実装、その背後にある資本の意思決定までを一貫して扱えます。",
+
+	"svc_ai_title": "AI統合システム開発",
+	"svc_ai_body": "PoCではなく、既存の業務のなかで動き続けるAIを。データ基盤、エージェントワークフロー、社内ツールにわたる複数の開発実績を有します。",
+	"svc_ai_point_1": "複数案件での確かな開発実績",
+	"svc_ai_point_2": "エージェント／ワークフロー設計",
+	"svc_ai_point_3": "既存システムとの統合",
+	"svc_ai_tag": "開発",
+
+	"svc_d6e_title": "AI統合基盤「d6e」",
+	"svc_d6e_body": "自社で開発・提供しているAI基盤です。お客様自身の環境で動くため、機密データを外部に預けることなくAIを業務へ組み込めます。導入は小さく始められ、将来ほかの基盤へ移る場合の費用も限定的です。",
+	"svc_d6e_point_1": "機密データを社外に出さずに導入できる",
+	"svc_d6e_point_2": "特定ベンダーに縛られない",
+	"svc_d6e_point_3": "小さく始めて、必要な分だけ広げられる",
+	"svc_d6e_tag": "プロダクト",
+
+	"svc_capital_title": "事業資産運用コンサルティング",
+	"svc_capital_body": "内部留保の運用、ポートフォリオの構築、M&Aの検討まで。単一の手段に閉じず、バランスシート全体を見渡した多角的なご提案が可能です。",
+	"svc_capital_point_1": "内部留保の運用設計",
+	"svc_capital_point_2": "M&Aの検討・組成",
+	"svc_capital_point_3": "多角的なポートフォリオ提案",
+	"svc_capital_tag": "コンサルティング",
+
+	"leader_eyebrow": "Leadership",
+	"leader_title": "代表",
+	"leader_name": "木村 優",
+	"leader_name_native": "KIMURA Yu",
+	"leader_role": "代表",
+	"leader_bio": "京都大学経済学部を卒業後、同大学経営管理大学院を修了。同大学情報学研究科博士課程に在籍。ホワイトハッカーとして、進行中のハッキングから5億円相当の暗号資産を救出した経験を持つ。子会社JVを通じ、シンガポールにおける建設資材リースファンドの共同GPも務める。",
+
+	"company_eyebrow": "Company",
+	"company_title": "会社概要",
+	"company_label_name": "商号",
+	"company_label_address": "登記住所",
+	"company_label_business": "事業内容",
+	"company_label_representative": "代表",
+
+	"contact_eyebrow": "Contact",
+	"contact_title": "お問い合わせ",
+	"contact_body": "AIシステムの開発、d6e の導入、事業資産の運用。いずれのご相談も、下記までご連絡ください。",
+	"contact_cta": "メールで問い合わせる",
+
+	"footer_rights": "All rights reserved.",
+	"footer_nav_label": "サイト",
+	"footer_company_label": "会社情報"
 }

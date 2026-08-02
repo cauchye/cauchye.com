@@ -1,4 +1,79 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from en!"
+
+	"brand_name": "CAUCHYE",
+	"brand_legal_name": "CAUCHYE ASIA PTE. LTD.",
+	"brand_descriptor": "AI systems integration and corporate asset advisory.",
+
+	"nav_services": "Services",
+	"nav_about": "About",
+	"nav_leadership": "Leadership",
+	"nav_company": "Company",
+	"nav_contact": "Contact",
+	"nav_menu_open": "Open menu",
+	"nav_menu_label": "Navigation",
+
+	"d6e_link_site": "d6e.ai",
+	"d6e_link_docs": "Developer docs",
+
+	"locale_label": "Language",
+	"locale_en": "English",
+	"locale_ja": "日本語",
+
+	"hero_title_lead": "There are no answers",
+	"hero_title_accent": "in the average.",
+	"hero_body": "Expected results come only from expected methods. Whatever sits inside the industry average, the domestic consensus, or the well-precedented option has already been claimed by someone else. From Singapore, we work across borders and sectors to reach the answers that lie outside the average.",
+
+	"about_eyebrow": "About",
+	"about_title": "About our name",
+	"about_body_1": "CAUCHYE is named after the Cauchy distribution. Named in turn for the 19th-century mathematician Augustin-Louis Cauchy, it has no expected value: however many samples you draw, the sample mean never converges, and the law of large numbers does not hold. It describes a world where the average is simply not a usable instrument.",
+	"about_body_2": "That is our starting point. Anything an average can settle has been settled already. What we take on sits outside it — AI implementations with little precedent, platforms that do not yet exist, and cross-border assets that no domestic benchmark describes. Results there cannot be predicted from the mean, which is precisely why they can exceed it.",
+
+	"services_eyebrow": "Business",
+	"services_title": "What we do",
+	"services_body": "We run three lines of business: client engineering, our own product, and advisory. Together they let us take a problem from data model, to deployed system, to the capital decision behind it.",
+
+	"svc_ai_title": "AI Systems Integration",
+	"svc_ai_body": "Production AI woven into operations that already exist — not proofs of concept. We have delivered across data pipelines, agent workflows, and internal tooling.",
+	"svc_ai_point_1": "Proven delivery across multiple engagements",
+	"svc_ai_point_2": "Agent and workflow architecture",
+	"svc_ai_point_3": "Integration with systems already in place",
+	"svc_ai_tag": "Delivery",
+
+	"svc_d6e_title": "d6e — AI Integration Platform",
+	"svc_d6e_body": "Our own AI platform. Because it runs in your own environment, you can put AI to work without handing confidential data to a third party. Adoption starts small, and the cost of moving to another platform later stays contained.",
+	"svc_d6e_point_1": "Adopt AI without sending confidential data outside",
+	"svc_d6e_point_2": "No lock-in to a single vendor",
+	"svc_d6e_point_3": "Start small and widen only as needed",
+	"svc_d6e_tag": "Product",
+
+	"svc_capital_title": "Corporate Asset Advisory",
+	"svc_capital_body": "Advisory on deploying retained earnings, constructing a portfolio, and evaluating M&A — options weighed across the whole balance sheet rather than one instrument at a time.",
+	"svc_capital_point_1": "Deployment of retained earnings",
+	"svc_capital_point_2": "M&A evaluation and structuring",
+	"svc_capital_point_3": "Multi-angle portfolio proposals",
+	"svc_capital_tag": "Advisory",
+
+	"leader_eyebrow": "Leadership",
+	"leader_title": "Representative",
+	"leader_name": "KIMURA Yu",
+	"leader_name_native": "木村 優",
+	"leader_role": "Representative Director",
+	"leader_bio": "Graduated in Economics from Kyoto University and completed an MBA at its Graduate School of Management; currently enrolled in the doctoral programme at its Graduate School of Informatics. As a white-hat engineer, recovered crypto assets worth roughly ¥500 million from an active hack. Also serves as Co-General Partner of a construction-materials leasing fund in Singapore, through a subsidiary joint venture.",
+
+	"company_eyebrow": "Company",
+	"company_title": "Company profile",
+	"company_label_name": "Legal name",
+	"company_label_address": "Registered address",
+	"company_label_business": "Business",
+	"company_label_representative": "Representative",
+
+	"contact_eyebrow": "Contact",
+	"contact_title": "Get in touch",
+	"contact_body": "AI systems engineering, adopting d6e, or corporate asset advisory — write to us at the address below.",
+	"contact_cta": "Email us",
+
+	"footer_rights": "All rights reserved.",
+	"footer_nav_label": "Site",
+	"footer_company_label": "Company"
 }
