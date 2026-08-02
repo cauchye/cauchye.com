@@ -8,8 +8,6 @@ export const site = {
 	legalName: 'CAUCHYE ASIA PTE. LTD.',
 	shortName: 'CAUCHYE',
 	url: 'https://cauchye.com',
-	// TODO: confirm the address this should route to.
-	email: 'contact@cauchye.com',
 	address: {
 		street: '105 Cecil Street',
 		unit: '#24-02 The Octagon',

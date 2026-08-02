@@ -20,11 +20,11 @@
 				</div>
 				<p class="mt-3 text-sm text-muted-foreground">{m.brand_descriptor()}</p>
 				<a
-					href="mailto:{site.email}"
+					href="{home}#contact"
 					class="mt-5 inline-flex items-center gap-2 text-sm text-foreground underline-offset-4 transition-colors hover:text-brand hover:underline"
 				>
 					<Mail class="size-4" />
-					{site.email}
+					{m.nav_contact()}
 				</a>
 			</div>
 

@@ -90,12 +90,7 @@
 				</DropdownMenu.Content>
 			</DropdownMenu.Root>
 
-			<Button
-				href="mailto:{site.email}"
-				variant="brand"
-				size="sm"
-				class="ml-2 hidden sm:inline-flex"
-			>
+			<Button href="{home}#contact" variant="brand" size="sm" class="ml-2 hidden sm:inline-flex">
 				{m.nav_contact()}
 				<ArrowRight data-icon="inline-end" />
 			</Button>
@@ -103,7 +98,7 @@
 			<Sheet.Root bind:open={mobileOpen}>
 				<Sheet.Trigger>
 					{#snippet child({ props })}
-						<Button {...props} variant="ghost" size="icon" class="md:hidden">
+						<Button {...props} variant="outline" size="icon" class="rounded-full md:hidden">
 							<Menu />
 							<span class="sr-only">{m.nav_menu_open()}</span>
 						</Button>
@@ -130,7 +125,13 @@
 
 					<Sheet.Footer>
 						<Separator class="mb-2" />
-						<Button href="mailto:{site.email}" variant="brand" size="lg" class="w-full">
+						<Button
+							href="{home}#contact"
+							variant="brand"
+							size="lg"
+							class="w-full"
+							onclick={() => (mobileOpen = false)}
+						>
 							{m.contact_cta()}
 							<ArrowRight data-icon="inline-end" />
 						</Button>

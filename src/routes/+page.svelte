@@ -8,6 +8,10 @@
 	import { m } from '$lib/paraglide/messages';
 	import { site } from '$lib/site';
 
+	import type { PageProps } from './$types';
+
+	let { form }: PageProps = $props();
+
 	const title = $derived(`${site.legalName} — ${m.brand_descriptor()}`);
 	const description = $derived(m.hero_body());
 
@@ -18,7 +22,6 @@
 			name: site.legalName,
 			alternateName: site.shortName,
 			url: site.url,
-			email: site.email,
 			description,
 			address: {
 				'@type': 'PostalAddress',
@@ -54,4 +57,4 @@
 <Leadership />
 <About />
 <Company />
-<Contact />
+<Contact {form} />
