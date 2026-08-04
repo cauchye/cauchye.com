@@ -22,7 +22,7 @@
 
 	"hero_title_lead": "There are no answers",
 	"hero_title_accent": "in the average.",
-	"hero_body": "Expected results come only from expected methods. Whatever sits inside the industry average, the domestic consensus, or the well-precedented option has already been claimed by someone else. From Singapore, we work across borders and sectors to reach the answers that lie outside the average.",
+	"hero_body": "Expected methods produce nothing but expected results. Whatever sits inside the industry average, the domestic consensus, or the well-precedented option has already been claimed by someone else. From Singapore, we work across borders and sectors to reach the answers that lie outside the average.",
 
 	"about_eyebrow": "About",
 	"about_title": "About our name",
@@ -48,10 +48,10 @@
 	"svc_d6e_tag": "Product",
 
 	"svc_ir_title": "PrivyRoute — IR Support",
-	"svc_ir_body": "We work with listed companies that institutional coverage has thinned out on. Rather than a mass mailing, we select the investors with a reason to buy today, one at a time, and approach each directly with the reason we matched them. Being based in Singapore, we also reach Asian managers that are hard to approach from Tokyo. What we bring back is not a verdict on the stock but the reasoning behind a pass — structured and returned to the board, informing everything from sharper disclosure to the full range of capital policy, growth through M&A included.",
-	"svc_ir_point_1": "Targeted investor selection and outreach",
-	"svc_ir_point_2": "Reasons for passing, collected and structured",
-	"svc_ir_point_3": "Fed into capital policy, M&A included",
+	"svc_ir_body": "IR support for listed companies whose access to institutional investors is limited. We shortlist candidates for dialogue by reading the company's business and growth strategy against each investor's mandate, then use our Singapore base to open meetings with institutional investors across Asia and beyond. What those meetings surface — the assessments, the areas of interest, the open questions — is organised and returned to management and IR, informing disclosure and engagement policy through to capital allocation, growth investment and M&A included.",
+	"svc_ir_point_1": "Candidates shortlisted from the business itself",
+	"svc_ir_point_2": "Meetings with investors in Asia and beyond",
+	"svc_ir_point_3": "Findings organised and returned to IR",
 	"svc_ir_tag": "Investor Relations",
 
 	"svc_capital_title": "Corporate Asset Advisory",
@@ -71,6 +71,7 @@
 	"company_eyebrow": "Company",
 	"company_title": "Company profile",
 	"company_label_name": "Legal name",
+	"company_label_uen": "UEN",
 	"company_label_address": "Registered address",
 	"company_label_business": "Business",
 	"company_label_representative": "Representative",

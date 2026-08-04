@@ -5,6 +5,7 @@
 
 	const rows = [
 		{ id: 'name', label: () => m.company_label_name(), lines: [site.legalName], list: false },
+		{ id: 'uen', label: () => m.company_label_uen(), lines: [site.uen], list: false },
 		{
 			id: 'representative',
 			label: () => m.company_label_representative(),

@@ -23,6 +23,7 @@
 			alternateName: site.shortName,
 			url: site.url,
 			description,
+			identifier: site.uen,
 			address: {
 				'@type': 'PostalAddress',
 				streetAddress: `${site.address.street}, ${site.address.unit}`,
