@@ -3,7 +3,7 @@
 
 	"brand_name": "CAUCHYE",
 	"brand_legal_name": "CAUCHYE ASIA PTE. LTD.",
-	"brand_descriptor": "AI systems integration and corporate asset advisory.",
+	"brand_descriptor": "AI systems integration, investor relations, and corporate asset advisory.",
 
 	"nav_services": "Services",
 	"nav_about": "About",
@@ -31,7 +31,7 @@
 
 	"services_eyebrow": "Business",
 	"services_title": "What we do",
-	"services_body": "We run three lines of business: client engineering, our own product, and advisory. Together they let us take a problem from data model, to deployed system, to the capital decision behind it.",
+	"services_body": "We run four lines of business: client engineering, our own product, investor relations, and advisory. Together they let us take a problem from data model, to deployed system, to the conversation with the capital markets, to the decision behind it.",
 
 	"svc_ai_title": "AI Systems Integration",
 	"svc_ai_body": "Production AI woven into operations that already exist — not proofs of concept. We have delivered across data pipelines, agent workflows, and internal tooling.",
@@ -47,8 +47,15 @@
 	"svc_d6e_point_3": "Start small and widen only as needed",
 	"svc_d6e_tag": "Product",
 
+	"svc_ir_title": "PrivyRoute — IR Support",
+	"svc_ir_body": "We work with listed companies that institutional coverage has thinned out on. Rather than a mass mailing, we select the investors with a reason to buy today, one at a time, and approach each directly with the reason we matched them. Being based in Singapore, we also reach Asian managers that are hard to approach from Tokyo. What we bring back is not a verdict on the stock but the reasoning behind a pass — structured and returned to the board, informing everything from sharper disclosure to the full range of capital policy, growth through M&A included.",
+	"svc_ir_point_1": "Targeted investor selection and outreach",
+	"svc_ir_point_2": "Reasons for passing, collected and structured",
+	"svc_ir_point_3": "Fed into capital policy, M&A included",
+	"svc_ir_tag": "Investor Relations",
+
 	"svc_capital_title": "Corporate Asset Advisory",
-	"svc_capital_body": "Advisory on deploying retained earnings, constructing a portfolio, and evaluating M&A — options weighed across the whole balance sheet rather than one instrument at a time.",
+	"svc_capital_body": "Advisory on deploying retained earnings, constructing a portfolio, and evaluating M&A — options weighed across the whole balance sheet.",
 	"svc_capital_point_1": "Deployment of retained earnings",
 	"svc_capital_point_2": "M&A evaluation and structuring",
 	"svc_capital_point_3": "Multi-angle portfolio proposals",
@@ -70,7 +77,7 @@
 
 	"contact_eyebrow": "Contact",
 	"contact_title": "Get in touch",
-	"contact_body": "AI systems engineering, adopting d6e, or corporate asset advisory — send us a note using the form.",
+	"contact_body": "AI systems engineering, adopting d6e, IR support through PrivyRoute, or corporate asset advisory — send us a note using the form.",
 	"contact_cta": "Email us",
 
 	"form_label_name": "Name",

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import MapBackdrop from '$lib/components/map-backdrop.svelte';
 	import { m } from '$lib/paraglide/messages';
 </script>
 
@@ -11,6 +12,11 @@
 		class="pointer-events-none absolute inset-0 -z-10 -mx-5 grid-backdrop md:-mx-8"
 		aria-hidden="true"
 	></div>
+
+	<!-- The two places we work from, sitting in the space the headline leaves. -->
+	<MapBackdrop
+		class="pointer-events-none absolute right-0 bottom-4 hidden h-60 w-72 text-brand/12 lg:block"
+	/>
 
 	<!--
 		Each clause is its own block so the line break lands between them at every
@@ -25,7 +31,8 @@
 		</span>
 	</h1>
 
-	<p class="mt-8 max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+	<!-- Same right edge as the headline, so the column reads as one block. -->
+	<p class="mt-8 max-w-4xl text-base leading-relaxed text-muted-foreground md:text-lg">
 		{m.hero_body()}
 	</p>
 </section>

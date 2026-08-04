@@ -16,7 +16,7 @@ export const site = {
 		postalCode: '069534',
 		country: 'SG'
 	},
-	foundedYear: 2024
+	foundedYear: 2022
 } as const;
 
 /** Our own product, hosted separately. */

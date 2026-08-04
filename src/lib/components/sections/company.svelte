@@ -17,7 +17,7 @@
 			label: () => m.company_label_business(),
 			// Reuses the business-line titles so this row cannot drift from the
 			// Business section above.
-			lines: [m.svc_ai_title(), m.svc_d6e_title(), m.svc_capital_title()],
+			lines: [m.svc_ai_title(), m.svc_d6e_title(), m.svc_ir_title(), m.svc_capital_title()],
 			list: true
 		}
 	];

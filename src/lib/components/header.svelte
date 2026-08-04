@@ -92,7 +92,6 @@
 
 			<Button href="{home}#contact" variant="brand" size="sm" class="ml-2 hidden sm:inline-flex">
 				{m.nav_contact()}
-				<ArrowRight data-icon="inline-end" />
 			</Button>
 
 			<Sheet.Root bind:open={mobileOpen}>
