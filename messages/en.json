@@ -3,7 +3,7 @@
 
 	"brand_name": "CAUCHYE",
 	"brand_legal_name": "CAUCHYE ASIA PTE. LTD.",
-	"brand_descriptor": "AI systems integration, investor relations, and corporate asset advisory.",
+	"brand_descriptor": "AI systems integration, investor and shareholder relations, and corporate asset advisory.",
 
 	"nav_services": "Services",
 	"nav_about": "About",
@@ -47,12 +47,12 @@
 	"svc_d6e_point_3": "Start small and widen only as needed",
 	"svc_d6e_tag": "Product",
 
-	"svc_ir_title": "PrivyRoute — IR Support",
-	"svc_ir_body": "IR support for listed companies whose access to institutional investors is limited. We shortlist candidates for dialogue by reading the company's business and growth strategy against each investor's mandate, then use our Singapore base to open meetings with institutional investors across Asia and beyond. What those meetings surface — the assessments, the areas of interest, the open questions — is organised and returned to management and IR, informing disclosure and engagement policy through to capital allocation, growth investment and M&A included.",
-	"svc_ir_point_1": "Candidates shortlisted from the business itself",
-	"svc_ir_point_2": "Meetings with investors in Asia and beyond",
-	"svc_ir_point_3": "Findings organised and returned to IR",
-	"svc_ir_tag": "Investor Relations",
+	"svc_ir_title": "IR and Shareholder Relations",
+	"svc_ir_body": "IR and shareholder relations for listed companies, run from Singapore. What we offer is an investor perception study: how Asia's institutional investors actually see the company, asked by a third party under anonymity. Current holders, former holders and investors who have never held are all in scope, and the assessments an issuer cannot draw out itself are put into multiple-choice questions built from a close reading of its disclosure, so what comes back can be counted. We ask in Japanese where the manager decides in Japanese and in English otherwise, then report the awareness funnel, how accurately the business is understood, the reasons behind not investing, and what to disclose next.",
+	"svc_ir_point_1": "Questions built from the company's disclosure",
+	"svc_ir_point_2": "Current, former and non-holders, asked one by one",
+	"svc_ir_point_3": "Findings tallied, with what to disclose next",
+	"svc_ir_tag": "Research",
 
 	"svc_capital_title": "Corporate Asset Advisory",
 	"svc_capital_body": "Advisory on deploying retained earnings, constructing a portfolio, and evaluating M&A — options weighed across the whole balance sheet.",
@@ -78,7 +78,7 @@
 
 	"contact_eyebrow": "Contact",
 	"contact_title": "Get in touch",
-	"contact_body": "AI systems engineering, adopting d6e, IR support through PrivyRoute, or corporate asset advisory — send us a note using the form.",
+	"contact_body": "AI systems engineering, adopting d6e, an investor perception study, or corporate asset advisory — send us a note using the form.",
 	"contact_cta": "Email us",
 
 	"form_label_name": "Name",
