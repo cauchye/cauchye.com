@@ -86,10 +86,5 @@ The Slack webhook remains a Cloudflare Worker secret and is not passed through G
 4. Deploy the Worker and verify `/`, `/en`, `/ja`, assets, both hostnames, metadata, and
    contact delivery.
 5. Confirm logs and observability in Cloudflare, including a controlled contact failure.
-6. Only after Cloudflare is verified, disconnect the repository from the remote Vercel
-   project.
-7. Monitor the Cloudflare deployment, then remove the Vercel project when rollback is no
-   longer needed.
 
-Do not disconnect or delete Vercel before the Cloudflare deployment and DNS cutover have
-been verified.
+The former Vercel project is disconnected from Git and no longer participates in deployment.
