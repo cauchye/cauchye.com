@@ -1,0 +1,31 @@
+---
+import About from '../../components/sections/About.astro';
+import Company from '../../components/sections/Company.astro';
+import Contact from '../../components/sections/Contact.astro';
+import Hero from '../../components/sections/Hero.astro';
+import Leadership from '../../components/sections/Leadership.astro';
+import Services from '../../components/sections/Services.astro';
+import { getDictionary, isLocale } from '../../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) {
+	return Astro.redirect('/en', 302);
+}
+const messages = getDictionary(lang);
+const contactState =
+	Astro.url.searchParams.get('contact') === 'success'
+		? 'success'
+		: Astro.url.searchParams.get('contact') === 'error'
+			? 'error'
+			: undefined;
+---
+
+<BaseLayout locale={lang} {messages}>
+	<Hero {messages} />
+	<Services {messages} />
+	<Leadership {messages} />
+	<About {messages} />
+	<Company {messages} />
+	<Contact locale={lang} {messages} state={contactState} />
+</BaseLayout>

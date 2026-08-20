@@ -1,0 +1,27 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "cauchye-com",
+	"account_id": "89d1d38c83b2dbcc52f5df0f165a05ab",
+	"main": "./dist/_worker.js/index.js",
+	"compatibility_date": "2026-08-20",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": false,
+	"routes": [
+		{
+			"pattern": "www.cauchye.com",
+			"custom_domain": true
+		},
+		{
+			"pattern": "cauchye.com",
+			"custom_domain": true
+		}
+	],
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	}
+}

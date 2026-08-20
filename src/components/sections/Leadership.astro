@@ -1,0 +1,24 @@
+---
+import type { Dictionary } from '../../i18n';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+	messages: Dictionary;
+}
+
+const { messages: m } = Astro.props;
+---
+
+<section id="leadership" class="border-t border-border section">
+	<SectionHeading eyebrow={m.leader_eyebrow} title={m.leader_title} />
+	<div class="mt-12 grid gap-6 md:grid-cols-[1fr_1.4fr] md:gap-16">
+		<div>
+			<p class="text-2xl font-semibold">{m.leader_name}</p>
+			<p class="mt-1.5 font-mono text-xs tracking-widest text-muted-foreground">
+				{m.leader_name_native}
+			</p>
+			<p class="mt-4 text-sm text-muted-foreground">{m.leader_role}</p>
+		</div>
+		<p class="max-w-2xl leading-loose">{m.leader_bio}</p>
+	</div>
+</section>

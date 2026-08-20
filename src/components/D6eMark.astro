@@ -1,0 +1,11 @@
+---
+import mark from '../assets/d6e.svg?raw';
+
+interface Props {
+	class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['inline-flex', className]} aria-hidden="true" set:html={mark} />

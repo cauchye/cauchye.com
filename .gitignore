@@ -1,12 +1,10 @@
 node_modules
 
 # Output
-.output
-.vercel
-.netlify
+/dist
+/.astro
+/.vercel
 .wrangler
-/.svelte-kit
-/build
 
 # OS
 .DS_Store
@@ -16,14 +14,9 @@ Thumbs.db
 .env
 .env.*
 !.env.example
-!.env.test
+!.dev.vars.example
+.dev.vars
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
 # Playwright
 test-results
-# Paraglide
-src/lib/paraglide
-project.inlang/cache/
-.env*
+playwright-report

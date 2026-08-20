@@ -1,0 +1,54 @@
+---
+import type { Dictionary } from '../../i18n';
+import { addressLines, site } from '../../site';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+	messages: Dictionary;
+}
+
+const { messages: m } = Astro.props;
+const rows = [
+	{ id: 'name', label: m.company_label_name, lines: [site.legalName], list: false },
+	{ id: 'uen', label: m.company_label_uen, lines: [site.uen], list: false },
+	{
+		id: 'representative',
+		label: m.company_label_representative,
+		lines: [m.leader_name],
+		list: false
+	},
+	{ id: 'address', label: m.company_label_address, lines: addressLines, list: false },
+	{
+		id: 'business',
+		label: m.company_label_business,
+		lines: [m.svc_ai_title, m.svc_d6e_title, m.svc_ir_title, m.svc_capital_title],
+		list: true
+	}
+];
+---
+
+<section id="company" class="border-t border-border section">
+	<SectionHeading eyebrow={m.company_eyebrow} title={m.company_title} />
+	<dl class="mt-12 max-w-3xl">
+		{
+			rows.map((row) => (
+				<div class="grid gap-1 border-b border-border py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
+					<dt class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase sm:pt-1">
+						{row.label}
+					</dt>
+					<dd class="leading-relaxed">
+						{row.list ? (
+							<ul class="list-outside list-disc space-y-1 pl-4 marker:text-brand">
+								{row.lines.map((line) => (
+									<li>{line}</li>
+								))}
+							</ul>
+						) : (
+							row.lines.map((line) => <span class="block">{line}</span>)
+						)}
+					</dd>
+				</div>
+			))
+		}
+	</dl>
+</section>
