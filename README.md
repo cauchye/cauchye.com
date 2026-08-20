@@ -46,9 +46,11 @@ npm run deploy:dry-run
 npm run deploy
 ```
 
-`npm run deploy` builds and deploys to the configured custom domains:
-`www.cauchye.com` and `cauchye.com`. A Cloudflare Single Redirect rule permanently redirects
-the apex domain to `www.cauchye.com` while preserving paths and query strings.
+`npm run deploy` updates the existing `cauchye-com` Worker. Its Custom Domains
+(`www.cauchye.com` and `cauchye.com`) are configured once in the Cloudflare dashboard and
+intentionally omitted from Wrangler so routine CD does not need zone-level permissions. A
+Cloudflare Single Redirect rule permanently redirects the apex domain to `www.cauchye.com`
+while preserving paths and query strings.
 
 `wrangler.jsonc` is the deployment source of truth. `wrangler.astro.jsonc` mirrors its
 runtime settings without a generated `main` path so Astro checks can run before `dist/`
@@ -63,15 +65,12 @@ environment.
 
 Create the least-privilege CD token in the Cloudflare dashboard:
 
-1. Open **API Tokens**, select **Create Token**, and use the **Edit Cloudflare Workers**
-   template.
-2. Keep only **Account — Workers Scripts — Edit** and **Zone — Workers Routes — Edit**.
-   DNS Edit is not required for the configured Worker routes and must not be added.
-3. Restrict **Account Resources** to **Include — CAUCHYE ASIA** only.
-4. Restrict **Zone Resources** to **Include — Specific zone — cauchye.com** only.
-5. Save the token value as the GitHub **Production** environment secret
+1. Open **CAUCHYE ASIA → Manage Account → Account API Tokens**, then select **Create Token**.
+2. Create a custom token with only **Workers Scripts — Edit**. Custom Domains are managed
+   separately in Cloudflare, so no Zone, DNS, or Workers Routes permission is required.
+3. Save the token value as the GitHub **Production** environment secret
    `CLOUDFLARE_API_TOKEN`.
-6. Save the CAUCHYE ASIA account ID as the GitHub **Production** environment variable
+4. Save the CAUCHYE ASIA account ID as the GitHub **Production** environment variable
    `CLOUDFLARE_ACCOUNT_ID`.
 
 Any disposable token used during initial setup is not the CD token. Do not reuse it in
