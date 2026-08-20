@@ -1,0 +1,63 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header';
+import type { Dictionary, Locale } from '../i18n';
+import { site } from '../site';
+import '../styles/global.css';
+
+interface Props {
+	locale: Locale;
+	messages: Dictionary;
+}
+
+const { locale, messages } = Astro.props;
+const title = `${site.legalName} — ${messages.brand_descriptor}`;
+const description = messages.hero_body;
+const pageUrl = `${site.url}/${locale}`;
+const organizationSchema = JSON.stringify({
+	'@context': 'https://schema.org',
+	'@type': 'Organization',
+	name: site.legalName,
+	alternateName: site.shortName,
+	url: site.url,
+	description,
+	identifier: site.uen,
+	foundingDate: String(site.foundedYear),
+	address: {
+		'@type': 'PostalAddress',
+		streetAddress: `${site.address.street}, ${site.address.unit}`,
+		addressLocality: site.address.locality,
+		postalCode: site.address.postalCode,
+		addressCountry: site.address.country
+	}
+}).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang={locale}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<title>{title}</title>
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="canonical" href={pageUrl} />
+		<link rel="alternate" hreflang="en" href={`${site.url}/en`} />
+		<link rel="alternate" hreflang="ja" href={`${site.url}/ja`} />
+		<link rel="alternate" hreflang="x-default" href={`${site.url}/en`} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={pageUrl} />
+		<script is:inline type="application/ld+json" set:html={organizationSchema} />
+	</head>
+	<body>
+		<div class="flex min-h-svh flex-col">
+			<Header {locale} messages={messages} client:load />
+			<main class="container mx-auto flex-1">
+				<slot />
+			</main>
+			<Footer {locale} messages={messages} />
+		</div>
+	</body>
+</html>

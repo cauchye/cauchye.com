@@ -1,6 +1,4 @@
 {
-	"$schema": "https://inlang.com/schema/inlang-message-format",
-
 	"brand_name": "CAUCHYE",
 	"brand_legal_name": "CAUCHYE ASIA PTE. LTD.",
 	"brand_descriptor": "AI統合システム開発、IR・SR支援、事業資産運用コンサルティング。",
@@ -11,6 +9,7 @@
 	"nav_company": "会社概要",
 	"nav_contact": "お問い合わせ",
 	"nav_menu_open": "メニューを開く",
+	"nav_menu_close": "メニューを閉じる",
 	"nav_menu_label": "ナビゲーション",
 
 	"d6e_link_site": "d6e.ai",

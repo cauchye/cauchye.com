@@ -1,0 +1,233 @@
+---
+import { ArrowRight, Check } from 'lucide-astro';
+
+import { Button } from '../ui/button';
+import { Field, FieldDescription, FieldError, FieldLabel } from '../ui/field';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
+import type { Dictionary, Locale } from '../../i18n';
+
+interface Props {
+	locale: Locale;
+	messages: Dictionary;
+	state?: 'success' | 'error';
+}
+
+const { locale, messages: m, state } = Astro.props;
+---
+
+<section id="contact" class="section">
+	<div
+		class="dark relative overflow-hidden rounded-2xl bg-background px-6 py-14 text-foreground md:px-12 md:py-20"
+	>
+		<div
+			class="pointer-events-none absolute -top-24 -right-24 size-72 rounded-full bg-brand/25 blur-3xl"
+			aria-hidden="true"
+		>
+		</div>
+		<div class="relative grid gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
+			<div class="max-w-md">
+				<p class="font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
+					{m.contact_eyebrow}
+				</p>
+				<h2 class="mt-3 text-3xl font-semibold md:text-4xl">{m.contact_title}</h2>
+				<p class="mt-4 leading-relaxed text-muted-foreground">{m.contact_body}</p>
+			</div>
+
+			<div
+				data-contact-success
+				class:list={[
+					'items-start gap-3 self-center rounded-xl bg-muted/60 p-6',
+					state === 'success' ? 'flex' : 'hidden'
+				]}
+				role="status"
+				tabindex="-1"
+			>
+				<span class="mt-0.5 flex size-6 shrink-0 items-center justify-center rounded-full bg-brand">
+					<Check class="size-4 text-brand-foreground" />
+				</span>
+				<div>
+					<p class="font-medium">{m.form_success_title}</p>
+					<p class="mt-1 text-sm text-muted-foreground">{m.form_success_body}</p>
+				</div>
+			</div>
+
+			<form
+				data-contact-form
+				method="POST"
+				action={`/api/contact?locale=${locale}`}
+				novalidate
+				class:list={['flex flex-col gap-5', state === 'success' && 'hidden']}
+				data-submit-label={m.form_submit}
+				data-submitting-label={m.form_submitting}
+				data-unavailable-message={m.form_error_unavailable}
+			>
+				<input type="hidden" name="locale" value={locale} />
+				<div class="hidden" aria-hidden="true">
+					<label for="website">Website</label>
+					<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+				</div>
+
+				<div class="grid gap-5 sm:grid-cols-2">
+					<Field>
+						<FieldLabel htmlFor="name">{m.form_label_name}</FieldLabel>
+						<Input
+							id="name"
+							name="name"
+							required
+							maxLength={100}
+							autoComplete="name"
+							aria-describedby="name-error"
+							className="h-10 px-3 py-2"
+						/>
+						<FieldError id="name-error" data-error-for="name" className="hidden">
+							<span></span>
+						</FieldError>
+					</Field>
+
+					<Field>
+						<FieldLabel htmlFor="company">
+							{m.form_label_company}
+							<span class="text-xs font-normal text-muted-foreground">
+								{m.form_label_company_optional}
+							</span>
+						</FieldLabel>
+						<Input
+							id="company"
+							name="company"
+							maxLength={100}
+							autoComplete="organization"
+							aria-describedby="company-error"
+							className="h-10 px-3 py-2"
+						/>
+						<FieldError id="company-error" data-error-for="company" className="hidden">
+							<span></span>
+						</FieldError>
+					</Field>
+				</div>
+
+				<Field>
+					<FieldLabel htmlFor="email">{m.form_label_email}</FieldLabel>
+					<Input
+						id="email"
+						name="email"
+						type="email"
+						required
+						maxLength={200}
+						autoComplete="email"
+						aria-describedby="email-error"
+						className="h-10 px-3 py-2"
+					/>
+					<FieldError id="email-error" data-error-for="email" className="hidden">
+						<span></span>
+					</FieldError>
+				</Field>
+
+				<Field>
+					<FieldLabel htmlFor="message">{m.form_label_message}</FieldLabel>
+					<Textarea
+						id="message"
+						name="message"
+						required
+						minLength={10}
+						maxLength={4000}
+						rows={5}
+						aria-describedby="message-hint message-error"
+						className="min-h-28 resize-y px-3"
+					/>
+					<FieldDescription id="message-hint">{m.form_hint_message}</FieldDescription>
+					<FieldError id="message-error" data-error-for="message" className="hidden">
+						<span></span>
+					</FieldError>
+				</Field>
+
+				<p
+					data-form-error
+					role="alert"
+					class:list={[
+						'rounded-lg bg-destructive/15 px-4 py-3 text-sm text-destructive',
+						state === 'error' ? 'block' : 'hidden'
+					]}
+				>
+					{m.form_error_unavailable}
+				</p>
+
+				<Button type="submit" variant="brand" className="h-12 self-start px-8">
+					<span data-submit-text>{m.form_submit}</span>
+					<ArrowRight class="size-4" />
+				</Button>
+			</form>
+		</div>
+	</div>
+</section>
+
+<script>
+	type ContactResponse = {
+		success?: boolean;
+		errors?: Record<string, string[]>;
+		unavailable?: boolean;
+	};
+
+	const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+	const success = document.querySelector<HTMLElement>('[data-contact-success]');
+
+	form?.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+		const buttonText = form.querySelector<HTMLElement>('[data-submit-text]');
+		const formError = form.querySelector<HTMLElement>('[data-form-error]');
+		const submitLabel = form.dataset.submitLabel ?? '';
+		const submittingLabel = form.dataset.submittingLabel ?? '';
+
+		form.querySelectorAll<HTMLElement>('[data-error-for]').forEach((error) => {
+			error.textContent = '';
+			error.classList.add('hidden');
+		});
+		form
+			.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('[aria-invalid]')
+			.forEach((field) => {
+				field.removeAttribute('aria-invalid');
+				field.closest<HTMLElement>('[data-slot="field"]')?.removeAttribute('data-invalid');
+			});
+		formError?.classList.add('hidden');
+		if (button) button.disabled = true;
+		if (buttonText) buttonText.textContent = submittingLabel;
+
+		try {
+			const response = await fetch(form.action, {
+				method: 'POST',
+				headers: { accept: 'application/json' },
+				body: new FormData(form)
+			});
+			const result = (await response.json()) as ContactResponse;
+
+			if (response.ok && result.success) {
+				form.reset();
+				form.classList.add('hidden');
+				success?.classList.remove('hidden');
+				success?.classList.add('flex');
+				success?.focus();
+				return;
+			}
+
+			Object.entries(result.errors ?? {}).forEach(([fieldName, messages]) => {
+				const field = form.elements.namedItem(fieldName);
+				const error = form.querySelector<HTMLElement>(`[data-error-for="${fieldName}"]`);
+				if (field instanceof HTMLElement) {
+					field.setAttribute('aria-invalid', 'true');
+					field.closest<HTMLElement>('[data-slot="field"]')?.setAttribute('data-invalid', 'true');
+				}
+				if (error) {
+					error.textContent = messages[0] ?? '';
+					error.classList.remove('hidden');
+				}
+			});
+			if (result.unavailable || !result.errors) formError?.classList.remove('hidden');
+		} catch {
+			formError?.classList.remove('hidden');
+		} finally {
+			if (button) button.disabled = false;
+			if (buttonText) buttonText.textContent = submitLabel;
+		}
+	});
+</script>

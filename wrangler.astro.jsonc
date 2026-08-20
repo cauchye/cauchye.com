@@ -1,0 +1,16 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "cauchye-com",
+	"account_id": "89d1d38c83b2dbcc52f5df0f165a05ab",
+	"compatibility_date": "2026-08-20",
+	"compatibility_flags": ["nodejs_compat"],
+	"workers_dev": false,
+	"assets": {
+		"binding": "ASSETS",
+		"directory": "./dist"
+	},
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	}
+}
