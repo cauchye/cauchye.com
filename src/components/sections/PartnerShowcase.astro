@@ -1,0 +1,78 @@
+---
+import SectionHeading from './SectionHeading.astro';
+
+interface Partner {
+	name: string;
+	logo: string;
+	site: string;
+	logoClass?: string;
+}
+
+interface Props {
+	eyebrow: string;
+	title: string;
+	partners: Partner[];
+	id?: string;
+}
+
+const { eyebrow, title, partners, id = 'partners' } = Astro.props;
+const useMarquee = partners.length > 2;
+---
+
+<section {id} class="border-t border-border py-14 md:py-18">
+	<SectionHeading {eyebrow} {title} />
+	{
+		useMarquee ? (
+			<div class="partner-marquee-window mt-10" aria-label={title}>
+				<div class="partner-marquee-track">
+					{[false, true].map((duplicate) => (
+						<ul
+							data-partner-list={duplicate ? undefined : ''}
+							class="flex shrink-0 gap-5 pr-5"
+							aria-hidden={duplicate ? 'true' : undefined}
+						>
+							{partners.map((partner) => (
+								<li class="w-64 shrink-0">
+									<a
+										href={partner.site}
+										target="_blank"
+										rel="noreferrer"
+										tabindex={duplicate ? -1 : undefined}
+										class="flex h-32 items-center justify-center rounded-2xl border border-border bg-card px-7 py-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md"
+									>
+										<img
+											src={partner.logo}
+											alt={partner.name}
+											class:list={['object-contain', partner.logoClass ?? 'h-14 w-full']}
+											loading="lazy"
+										/>
+									</a>
+								</li>
+							))}
+						</ul>
+					))}
+				</div>
+			</div>
+		) : (
+			<ul data-partner-list class="mt-10 flex flex-wrap justify-center gap-5">
+				{partners.map((partner) => (
+					<li class="w-80">
+						<a
+							href={partner.site}
+							target="_blank"
+							rel="noreferrer"
+							class="flex h-32 items-center justify-center rounded-2xl border border-border bg-card px-7 py-5 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand/30 hover:shadow-md"
+						>
+							<img
+								src={partner.logo}
+								alt={partner.name}
+								class:list={['object-contain', partner.logoClass ?? 'h-14 w-full']}
+								loading="lazy"
+							/>
+						</a>
+					</li>
+				))}
+			</ul>
+		)
+	}
+</section>

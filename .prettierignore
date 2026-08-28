@@ -5,3 +5,7 @@ pnpm-lock.yaml
 /dist/
 /.astro/
 /worker-configuration.d.ts
+
+# Installed agent skills
+/.agents/skills/
+/skills-lock.json

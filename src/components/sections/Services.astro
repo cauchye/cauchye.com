@@ -1,118 +1,142 @@
 ---
-import { ArrowUpRight, Landmark, Radar, Workflow } from 'lucide-astro';
+import {
+	ArrowRight,
+	Bot,
+	BrainCircuit,
+	ChartNoAxesCombined,
+	Landmark,
+	Sparkles
+} from 'lucide-astro';
 
 import { Badge } from '../ui/badge/index.js';
-import type { Dictionary } from '../../i18n';
-import { d6e } from '../../site';
-import D6eMark from '../D6eMark.astro';
-import MapBackdrop from '../MapBackdrop.astro';
+import { Button } from '../ui/button/index.js';
+import type { Dictionary, Locale } from '../../i18n';
 import SectionHeading from './SectionHeading.astro';
 
 interface Props {
+	locale: Locale;
 	messages: Dictionary;
 }
 
-const { messages: m } = Astro.props;
-const services = [
+const { locale, messages: m } = Astro.props;
+const businesses = [
 	{
-		id: 'ai',
-		icon: Workflow,
-		backdrop: false,
-		tag: m.svc_ai_tag,
-		title: m.svc_ai_title,
-		body: m.svc_ai_body,
-		points: [m.svc_ai_point_1, m.svc_ai_point_2, m.svc_ai_point_3],
-		links: []
+		icon: BrainCircuit,
+		title: m.business_ai_title,
+		lead: m.business_ai_lead,
+		body: m.business_ai_body,
+		points: [
+			m.business_ai_point_1,
+			m.business_ai_point_2,
+			m.business_ai_point_3,
+			m.business_ai_point_4
+		],
+		href: `/${locale}/business/it-ai`,
+		cta: m.business_ai_cta,
+		accent: true
 	},
 	{
-		id: 'd6e',
-		icon: D6eMark,
-		backdrop: false,
-		tag: m.svc_d6e_tag,
-		title: m.svc_d6e_title,
-		body: m.svc_d6e_body,
-		points: [m.svc_d6e_point_1, m.svc_d6e_point_2, m.svc_d6e_point_3],
-		links: [
-			{ href: d6e.url, label: m.d6e_link_site },
-			{ href: d6e.docsUrl, label: m.d6e_link_docs }
-		]
-	},
-	{
-		id: 'ir',
-		icon: Radar,
-		backdrop: true,
-		tag: m.svc_ir_tag,
-		title: m.svc_ir_title,
-		body: m.svc_ir_body,
-		points: [m.svc_ir_point_1, m.svc_ir_point_2, m.svc_ir_point_3],
-		links: []
-	},
-	{
-		id: 'capital',
 		icon: Landmark,
-		backdrop: false,
-		tag: m.svc_capital_tag,
-		title: m.svc_capital_title,
-		body: m.svc_capital_body,
-		points: [m.svc_capital_point_1, m.svc_capital_point_2, m.svc_capital_point_3],
-		links: []
+		title: m.business_advisory_title,
+		lead: m.business_advisory_lead,
+		body: m.business_advisory_body,
+		points: [
+			m.business_advisory_point_1,
+			m.business_advisory_point_2,
+			m.business_advisory_point_3,
+			m.business_advisory_point_4
+		],
+		href: `/${locale}/business/corporate-advisory`,
+		cta: m.business_advisory_cta,
+		accent: false
 	}
 ];
 ---
 
 <section id="services" class="border-t border-border section">
-	<SectionHeading eyebrow={m.services_eyebrow} title={m.services_title} body={m.services_body} />
-	<div class="mt-14">
+	<SectionHeading eyebrow={m.services_eyebrow} title={m.services_title} />
+	<div class="mt-14 grid gap-5 lg:grid-cols-2">
 		{
-			services.map((service) => {
-				const Icon = service.icon;
+			businesses.map((business) => {
+				const Icon = business.icon;
 				return (
-					<article class="relative isolate grid gap-6 overflow-hidden border-t border-border py-10 md:grid-cols-[1fr_1.4fr] md:gap-16 md:py-12">
-						{service.backdrop && (
-							<MapBackdrop class="pointer-events-none absolute inset-y-6 left-0 -z-10 hidden w-[38%] text-brand/20 md:block" />
+					<article
+						class:list={[
+							'group relative isolate flex min-h-[34rem] flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:p-9',
+							business.accent
+								? 'border-brand/25 bg-brand text-brand-foreground shadow-lg shadow-brand/10'
+								: 'border-border bg-card text-card-foreground hover:border-brand/30'
+						]}
+					>
+						{business.accent && (
+							<div
+								class="pointer-events-none absolute inset-0 -z-10 grid-backdrop opacity-30"
+								aria-hidden="true"
+							/>
 						)}
-						<div>
-							<span class="flex size-10 items-center justify-center rounded-lg bg-brand-subtle text-brand">
-								<Icon class="size-5" />
-							</span>
-							<h3 class="mt-4 text-xl font-semibold md:text-2xl">{service.title}</h3>
-							<Badge
-								variant="outline"
-								class="mt-4 rounded-md font-mono text-[0.625rem] tracking-widest uppercase"
+						<div class="flex items-center">
+							<span
+								class:list={[
+									'flex size-12 items-center justify-center rounded-xl',
+									business.accent ? 'bg-white/12 text-white' : 'bg-brand-subtle text-brand'
+								]}
 							>
-								{service.tag}
-							</Badge>
+								<Icon class="size-6" />
+							</span>
 						</div>
-						<div>
-							<p class="leading-relaxed text-muted-foreground md:text-[0.9375rem]">
-								{service.body}
-							</p>
-							<ul class="mt-8 grid gap-x-10 gap-y-4 border-t border-border pt-6 sm:grid-cols-3">
-								{service.points.map((point) => (
-									<li class="flex gap-3 text-sm leading-snug text-muted-foreground">
-										<span
-											class="mt-1.75 size-1.5 shrink-0 rounded-full bg-brand"
-											aria-hidden="true"
-										/>
-										<span>{point}</span>
-									</li>
-								))}
-							</ul>
-							{service.links.length > 0 && (
-								<div class="mt-6 flex flex-wrap gap-x-6 gap-y-2">
-									{service.links.map((link) => (
-										<a
-											href={link.href}
-											target="_blank"
-											rel="noreferrer"
-											class="inline-flex items-center gap-1.5 text-sm font-medium text-brand underline-offset-4 hover:underline"
-										>
-											{link.label}
-											<ArrowUpRight class="size-4" />
-										</a>
-									))}
-								</div>
-							)}
+
+						<h3 class="mt-9 text-3xl leading-tight font-semibold md:text-[2.1rem]">
+							{business.title}
+						</h3>
+						<p
+							class:list={[
+								'mt-4 text-lg font-medium',
+								business.accent ? 'text-white' : 'text-foreground'
+							]}
+						>
+							{business.lead}
+						</p>
+						<p
+							class:list={[
+								'mt-4 leading-relaxed',
+								business.accent ? 'text-white/72' : 'text-muted-foreground'
+							]}
+						>
+							{business.body}
+						</p>
+
+						<div class="mt-8 flex flex-wrap gap-2">
+							{business.points.map((point) => (
+								<Badge
+									variant="outline"
+									class:list={[
+										'h-auto rounded-full px-3 py-1.5 text-xs',
+										business.accent && 'border-white/20 bg-white/8 text-white'
+									]}
+								>
+									{point}
+								</Badge>
+							))}
+						</div>
+
+						<div class="mt-auto pt-10">
+							<Button
+								href={business.href}
+								variant={business.accent ? 'secondary' : 'brand'}
+								size="lg"
+								class="h-11 px-5"
+							>
+								{business.cta}
+								<ArrowRight data-icon="inline-end" />
+							</Button>
+						</div>
+
+						<div
+							class="pointer-events-none absolute right-8 bottom-8 -z-10 opacity-[0.07]"
+							aria-hidden="true"
+						>
+							{business.accent ? <Bot class="size-40" /> : <ChartNoAxesCombined class="size-40" />}
+							<Sparkles class="absolute -top-4 -left-6 size-8" />
 						</div>
 					</article>
 				);

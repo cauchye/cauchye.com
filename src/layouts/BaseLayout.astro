@@ -8,12 +8,23 @@ import '../styles/global.css';
 interface Props {
 	locale: Locale;
 	messages: Dictionary;
+	pageTitle?: string;
+	description?: string;
+	pagePath?: string;
 }
 
-const { locale, messages } = Astro.props;
-const title = `${site.legalName} — ${messages.brand_descriptor}`;
-const description = messages.hero_body;
-const pageUrl = `${site.url}/${locale}`;
+const {
+	locale,
+	messages,
+	pageTitle,
+	description = messages.hero_body,
+	pagePath = ''
+} = Astro.props;
+const title = pageTitle
+	? `${pageTitle} | ${site.shortName}`
+	: `${site.legalName} — ${messages.brand_descriptor}`;
+const localizedPath = `/${locale}${pagePath}`;
+const pageUrl = `${site.url}${localizedPath}`;
 const organizationSchema = JSON.stringify({
 	'@context': 'https://schema.org',
 	'@type': 'Organization',
@@ -42,9 +53,9 @@ const organizationSchema = JSON.stringify({
 		<title>{title}</title>
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="canonical" href={pageUrl} />
-		<link rel="alternate" hreflang="en" href={`${site.url}/en`} />
-		<link rel="alternate" hreflang="ja" href={`${site.url}/ja`} />
-		<link rel="alternate" hreflang="x-default" href={`${site.url}/en`} />
+		<link rel="alternate" hreflang="en" href={`${site.url}/en${pagePath}`} />
+		<link rel="alternate" hreflang="ja" href={`${site.url}/ja${pagePath}`} />
+		<link rel="alternate" hreflang="x-default" href={`${site.url}/en${pagePath}`} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
@@ -53,7 +64,7 @@ const organizationSchema = JSON.stringify({
 	</head>
 	<body>
 		<div class="flex min-h-svh flex-col">
-			<Header {locale} messages={messages} client:load />
+			<Header {locale} messages={messages} {pagePath} client:load />
 			<main class="container mx-auto flex-1">
 				<slot />
 			</main>

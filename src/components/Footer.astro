@@ -18,14 +18,14 @@ const year = new Date().getFullYear();
 <footer class="mt-auto border-t border-border bg-muted/30">
 	<div class="container mx-auto py-14">
 		<div class="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
-			<div class="max-w-sm">
+			<div>
 				<div class="flex items-center gap-2.5">
-					<span class="size-2 rounded-full bg-brand" aria-hidden="true"></span>
+					<img src="/favicon.svg" alt="" class="size-6" width="24" height="24" loading="lazy" />
 					<span class="text-sm font-semibold tracking-widest">{site.legalName}</span>
 				</div>
 				<p class="mt-3 text-sm text-muted-foreground">{m.brand_descriptor}</p>
 				<a
-					href={`${home}#contact`}
+					href={`${home}/contact`}
 					class="mt-5 inline-flex items-center gap-2 text-sm text-foreground underline-offset-4 transition-colors hover:text-brand hover:underline"
 				>
 					<Mail class="size-4" />
@@ -37,12 +37,12 @@ const year = new Date().getFullYear();
 				<h2 class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase">
 					{m.footer_nav_label}
 				</h2>
-				<ul class="mt-4 space-y-2.5">
+				<ul class="mt-4 flex flex-col gap-2.5">
 					{
 						navItems.map((item) => (
 							<li>
 								<a
-									href={`${home}${item.hash}`}
+									href={`${home}${item.path}`}
 									class="text-sm text-muted-foreground transition-colors hover:text-foreground"
 								>
 									{m[item.label]}
@@ -64,10 +64,6 @@ const year = new Date().getFullYear();
 			</div>
 		</div>
 		<Separator class="my-10" />
-		<p class="text-xs text-muted-foreground">
-			© {year}
-			{site.legalName}
-			{m.footer_rights}
-		</p>
+		<p class="text-xs text-muted-foreground">© {year} {site.legalName} {m.footer_rights}</p>
 	</div>
 </footer>

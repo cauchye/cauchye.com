@@ -3,6 +3,7 @@ import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
 import {
+	type ContactInquiryType,
 	contactSchema,
 	escapeSlackMrkdwn,
 	readContactValues,
@@ -31,7 +32,7 @@ function wantsHtml(request: Request) {
 function fallbackRedirect(request: Request, locale: Locale, state: 'success' | 'error') {
 	// Native form posts can report a generic outcome without putting contact values in the URL.
 	// Field-level errors and value preservation are provided by the progressively enhanced form.
-	const target = new URL(`/${locale}`, request.url);
+	const target = new URL(`/${locale}/contact`, request.url);
 	target.searchParams.set('contact', state);
 	target.hash = 'contact';
 	return Response.redirect(target, 303);
@@ -114,7 +115,14 @@ export const POST: APIRoute = async ({ request }) => {
 			: json({ values, unavailable: true }, 503);
 	}
 
-	const { name, company, email, message } = parsed.data;
+	const { inquiryType, name, company, email, message } = parsed.data;
+	const inquiryTypeLabels: Record<ContactInquiryType, string> = {
+		'it-ai': messages.form_inquiry_it_ai,
+		'corporate-advisory': messages.form_inquiry_advisory,
+		company: messages.form_inquiry_company,
+		sales: messages.form_inquiry_sales
+	};
+	const inquiryTypeLabel = inquiryTypeLabels[inquiryType];
 	const messageChunks = splitSlackMessage(message);
 	const detail = (label: string, value: string) => ({
 		type: 'section',
@@ -127,9 +135,10 @@ export const POST: APIRoute = async ({ request }) => {
 			method: 'POST',
 			headers: { 'content-type': 'application/json' },
 			body: JSON.stringify({
-				text: `お問い合わせ: ${escapeSlackMrkdwn(name)}`,
+				text: `お問い合わせ（${escapeSlackMrkdwn(inquiryTypeLabel)}）: ${escapeSlackMrkdwn(name)}`,
 				blocks: [
 					{ type: 'header', text: { type: 'plain_text', text: '新しいお問い合わせ' } },
+					detail('お問い合わせ種別', escapeSlackMrkdwn(inquiryTypeLabel)),
 					detail('お名前', escapeSlackMrkdwn(name)),
 					...(company ? [detail('会社名', escapeSlackMrkdwn(company))] : []),
 					detail(

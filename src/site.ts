@@ -17,7 +17,8 @@ export const site = {
 
 export const d6e = {
 	url: 'https://www.d6e.ai',
-	docsUrl: 'https://docs.d6e.ai'
+	docsUrl: 'https://docs.d6e.ai',
+	gatewayUrl: 'https://gateway.d6e.ai'
 } as const;
 
 export const addressLines = [
@@ -27,8 +28,8 @@ export const addressLines = [
 ];
 
 export const navItems = [
-	{ hash: '#services', label: 'nav_services' },
-	{ hash: '#leadership', label: 'nav_leadership' },
-	{ hash: '#about', label: 'nav_about' },
-	{ hash: '#company', label: 'nav_company' }
-] as const satisfies ReadonlyArray<{ hash: string; label: MessageKey }>;
+	{ path: '/#services', label: 'nav_services' },
+	{ path: '/#company', label: 'nav_company' },
+	{ path: '/business/it-ai', label: 'nav_ai' },
+	{ path: '/business/corporate-advisory', label: 'nav_advisory' }
+] as const satisfies ReadonlyArray<{ path: string; label: MessageKey }>;

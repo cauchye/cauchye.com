@@ -1,6 +1,9 @@
 ---
+import { UserRound } from 'lucide-astro';
+
 import type { Dictionary } from '../../i18n';
 import { addressLines, site } from '../../site';
+import { Card, CardContent, CardHeader } from '../ui/card/index.js';
 import SectionHeading from './SectionHeading.astro';
 
 interface Props {
@@ -10,18 +13,18 @@ interface Props {
 const { messages: m } = Astro.props;
 const rows = [
 	{ id: 'name', label: m.company_label_name, lines: [site.legalName], list: false },
-	{ id: 'uen', label: m.company_label_uen, lines: [site.uen], list: false },
 	{
-		id: 'representative',
-		label: m.company_label_representative,
-		lines: [m.leader_name],
+		id: 'pronunciation',
+		label: m.company_label_pronunciation,
+		lines: [m.company_pronunciation],
 		list: false
 	},
+	{ id: 'uen', label: m.company_label_uen, lines: [site.uen], list: false },
 	{ id: 'address', label: m.company_label_address, lines: addressLines, list: false },
 	{
 		id: 'business',
 		label: m.company_label_business,
-		lines: [m.svc_ai_title, m.svc_d6e_title, m.svc_ir_title, m.svc_capital_title],
+		lines: [m.business_ai_title, m.business_advisory_title],
 		list: true
 	}
 ];
@@ -29,26 +32,65 @@ const rows = [
 
 <section id="company" class="border-t border-border section">
 	<SectionHeading eyebrow={m.company_eyebrow} title={m.company_title} />
-	<dl class="mt-12 max-w-3xl">
-		{
-			rows.map((row) => (
-				<div class="grid gap-1 border-b border-border py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
-					<dt class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase sm:pt-1">
-						{row.label}
-					</dt>
-					<dd class="leading-relaxed">
-						{row.list ? (
-							<ul class="list-outside list-disc space-y-1 pl-4 marker:text-brand">
-								{row.lines.map((line) => (
-									<li>{line}</li>
-								))}
-							</ul>
-						) : (
-							row.lines.map((line) => <span class="block">{line}</span>)
-						)}
-					</dd>
+
+	<div id="about" class="mt-12">
+		<h3 class="text-2xl font-semibold">{m.about_title}</h3>
+		<div class="mt-6 flex flex-col gap-5 leading-relaxed text-muted-foreground">
+			<p>{m.about_body_1}</p>
+			<p>{m.about_body_2}</p>
+		</div>
+	</div>
+
+	<div id="leadership" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
+		<h3 class="text-xl font-semibold md:text-2xl">{m.leader_title}</h3>
+		<Card data-representative-card class="mt-8 overflow-hidden py-0">
+			<div class="grid md:grid-cols-[18rem_1fr]">
+				<div
+					data-representative-photo-placeholder
+					class="flex aspect-[4/3] flex-col items-center justify-center overflow-hidden border-b border-border bg-muted/55 text-muted-foreground md:aspect-auto md:min-h-[25rem] md:border-r md:border-b-0"
+				>
+					<UserRound class="size-24" stroke-width={1.1} />
+					<span class="mt-5 font-mono text-[0.65rem] tracking-[0.18em] uppercase">Photo</span>
 				</div>
-			))
-		}
-	</dl>
+				<div class="flex flex-col justify-center py-4 md:py-8">
+					<CardHeader>
+						<p class="text-3xl font-semibold">{m.leader_name}</p>
+						<p class="font-mono text-xs tracking-widest text-muted-foreground">
+							{m.leader_name_native}
+						</p>
+						<p class="mt-3 text-sm font-medium text-brand">{m.leader_role}</p>
+					</CardHeader>
+					<CardContent>
+						<p class="leading-loose text-muted-foreground">{m.leader_bio}</p>
+					</CardContent>
+				</div>
+			</div>
+		</Card>
+	</div>
+
+	<div id="company-information" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
+		<h3 class="text-xl font-semibold md:text-2xl">{m.company_information_title}</h3>
+		<dl class="mt-8">
+			{
+				rows.map((row) => (
+					<div class="grid gap-1 border-b border-border py-5 sm:grid-cols-[12rem_1fr] sm:gap-6">
+						<dt class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase sm:pt-1">
+							{row.label}
+						</dt>
+						<dd class="leading-relaxed">
+							{row.list ? (
+								<ul class="flex list-outside list-disc flex-col gap-1 pl-4 marker:text-brand">
+									{row.lines.map((line) => (
+										<li>{line}</li>
+									))}
+								</ul>
+							) : (
+								row.lines.map((line) => <span class="block">{line}</span>)
+							)}
+						</dd>
+					</div>
+				))
+			}
+		</dl>
+	</div>
 </section>

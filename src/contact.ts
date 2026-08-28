@@ -2,14 +2,17 @@ import { z } from 'zod';
 
 import type { Dictionary } from './i18n';
 
-export const CONTACT_FIELDS = ['name', 'company', 'email', 'message'] as const;
+export const CONTACT_INQUIRY_TYPES = ['it-ai', 'corporate-advisory', 'company', 'sales'] as const;
+export const CONTACT_FIELDS = ['inquiryType', 'name', 'company', 'email', 'message'] as const;
 export const SLACK_MESSAGE_CHUNK_LIMIT = 2900;
+export type ContactInquiryType = (typeof CONTACT_INQUIRY_TYPES)[number];
 export type ContactField = (typeof CONTACT_FIELDS)[number];
 export type ContactValues = Record<ContactField, string>;
 export type ContactErrors = Partial<Record<ContactField, string[]>>;
 
 export function contactSchema(messages: Dictionary) {
 	return z.object({
+		inquiryType: z.enum(CONTACT_INQUIRY_TYPES, { error: messages.form_error_required }),
 		name: z
 			.string()
 			.trim()

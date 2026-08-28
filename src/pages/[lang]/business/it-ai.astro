@@ -1,0 +1,427 @@
+---
+import {
+	ArrowRight,
+	Bot,
+	BriefcaseBusiness,
+	Building2,
+	Check,
+	ChevronDown,
+	ChevronRight,
+	CodeXml,
+	Compass,
+	GraduationCap,
+	ShieldCheck,
+	Sparkles,
+	UsersRound
+} from 'lucide-astro';
+
+import D6eMark from '../../../components/D6eMark.astro';
+import GatewayFeature from '../../../components/sections/GatewayFeature.astro';
+import PartnerShowcase from '../../../components/sections/PartnerShowcase.astro';
+import SectionHeading from '../../../components/sections/SectionHeading.astro';
+import { Badge } from '../../../components/ui/badge/index.js';
+import { Button } from '../../../components/ui/button/index.js';
+import { Card, CardContent, CardHeader } from '../../../components/ui/card/index.js';
+import { getDictionary, isLocale } from '../../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { d6e } from '../../../site';
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) return Astro.redirect('/en/business/it-ai', 302);
+const m = getDictionary(lang);
+const contactHref = `/${lang}/contact`;
+const services = [
+	{ icon: Compass, title: m.ai_service_1_title, body: m.ai_service_1_body },
+	{ icon: CodeXml, title: m.ai_service_2_title, body: m.ai_service_2_body },
+	{ icon: UsersRound, title: m.ai_service_3_title, body: m.ai_service_3_body },
+	{ icon: GraduationCap, title: m.ai_service_4_title, body: m.ai_service_4_body }
+];
+const challenges = [
+	m.ai_challenge_1,
+	m.ai_challenge_2,
+	m.ai_challenge_3,
+	m.ai_challenge_4,
+	m.ai_challenge_5
+];
+const reasons = [
+	m.ai_why_point_1,
+	m.ai_why_point_2,
+	m.ai_why_point_3,
+	m.ai_why_point_4,
+	m.ai_why_point_5
+];
+const faqs = [
+	{ question: m.ai_faq_1_q, answer: m.ai_faq_1_a },
+	{ question: m.ai_faq_2_q, answer: m.ai_faq_2_a },
+	{ question: m.ai_faq_3_q, answer: m.ai_faq_3_a }
+];
+const providers = [
+	{ name: 'OpenAI', detail: 'GPT', logo: '/brands/openai.svg' },
+	{ name: 'Anthropic', detail: 'Claude', logo: '/brands/anthropic.svg' },
+	{ name: 'Google', detail: 'Gemini', logo: '/brands/gemini.svg' },
+	{ name: 'xAI', detail: 'Grok', logo: '/brands/grok.svg' }
+];
+const partners = [
+	{
+		name: lang === 'ja' ? '南青山アドバイザリーグループ' : 'Minami Aoyama Advisory Group',
+		logo: '/partners/minami-aoyama.png',
+		site: 'https://minami-aoyama.jp/',
+		logoClass: 'h-12 w-full'
+	},
+	{
+		name: 'JP-FORCE',
+		logo: '/partners/jp-force.png',
+		site: 'https://www.jp-force.net/',
+		logoClass: 'h-14 w-full'
+	},
+	{
+		name: lang === 'ja' ? '柳澤国際税務会計事務所' : 'Yanagisawa and Company',
+		logo: '/partners/yanagisawa-accounting.png',
+		site: 'https://www.yanagisawa-accounting.com/',
+		logoClass: 'h-11 w-full'
+	},
+	{
+		name: 'Morus',
+		logo: '/partners/morus.svg',
+		site: 'https://morus.jp/jp/',
+		logoClass: 'h-12 w-full'
+	},
+	{
+		name: 'TECHFUND',
+		logo: '/partners/techfund.png',
+		site: 'https://techfund.jp/',
+		logoClass: 'h-16 w-full'
+	},
+	{
+		name: 'EsTRUTH',
+		logo: '/partners/estruth.svg',
+		site: 'https://www.estruth.co.jp/',
+		logoClass: 'h-14 w-full invert dark:invert-0'
+	},
+	{
+		name:
+			lang === 'ja'
+				? '京都大学ソーシャルイノベーションセンター'
+				: 'Kyoto University Social Innovation Center',
+		logo: '/partners/kyoto-social-innovation-center.png',
+		site: 'https://innovationkyoto.org/',
+		logoClass: 'h-14 w-full invert'
+	}
+];
+const clientExamples = [
+	{
+		icon: BriefcaseBusiness,
+		label: m.ai_client_pe_label,
+		title: m.ai_client_pe_title,
+		body: m.ai_client_pe_body,
+		points: [m.ai_client_pe_point_1, m.ai_client_pe_point_2, m.ai_client_pe_point_3]
+	},
+	{
+		icon: Building2,
+		label: m.ai_client_company_label,
+		title: m.ai_client_company_title,
+		body: m.ai_client_company_body,
+		points: [m.ai_client_company_point_1, m.ai_client_company_point_2, m.ai_client_company_point_3]
+	}
+];
+---
+
+<BaseLayout
+	locale={lang}
+	messages={m}
+	pageTitle={m.ai_meta_title}
+	description={m.ai_meta_description}
+	pagePath="/business/it-ai"
+>
+	<section class="relative isolate py-16 md:py-24">
+		<div
+			class="pointer-events-none absolute inset-0 -z-10 -mx-5 grid-backdrop md:-mx-8"
+			aria-hidden="true"
+		>
+		</div>
+		<nav aria-label={m.breadcrumb_label}>
+			<ol class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+				<li>
+					<a href={`/${lang}`} class="transition-colors hover:text-foreground"
+						>{m.breadcrumb_home}</a
+					>
+				</li>
+				<li aria-hidden="true"><ChevronRight class="size-4" /></li>
+				<li>
+					<a href={`/${lang}/#services`} class="transition-colors hover:text-foreground"
+						>{m.nav_services}</a
+					>
+				</li>
+				<li aria-hidden="true"><ChevronRight class="size-4" /></li>
+				<li class="text-foreground" aria-current="page">{m.business_ai_title}</li>
+			</ol>
+		</nav>
+		<div class="mt-10 grid gap-10 lg:grid-cols-[1fr_20rem] lg:items-end">
+			<div>
+				<Badge
+					variant="outline"
+					class="rounded-full px-3 py-1 font-mono text-[0.65rem] tracking-[0.16em] uppercase"
+					>{m.ai_eyebrow}</Badge
+				>
+				<h1 class="mt-6 text-4xl leading-[1.08] font-semibold sm:text-5xl md:text-7xl">
+					<span class="block">{m.ai_hero_title_lead}</span>
+					<span class="block text-brand">{m.ai_hero_title_accent}</span>
+				</h1>
+				<p class="mt-7 text-base leading-relaxed text-muted-foreground md:text-xl">
+					{m.ai_hero_body}
+				</p>
+				<div class="mt-9 flex flex-wrap gap-3">
+					<Button href={contactHref} variant="brand" size="lg" class="h-11 px-5">
+						{m.ai_cta_primary}<ArrowRight data-icon="inline-end" />
+					</Button>
+					<Button href="#capabilities" variant="outline" size="lg" class="h-11 px-5"
+						>{m.ai_cta_secondary}</Button
+					>
+				</div>
+			</div>
+			<div
+				class="hidden justify-self-end rounded-3xl border border-brand/20 bg-brand-subtle p-8 text-brand lg:block"
+			>
+				<Bot class="size-36" stroke-width={1.15} />
+			</div>
+		</div>
+	</section>
+
+	<PartnerShowcase eyebrow={m.ai_partners_eyebrow} title={m.ai_partners_title} {partners} />
+
+	<section id="capabilities" class="border-t border-border section">
+		<SectionHeading eyebrow={m.ai_services_eyebrow} title={m.ai_services_title} />
+		<div class="mt-12 grid gap-5 md:grid-cols-2">
+			{
+				services.map(({ icon: Icon, title, body }) => (
+					<Card class="group min-h-72 transition-all hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg">
+						<CardHeader>
+							<div class="flex items-center">
+								<span class="flex size-11 items-center justify-center rounded-xl bg-brand-subtle text-brand">
+									<Icon class="size-5" />
+								</span>
+							</div>
+							<h3 class="mt-5 text-xl font-semibold md:text-2xl">{title}</h3>
+						</CardHeader>
+						<CardContent>
+							<p class="leading-relaxed text-muted-foreground">{body}</p>
+						</CardContent>
+					</Card>
+				))
+			}
+		</div>
+		<div class="mt-14 border-t border-border pt-8 md:mt-18 md:pt-10">
+			<p class="text-center text-xs font-medium tracking-[0.14em] text-muted-foreground uppercase">
+				{m.ai_models_label}
+			</p>
+			<div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+				{
+					providers.map((provider) => (
+						<div class="flex items-center justify-center gap-3 rounded-xl border border-border bg-card px-3 py-4 shadow-sm">
+							<img
+								src={provider.logo}
+								alt=""
+								class="size-6 shrink-0 object-contain"
+								width="24"
+								height="24"
+							/>
+							<div class="min-w-0">
+								<p class="text-sm font-semibold">{provider.name}</p>
+								<p class="hidden text-xs text-muted-foreground sm:block">{provider.detail}</p>
+							</div>
+						</div>
+					))
+				}
+			</div>
+			<p class="mt-4 text-center text-xs leading-relaxed text-muted-foreground">
+				{m.ai_models_note}
+			</p>
+		</div>
+	</section>
+
+	<section
+		id="strengths"
+		data-page-chapter="strengths"
+		class="-mx-5 border-y border-border bg-muted/30 px-5 section md:-mx-8 md:px-8"
+	>
+		<SectionHeading eyebrow={m.ai_strengths_eyebrow} title={m.ai_strengths_title} />
+		<div class="mt-12 grid gap-5 xl:grid-cols-2">
+			<Card
+				id="security"
+				class="dark overflow-hidden border-0 bg-background py-0 text-foreground shadow-sm"
+			>
+				<CardHeader class="p-7 md:p-10 md:pb-5">
+					<div
+						class="flex size-12 items-center justify-center rounded-xl bg-brand text-brand-foreground"
+					>
+						<ShieldCheck class="size-6" />
+					</div>
+					<p class="mt-7 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
+						{m.ai_security_eyebrow}
+					</p>
+					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">{m.ai_security_title}</h3>
+					<p class="mt-5 leading-relaxed text-white/65">
+						{m.ai_security_body}
+					</p>
+				</CardHeader>
+				<CardContent class="px-7 pb-7 md:px-10 md:pb-10">
+					<ul class="grid gap-3">
+						{
+							[m.ai_security_point_1, m.ai_security_point_2, m.ai_security_point_3].map((point) => (
+								<li class="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
+									<Check class="size-5 shrink-0 text-brand" />
+									<span class="leading-relaxed text-white/80">{point}</span>
+								</li>
+							))
+						}
+					</ul>
+				</CardContent>
+			</Card>
+
+			<Card
+				id="foundation"
+				class="relative overflow-hidden border-brand/15 bg-brand-subtle py-0 shadow-sm"
+			>
+				<div class="absolute right-0 bottom-0 text-brand/8" aria-hidden="true">
+					<D6eMark class="size-56" />
+				</div>
+				<CardHeader class="relative p-7 md:p-10 md:pb-5">
+					<div
+						class="flex size-12 items-center justify-center rounded-xl bg-brand text-brand-foreground"
+					>
+						<D6eMark class="size-8" />
+					</div>
+					<p class="mt-7 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
+						{m.d6e_foundation_eyebrow}
+					</p>
+					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">{m.d6e_foundation_title}</h3>
+					<p class="mt-5 leading-relaxed text-muted-foreground">
+						{m.d6e_foundation_body}
+					</p>
+				</CardHeader>
+				<CardContent class="relative px-7 pb-7 md:px-10 md:pb-10">
+					<ul class="grid gap-3">
+						{
+							[m.d6e_foundation_point_1, m.d6e_foundation_point_2, m.d6e_foundation_point_3].map(
+								(point) => (
+									<li class="flex gap-3 rounded-xl bg-background/70 p-4 text-sm">
+										<ShieldCheck class="mt-0.5 size-4 shrink-0 text-brand" />
+										{point}
+									</li>
+								)
+							)
+						}
+					</ul>
+					<Button
+						href={d6e.url}
+						target="_blank"
+						rel="noreferrer"
+						variant="outline"
+						size="lg"
+						class="mt-8 h-11 px-5"
+						>{m.d6e_foundation_cta}<ArrowRight data-icon="inline-end" /></Button
+					>
+				</CardContent>
+			</Card>
+		</div>
+
+		<div id="benefits" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
+			<h3 class="text-2xl font-semibold md:text-3xl">{m.ai_why_title}</h3>
+			<div class="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-5">
+				<div>
+					<h4 class="text-xl font-semibold md:text-2xl">{m.ai_challenges_title}</h4>
+					<ol class="mt-5 divide-y divide-border border-y border-border">
+						{
+							challenges.map((challenge, index) => (
+								<li class="flex gap-4 py-4">
+									<span class="shrink-0 font-mono text-xs text-brand">
+										{String(index + 1).padStart(2, '0')}
+									</span>
+									<p class="leading-relaxed text-muted-foreground">{challenge}</p>
+								</li>
+							))
+						}
+					</ol>
+				</div>
+				<div>
+					<h4 class="text-xl font-semibold md:text-2xl">{m.ai_why_reasons_title}</h4>
+					<div class="mt-5 overflow-hidden rounded-2xl border border-border bg-card">
+						{
+							reasons.map((reason) => (
+								<div class="flex gap-5 border-b border-border p-5 last:border-b-0 md:p-6">
+									<Check class="mt-0.5 size-5 shrink-0 text-brand" />
+									<p class="leading-relaxed font-medium">{reason}</p>
+								</div>
+							))
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<GatewayFeature messages={m} />
+
+	<section id="clients" class="border-t border-border section">
+		<SectionHeading eyebrow={m.ai_clients_eyebrow} title={m.ai_clients_title} />
+		<div class="mt-12 grid gap-5 lg:grid-cols-2">
+			{
+				clientExamples.map(({ icon: Icon, label, title, body, points }) => (
+					<Card class="overflow-hidden py-0 shadow-sm">
+						<CardHeader class="p-7 md:p-10 md:pb-4">
+							<div class="flex size-12 items-center justify-center rounded-xl bg-brand-subtle text-brand">
+								<Icon class="size-7" />
+							</div>
+							<p class="mt-8 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
+								{label}
+							</p>
+							<h3 class="mt-3 text-2xl font-semibold md:text-3xl">{title}</h3>
+						</CardHeader>
+						<CardContent class="flex flex-1 flex-col px-7 pb-7 md:px-10 md:pb-10">
+							<p class="mt-6 leading-relaxed text-muted-foreground">{body}</p>
+							<ul class="mt-auto flex flex-wrap gap-2 pt-8">
+								{points.map((point) => (
+									<li class="rounded-full border border-border bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground">
+										{point}
+									</li>
+								))}
+							</ul>
+						</CardContent>
+					</Card>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="pb-20 md:pb-28">
+		<div
+			class="relative overflow-hidden rounded-3xl bg-brand px-6 py-14 text-brand-foreground md:px-12 md:py-18"
+		>
+			<Sparkles class="absolute -top-8 -right-6 size-48 text-white/8" />
+			<div class="relative">
+				<h2 class="text-3xl font-semibold md:text-5xl">{m.ai_cta_title}</h2>
+				<p class="mt-4 text-white/70 md:text-lg">{m.ai_cta_body}</p>
+				<Button href={contactHref} variant="secondary" size="lg" class="mt-8 h-11 px-5"
+					>{m.ai_cta_primary}<ArrowRight data-icon="inline-end" /></Button
+				>
+			</div>
+		</div>
+	</section>
+
+	<section id="faq" class="border-t border-border section">
+		<SectionHeading eyebrow={m.ai_faq_eyebrow} title={m.ai_faq_title} />
+		<div class="mt-10 divide-y divide-border border-y border-border">
+			{
+				faqs.map((faq) => (
+					<details class="group py-5">
+						<summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">
+							{faq.question}
+							<ChevronDown class="size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+						</summary>
+						<p class="pt-4 pr-8 leading-relaxed text-muted-foreground">{faq.answer}</p>
+					</details>
+				))
+			}
+		</div>
+	</section>
+</BaseLayout>

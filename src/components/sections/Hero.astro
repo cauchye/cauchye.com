@@ -18,15 +18,13 @@ const { messages: m } = Astro.props;
 	<MapBackdrop
 		class="pointer-events-none absolute right-0 bottom-4 hidden h-60 w-72 text-brand/12 lg:block"
 	/>
-	<h1
-		class="max-w-4xl text-4xl leading-[1.12] font-semibold sm:text-5xl md:text-6xl lg:text-[4.25rem]"
-	>
+	<h1 class="text-4xl leading-[1.12] font-semibold sm:text-5xl md:text-6xl lg:text-[4.25rem]">
 		<span class="block">{m.hero_title_lead}</span>
 		<span class="block bg-linear-to-br from-brand to-foreground bg-clip-text text-transparent">
 			{m.hero_title_accent}
 		</span>
 	</h1>
-	<p class="mt-8 max-w-4xl text-base leading-relaxed text-muted-foreground md:text-lg">
+	<p class="mt-8 text-base leading-relaxed text-muted-foreground md:text-lg">
 		{m.hero_body}
 	</p>
 </section>
