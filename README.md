@@ -5,12 +5,12 @@ deployed as a server-rendered Cloudflare Worker.
 
 ## Local development
 
-Requirements: Node.js 24.16 or newer and npm.
+Requirements: Node.js 24.16 or newer and pnpm 11 or newer.
 
 ```sh
-npm install
+pnpm install
 cp .dev.vars.example .dev.vars
-npm run dev
+pnpm run dev
 ```
 
 Set `SLACK_WEBHOOK_URL` in the untracked `.dev.vars` file to test contact delivery. Never
@@ -25,12 +25,12 @@ URLs or cookies.
 Useful commands:
 
 ```sh
-npm run check
-npm run lint
-npm run build
-npm run preview
-npm test
-npm run deploy:dry-run
+pnpm run check
+pnpm run lint
+pnpm run build
+pnpm run preview
+pnpm test
+pnpm run deploy:dry-run
 ```
 
 ## Cloudflare deployment
@@ -40,13 +40,13 @@ The Worker is named `cauchye-com` and `wrangler.jsonc` targets CAUCHYE ASIA acco
 secret interactively:
 
 ```sh
-npx wrangler login
-npx wrangler secret put SLACK_WEBHOOK_URL
-npm run deploy:dry-run
-npm run deploy
+pnpm exec wrangler login
+pnpm exec wrangler secret put SLACK_WEBHOOK_URL
+pnpm run deploy:dry-run
+pnpm run deploy
 ```
 
-`npm run deploy` updates the existing `cauchye-com` Worker. Its Custom Domains
+`pnpm run deploy` updates the existing `cauchye-com` Worker. Its Custom Domains
 (`www.cauchye.com` and `cauchye.com`) are configured once in the Cloudflare dashboard and
 intentionally omitted from Wrangler so routine CD does not need zone-level permissions. A
 Cloudflare Single Redirect rule permanently redirects the apex domain to `www.cauchye.com`
@@ -82,7 +82,7 @@ The Slack webhook remains a Cloudflare Worker secret and is not passed through G
 
 1. Confirm the Cloudflare zone is active and neither hostname has a conflicting CNAME.
 2. Set `SLACK_WEBHOOK_URL` with `wrangler secret put`.
-3. Run check, lint, build, and `npm run deploy:dry-run`.
+3. Run check, lint, build, and `pnpm run deploy:dry-run`.
 4. Deploy the Worker and verify `/`, `/en`, `/ja`, assets, both hostnames, metadata, and
    contact delivery.
 5. Confirm logs and observability in Cloudflare, including a controlled contact failure.

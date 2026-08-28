@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
+	"packageManager": "pnpm@11.23.0",
 	"scripts": {
 		"dev": "astro dev",
 		"build": "astro build",
@@ -13,8 +14,8 @@
 		"test": "playwright test",
 		"test:e2e": "playwright test",
 		"types": "wrangler types",
-		"deploy": "npm run build && wrangler deploy",
-		"deploy:dry-run": "npm run build && wrangler deploy --dry-run"
+		"deploy": "pnpm run build && wrangler deploy",
+		"deploy:dry-run": "pnpm run build && wrangler deploy --dry-run"
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "14.2.3",
@@ -52,6 +53,6 @@
 		"tailwindcss": "^4.3.0",
 		"typescript": "^6.0.3",
 		"typescript-eslint": "^8.60.1",
-		"wrangler": "4.124.0"
+		"wrangler": "4.127.0"
 	}
 }
