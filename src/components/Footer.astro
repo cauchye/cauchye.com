@@ -1,7 +1,7 @@
 ---
 import { Mail } from 'lucide-astro';
 
-import { Separator } from './ui/separator';
+import { Separator } from './ui/separator/index.js';
 import type { Dictionary, Locale } from '../i18n';
 import { addressLines, navItems, site } from '../site';
 
@@ -63,7 +63,7 @@ const year = new Date().getFullYear();
 				</address>
 			</div>
 		</div>
-		<Separator className="my-10" />
+		<Separator class="my-10" />
 		<p class="text-xs text-muted-foreground">
 			© {year}
 			{site.legalName}

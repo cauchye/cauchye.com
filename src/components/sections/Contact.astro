@@ -1,10 +1,10 @@
 ---
 import { ArrowRight, Check } from 'lucide-astro';
 
-import { Button } from '../ui/button';
-import { Field, FieldDescription, FieldError, FieldLabel } from '../ui/field';
-import { Input } from '../ui/input';
-import { Textarea } from '../ui/textarea';
+import { Button } from '../ui/button/index.js';
+import { Field, FieldDescription, FieldError, FieldLabel } from '../ui/field/index.js';
+import { Input } from '../ui/input/index.js';
+import { Textarea } from '../ui/textarea/index.js';
 import type { Dictionary, Locale } from '../../i18n';
 
 interface Props {
@@ -70,23 +70,23 @@ const { locale, messages: m, state } = Astro.props;
 
 				<div class="grid gap-5 sm:grid-cols-2">
 					<Field>
-						<FieldLabel htmlFor="name">{m.form_label_name}</FieldLabel>
+						<FieldLabel for="name">{m.form_label_name}</FieldLabel>
 						<Input
 							id="name"
 							name="name"
 							required
-							maxLength={100}
-							autoComplete="name"
+							maxlength={100}
+							autocomplete="name"
 							aria-describedby="name-error"
-							className="h-10 px-3 py-2"
+							class="h-10 px-3 py-2"
 						/>
-						<FieldError id="name-error" data-error-for="name" className="hidden">
+						<FieldError id="name-error" data-error-for="name" class="hidden">
 							<span></span>
 						</FieldError>
 					</Field>
 
 					<Field>
-						<FieldLabel htmlFor="company">
+						<FieldLabel for="company">
 							{m.form_label_company}
 							<span class="text-xs font-normal text-muted-foreground">
 								{m.form_label_company_optional}
@@ -95,48 +95,48 @@ const { locale, messages: m, state } = Astro.props;
 						<Input
 							id="company"
 							name="company"
-							maxLength={100}
-							autoComplete="organization"
+							maxlength={100}
+							autocomplete="organization"
 							aria-describedby="company-error"
-							className="h-10 px-3 py-2"
+							class="h-10 px-3 py-2"
 						/>
-						<FieldError id="company-error" data-error-for="company" className="hidden">
+						<FieldError id="company-error" data-error-for="company" class="hidden">
 							<span></span>
 						</FieldError>
 					</Field>
 				</div>
 
 				<Field>
-					<FieldLabel htmlFor="email">{m.form_label_email}</FieldLabel>
+					<FieldLabel for="email">{m.form_label_email}</FieldLabel>
 					<Input
 						id="email"
 						name="email"
 						type="email"
 						required
-						maxLength={200}
-						autoComplete="email"
+						maxlength={200}
+						autocomplete="email"
 						aria-describedby="email-error"
-						className="h-10 px-3 py-2"
+						class="h-10 px-3 py-2"
 					/>
-					<FieldError id="email-error" data-error-for="email" className="hidden">
+					<FieldError id="email-error" data-error-for="email" class="hidden">
 						<span></span>
 					</FieldError>
 				</Field>
 
 				<Field>
-					<FieldLabel htmlFor="message">{m.form_label_message}</FieldLabel>
+					<FieldLabel for="message">{m.form_label_message}</FieldLabel>
 					<Textarea
 						id="message"
 						name="message"
 						required
-						minLength={10}
-						maxLength={4000}
+						minlength={10}
+						maxlength={4000}
 						rows={5}
 						aria-describedby="message-hint message-error"
-						className="min-h-28 resize-y px-3"
+						class="min-h-28 resize-y px-3"
 					/>
 					<FieldDescription id="message-hint">{m.form_hint_message}</FieldDescription>
-					<FieldError id="message-error" data-error-for="message" className="hidden">
+					<FieldError id="message-error" data-error-for="message" class="hidden">
 						<span></span>
 					</FieldError>
 				</Field>
@@ -152,7 +152,7 @@ const { locale, messages: m, state } = Astro.props;
 					{m.form_error_unavailable}
 				</p>
 
-				<Button type="submit" variant="brand" className="h-12 self-start px-8">
+				<Button type="submit" variant="brand" class="h-12 self-start px-8">
 					<span data-submit-text>{m.form_submit}</span>
 					<ArrowRight class="size-4" />
 				</Button>

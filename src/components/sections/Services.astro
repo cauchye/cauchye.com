@@ -1,7 +1,7 @@
 ---
 import { ArrowUpRight, Landmark, Radar, Workflow } from 'lucide-astro';
 
-import { Badge } from '../ui/badge';
+import { Badge } from '../ui/badge/index.js';
 import type { Dictionary } from '../../i18n';
 import { d6e } from '../../site';
 import D6eMark from '../D6eMark.astro';
@@ -78,7 +78,7 @@ const services = [
 							<h3 class="mt-4 text-xl font-semibold md:text-2xl">{service.title}</h3>
 							<Badge
 								variant="outline"
-								className="mt-4 rounded-md font-mono text-[0.625rem] tracking-widest uppercase"
+								class="mt-4 rounded-md font-mono text-[0.625rem] tracking-widest uppercase"
 							>
 								{service.tag}
 							</Badge>
