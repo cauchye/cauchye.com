@@ -256,22 +256,43 @@ test('shows colored model choices and customer benefits on the IT and AI page', 
 		await expect(page.getByText(genericPoint, { exact: true })).toHaveCount(0);
 	}
 	const partnerList = page.locator('#partners ul:not([aria-hidden="true"])');
-	for (const partner of [
-		'南青山アドバイザリーグループ',
-		'JP-FORCE',
+	const partnerNames = [
+		'京都大学ソーシャルイノベーションセンター',
+		'株式会社PoliPoli',
 		'柳澤国際税務会計事務所',
-		'Morus',
+		'STIR — Ethersecurity Pacific Holdings Pte. Ltd.',
 		'TECHFUND',
+		'JP-FORCE',
+		'南青山アドバイザリーグループ',
+		'テセウスコンサルティング株式会社',
+		'株式会社Runner UP Plus',
 		'EsTRUTH',
-		'京都大学ソーシャルイノベーションセンター'
-	]) {
+		'Morus'
+	];
+	for (const partner of partnerNames) {
 		await expect(partnerList.locator(`img[alt="${partner}"]`)).toBeAttached();
 		await expect(partnerList.getByText(partner, { exact: true })).toHaveCount(0);
 	}
-	await expect(partnerList.locator('img')).toHaveCount(7);
+	expect(
+		await partnerList.locator('img').evaluateAll((images) => images.map((image) => image.alt))
+	).toEqual(partnerNames);
+	await expect(partnerList.locator('img')).toHaveCount(11);
 	await expect(
 		partnerList.locator(
 			'a[href="https://innovationkyoto.org/"] img[src="/partners/kyoto-social-innovation-center.png"]'
+		)
+	).toBeAttached();
+	await expect(
+		partnerList.locator('a[href="https://www.polipoli.work/"] img[src="/partners/polipoli.png"]')
+	).toBeAttached();
+	await expect(
+		partnerList.locator(
+			'a[href="https://stir.network/"] img[src="/partners/ethersecurity-stir.svg"]'
+		)
+	).toBeAttached();
+	await expect(
+		partnerList.locator(
+			'a[href="https://runnerup-plus.com/"] img[src="/partners/runner-up-plus.svg"]'
 		)
 	).toBeAttached();
 	const openAiLogo = await (await page.request.get('/brands/openai.svg')).text();
