@@ -4,7 +4,7 @@
 	"brand_descriptor": "IT & AI solutions and corporate advisory.",
 
 	"nav_services": "Services",
-	"nav_ai": "IT & AI",
+	"nav_ai": "IT & AI Solutions",
 	"nav_advisory": "Corporate Advisory",
 	"nav_about": "About",
 	"nav_leadership": "Leadership",
@@ -121,7 +121,7 @@
 	"ai_why_point_5": "Keep improving in-house through documentation, reviews, and training",
 
 	"d6e_foundation_eyebrow": "Our Foundation",
-	"d6e_foundation_title": "Move faster without narrowing future choices.",
+	"d6e_foundation_title": "Turn accumulated experience into a shared foundation.",
 	"d6e_foundation_body": "CAUCHYE ASIA develops d6e, our own AI workflow foundation. Where the engagement calls for it, d6e accelerates integrations, access control, and operating design. We do not make d6e a prerequisite: the right architecture follows the security requirements, existing environment, operating model, and future options.",
 	"d6e_foundation_point_1": "Architectures deployable in the customer's environment",
 	"d6e_foundation_point_2": "Existing-system integration through APIs and MCP",

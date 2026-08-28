@@ -4,7 +4,7 @@
 	"brand_descriptor": "IT・AIソリューションとコーポレートアドバイザリー。",
 
 	"nav_services": "事業内容",
-	"nav_ai": "IT・AI",
+	"nav_ai": "IT・AIソリューション",
 	"nav_advisory": "コーポレートアドバイザリー",
 	"nav_about": "私たちについて",
 	"nav_leadership": "代表",
@@ -121,7 +121,7 @@
 	"ai_why_point_5": "ドキュメントと研修により、外部へ任せきりにせず社内で改善を続けられる",
 
 	"d6e_foundation_eyebrow": "Our Foundation",
-	"d6e_foundation_title": "実装を速く、将来の選択肢を狭めない。",
+	"d6e_foundation_title": "培ってきた経験値を共通基盤へ。",
 	"d6e_foundation_body": "弊社は、AI業務自動化基盤「d6e」を自社開発しています。案件の要件に応じてAIソリューションの実装基盤として活用し、既存システムとの連携、アクセス制御、運用設計を効率化します。d6eありきではなく、セキュリティ、既存環境、運用体制、将来の拡張性を踏まえて最適な構成を選びます。",
 	"d6e_foundation_point_1": "お客様の環境で運用できる構成",
 	"d6e_foundation_point_2": "API・MCPによる既存システム連携",

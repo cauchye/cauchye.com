@@ -169,10 +169,13 @@ test('presents the revised Japanese business structure and company identity', as
 	await expect(page.locator('main > #about, main > #leadership')).toHaveCount(0);
 
 	const footerLinks = page.locator('footer nav a');
+	await expect(
+		page.locator('footer').getByText('IT・AIソリューションとコーポレートアドバイザリー。')
+	).toHaveCount(0);
 	await expect(footerLinks).toHaveText([
 		'事業内容',
 		'会社概要',
-		'IT・AI',
+		'IT・AIソリューション',
 		'コーポレートアドバイザリー'
 	]);
 });
@@ -210,14 +213,20 @@ test('shows colored model choices and customer benefits on the IT and AI page', 
 	);
 	await expect(page.getByText('Why CAUCHYE', { exact: true })).toHaveCount(0);
 	await expect(strengths.locator('#security')).toContainText('セキュリティを、AI導入の前提に。');
-	await expect(strengths.locator('#foundation')).toContainText(
-		'実装を速く、将来の選択肢を狭めない。'
-	);
+	await expect(strengths.locator('#foundation')).toContainText('培ってきた経験値を共通基盤へ。');
+	await expect(
+		strengths.locator('#foundation a[href="https://www.d6e.ai"] svg.lucide-external-link')
+	).toBeVisible();
+	await expect(strengths.locator('#security li')).toHaveCount(3);
+	await expect(strengths.locator('#foundation li')).toHaveCount(3);
 	await expect(strengths.locator('#product')).toHaveCount(0);
 	const product = page.locator('#product');
 	await expect(product.locator(':scope > h2')).toHaveText('注目のプロダクト');
 	await expect(product.locator('[data-slot="badge"]')).toHaveCount(0);
 	await expect(product).toContainText('d6e AI Gateway');
+	await expect(
+		product.locator('a[href="https://gateway.d6e.ai"] svg.lucide-external-link')
+	).toBeVisible();
 	const productCardBox = await product.locator(':scope > div').boundingBox();
 	const productHeadingBox = await product
 		.getByRole('heading', { name: 'AI利用料を下げ、顧客請求と入金までひとつに。' })
@@ -309,7 +318,9 @@ test('shows localized server validation without native browser messages', async 
 		'弊社への営業'
 	]);
 	await page.keyboard.press('Escape');
-	await form.getByRole('button', { name: '送信する' }).click();
+	const submitButton = form.getByRole('button', { name: '送信する' });
+	await expect(submitButton.locator('svg.lucide-send')).toBeVisible();
+	await submitButton.click();
 	await expect(page.locator('#inquiryType-error')).toHaveText('入力してください。');
 	await expect(page.locator('#name-error')).toHaveText('入力してください。');
 	await expect(page.locator('#message-error')).toHaveText('10文字以上でご記入ください。');

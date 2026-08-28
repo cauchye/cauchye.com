@@ -1,5 +1,5 @@
 ---
-import { ArrowRight, Check } from 'lucide-astro';
+import { Check, Send } from 'lucide-astro';
 
 import InquiryTypeSelect from '../InquiryTypeSelect.svelte';
 import { Button } from '../ui/button/index.js';
@@ -175,9 +175,9 @@ const inquiryTypes = [
 					{m.form_error_unavailable}
 				</p>
 
-				<Button type="submit" variant="brand" class="h-12 self-start px-8">
+				<Button type="submit" variant="brand" class="h-12 gap-2 self-start px-8">
 					<span data-submit-text>{m.form_submit}</span>
-					<ArrowRight data-icon="inline-end" />
+					<Send />
 				</Button>
 			</form>
 		</div>

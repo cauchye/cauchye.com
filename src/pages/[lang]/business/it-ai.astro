@@ -9,6 +9,7 @@ import {
 	ChevronRight,
 	CodeXml,
 	Compass,
+	ExternalLink,
 	GraduationCap,
 	ShieldCheck,
 	Sparkles,
@@ -245,10 +246,10 @@ const clientExamples = [
 		class="-mx-5 border-y border-border bg-muted/30 px-5 section md:-mx-8 md:px-8"
 	>
 		<SectionHeading eyebrow={m.ai_strengths_eyebrow} title={m.ai_strengths_title} />
-		<div class="mt-12 grid gap-5 xl:grid-cols-2">
+		<div class="mt-12 grid items-stretch gap-5 xl:grid-cols-2">
 			<Card
 				id="security"
-				class="dark overflow-hidden border-0 bg-background py-0 text-foreground shadow-sm"
+				class="dark h-full overflow-hidden border-0 bg-background py-0 text-foreground shadow-sm"
 			>
 				<CardHeader class="p-7 md:p-10 md:pb-5">
 					<div
@@ -259,16 +260,18 @@ const clientExamples = [
 					<p class="mt-7 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
 						{m.ai_security_eyebrow}
 					</p>
-					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">{m.ai_security_title}</h3>
-					<p class="mt-5 leading-relaxed text-white/65">
+					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">
+						{m.ai_security_title}
+					</h3>
+				</CardHeader>
+				<CardContent class="flex flex-1 flex-col px-7 pb-7 md:px-10 md:pb-10">
+					<p class="flex-auto leading-relaxed text-white/65">
 						{m.ai_security_body}
 					</p>
-				</CardHeader>
-				<CardContent class="px-7 pb-7 md:px-10 md:pb-10">
-					<ul class="grid gap-3">
+					<ul class="mt-8 grid flex-none gap-3">
 						{
 							[m.ai_security_point_1, m.ai_security_point_2, m.ai_security_point_3].map((point) => (
-								<li class="flex items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
+								<li class="flex min-h-16 items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
 									<Check class="size-5 shrink-0 text-brand" />
 									<span class="leading-relaxed text-white/80">{point}</span>
 								</li>
@@ -280,47 +283,52 @@ const clientExamples = [
 
 			<Card
 				id="foundation"
-				class="relative overflow-hidden border-brand/15 bg-brand-subtle py-0 shadow-sm"
+				class="relative h-full overflow-hidden border-brand/15 bg-brand-subtle py-0 shadow-sm"
 			>
 				<div class="absolute right-0 bottom-0 text-brand/8" aria-hidden="true">
 					<D6eMark class="size-56" />
 				</div>
 				<CardHeader class="relative p-7 md:p-10 md:pb-5">
-					<div
-						class="flex size-12 items-center justify-center rounded-xl bg-brand text-brand-foreground"
-					>
-						<D6eMark class="size-8" />
+					<div class="flex items-start justify-between gap-4">
+						<div
+							class="flex size-12 items-center justify-center rounded-xl bg-brand text-brand-foreground"
+						>
+							<D6eMark class="size-8" />
+						</div>
+						<Button
+							href={d6e.url}
+							target="_blank"
+							rel="noreferrer"
+							variant="outline"
+							size="sm"
+							class="h-9 px-3"
+						>
+							{m.d6e_foundation_cta}<ExternalLink data-icon="inline-end" />
+						</Button>
 					</div>
 					<p class="mt-7 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
 						{m.d6e_foundation_eyebrow}
 					</p>
-					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">{m.d6e_foundation_title}</h3>
-					<p class="mt-5 leading-relaxed text-muted-foreground">
+					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">
+						{m.d6e_foundation_title}
+					</h3>
+				</CardHeader>
+				<CardContent class="relative flex flex-1 flex-col px-7 pb-7 md:px-10 md:pb-10">
+					<p class="flex-auto leading-relaxed text-muted-foreground">
 						{m.d6e_foundation_body}
 					</p>
-				</CardHeader>
-				<CardContent class="relative px-7 pb-7 md:px-10 md:pb-10">
-					<ul class="grid gap-3">
+					<ul class="mt-8 grid flex-none gap-3">
 						{
 							[m.d6e_foundation_point_1, m.d6e_foundation_point_2, m.d6e_foundation_point_3].map(
 								(point) => (
-									<li class="flex gap-3 rounded-xl bg-background/70 p-4 text-sm">
-										<ShieldCheck class="mt-0.5 size-4 shrink-0 text-brand" />
+									<li class="flex min-h-16 items-center gap-3 rounded-xl bg-background/70 p-4 text-sm">
+										<ShieldCheck class="size-4 shrink-0 text-brand" />
 										{point}
 									</li>
 								)
 							)
 						}
 					</ul>
-					<Button
-						href={d6e.url}
-						target="_blank"
-						rel="noreferrer"
-						variant="outline"
-						size="lg"
-						class="mt-8 h-11 px-5"
-						>{m.d6e_foundation_cta}<ArrowRight data-icon="inline-end" /></Button
-					>
 				</CardContent>
 			</Card>
 		</div>
