@@ -2,10 +2,26 @@ import { expect, test } from '@playwright/test';
 
 import { SLACK_MESSAGE_CHUNK_LIMIT, splitSlackMessage } from '../src/contact';
 
-test('redirects the root route to English', async ({ request }) => {
-	const response = await request.get('/', { maxRedirects: 0 });
-	expect(response.status()).toBe(302);
-	expect(response.headers().location).toBe('/en');
+test('redirects the root route using the browser language preference', async ({ request }) => {
+	const japaneseResponse = await request.get('/', {
+		headers: { 'Accept-Language': 'ja-JP,ja;q=0.9,en;q=0.8' },
+		maxRedirects: 0
+	});
+	expect(japaneseResponse.status()).toBe(302);
+	expect(japaneseResponse.headers().location).toBe('/ja');
+	expect(japaneseResponse.headers().vary).toBe('Accept-Language');
+	expect(japaneseResponse.headers()['cache-control']).toBe('private, no-store');
+
+	const englishResponse = await request.get('/', {
+		headers: { 'Accept-Language': 'en-US,en;q=0.9,ja;q=0.8' },
+		maxRedirects: 0
+	});
+	expect(englishResponse.status()).toBe(302);
+	expect(englishResponse.headers().location).toBe('/en');
+
+	const defaultResponse = await request.get('/', { maxRedirects: 0 });
+	expect(defaultResponse.status()).toBe(302);
+	expect(defaultResponse.headers().location).toBe('/en');
 });
 
 for (const locale of ['en', 'ja']) {
@@ -349,9 +365,10 @@ test('shows localized server validation without native browser messages', async 
 	await expect(page.locator('#name')).toHaveAttribute('aria-invalid', 'true');
 });
 
-test('returns locale-aware contact validation errors', async ({ request }) => {
+test('returns locale-aware contact validation errors', async ({ request, baseURL }) => {
+	if (!baseURL) throw new Error('Playwright baseURL is required.');
 	const response = await request.post('/api/contact?locale=ja', {
-		headers: { origin: 'http://127.0.0.1:4173' },
+		headers: { origin: new URL(baseURL).origin },
 		multipart: {
 			locale: 'ja',
 			inquiryType: 'forged-category',
@@ -368,9 +385,10 @@ test('returns locale-aware contact validation errors', async ({ request }) => {
 	expect(result.errors.message[0]).toBe('10文字以上でご記入ください。');
 });
 
-test('silently accepts honeypot submissions', async ({ request }) => {
+test('silently accepts honeypot submissions', async ({ request, baseURL }) => {
+	if (!baseURL) throw new Error('Playwright baseURL is required.');
 	const response = await request.post('/api/contact?locale=en', {
-		headers: { origin: 'http://127.0.0.1:4173' },
+		headers: { origin: new URL(baseURL).origin },
 		multipart: {
 			locale: 'en',
 			website: 'https://spam.invalid'
