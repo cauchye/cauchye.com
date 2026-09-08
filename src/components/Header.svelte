@@ -27,12 +27,21 @@
 		{ hash: '#services', label: 'nav_services' },
 		{ hash: '#company', label: 'nav_company' }
 	];
-	const aiNavItems: PageNavItem[] = [
+	const aiOverviewNavItems: PageNavItem[] = [
 		{ hash: '#partners', label: 'nav_partners' },
+		{ hash: '#capabilities', label: 'nav_services' }
+	];
+	const agentNavItems: PageNavItem[] = [
+		{ hash: '#organization', label: 'nav_outcomes' },
+		{ hash: '#agents', label: 'nav_agents' },
+		{ hash: '#capabilities', label: 'nav_capabilities' },
+		{ hash: '#faq', label: 'nav_faq' }
+	];
+	const solutionDevelopmentNavItems: PageNavItem[] = [
 		{ hash: '#capabilities', label: 'nav_capabilities' },
 		{ hash: '#strengths', label: 'nav_strengths' },
-		{ hash: '#product', label: 'nav_product' },
-		{ hash: '#clients', label: 'nav_clients' }
+		{ hash: '#clients', label: 'nav_clients' },
+		{ hash: '#faq', label: 'nav_faq' }
 	];
 	const advisoryNavItems: PageNavItem[] = [
 		{ hash: '#capabilities', label: 'nav_capabilities' },
@@ -51,10 +60,14 @@
 		pagePath === '/contact'
 			? []
 			: pagePath === '/business/it-ai'
-				? aiNavItems
-				: pagePath === '/business/corporate-advisory'
-					? advisoryNavItems
-					: homeNavItems
+				? aiOverviewNavItems
+				: pagePath === '/business/it-ai/agent-adoption'
+					? agentNavItems
+					: pagePath === '/business/it-ai/solution-development'
+						? solutionDevelopmentNavItems
+						: pagePath === '/business/corporate-advisory'
+							? advisoryNavItems
+							: homeNavItems
 	);
 
 	$effect(() => {

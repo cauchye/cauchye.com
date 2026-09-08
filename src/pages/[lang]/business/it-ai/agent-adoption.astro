@@ -1,0 +1,412 @@
+---
+import {
+	ArrowRight,
+	Bot,
+	ChevronDown,
+	ChevronRight,
+	ExternalLink,
+	GraduationCap,
+	ShieldCheck,
+	UserRound,
+	UsersRound
+} from 'lucide-astro';
+
+import SectionHeading from '../../../../components/sections/SectionHeading.astro';
+import { Badge } from '../../../../components/ui/badge/index.js';
+import { Button } from '../../../../components/ui/button/index.js';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle
+} from '../../../../components/ui/card/index.js';
+import { getDictionary, isLocale } from '../../../../i18n';
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) return Astro.redirect('/en/business/it-ai/agent-adoption', 302);
+const m = getDictionary(lang);
+const contactHref = `/${lang}/contact`;
+
+const agents = [
+	{
+		name: m.agent_tool_codex_title,
+		body: m.agent_tool_codex_body,
+		logo: '/brands/openai.svg',
+		screenshot: '/agents/codex-interface.webp',
+		screenshotAlt: m.agent_tool_codex_screen_alt,
+		source: 'https://openai.com/codex/'
+	},
+	{
+		name: m.agent_tool_claude_title,
+		body: m.agent_tool_claude_body,
+		logo: '/brands/anthropic.svg',
+		screenshot: '/agents/claude-code-interface.png',
+		screenshotAlt: m.agent_tool_claude_screen_alt,
+		source: 'https://www.anthropic.com/news/enabling-claude-code-to-work-more-autonomously'
+	},
+	{
+		name: m.agent_tool_grok_title,
+		body: m.agent_tool_grok_body,
+		logo: '/brands/grok.svg',
+		screenshot: '/agents/grok-bot-coordination.png',
+		screenshotAlt: m.agent_tool_grok_screen_alt,
+		source: 'https://x.ai/news/designing-grok-bot'
+	}
+];
+const services = [
+	{ icon: Bot, title: m.agent_service_1_title, body: m.agent_service_1_body },
+	{ icon: ShieldCheck, title: m.agent_service_3_title, body: m.agent_service_3_body },
+	{ icon: UsersRound, title: m.agent_service_2_title, body: m.agent_service_2_body },
+	{ icon: GraduationCap, title: m.agent_service_4_title, body: m.agent_service_4_body }
+];
+const faqs = [
+	{ question: m.agent_faq_1_q, answer: m.agent_faq_1_a },
+	{ question: m.agent_faq_2_q, answer: m.agent_faq_2_a },
+	{ question: m.agent_faq_3_q, answer: m.agent_faq_3_a }
+];
+---
+
+<BaseLayout
+	locale={lang}
+	messages={m}
+	pageTitle={m.agent_meta_title}
+	description={m.agent_meta_description}
+	pagePath="/business/it-ai/agent-adoption"
+>
+	<section class="relative isolate py-16 md:py-24">
+		<div
+			class="pointer-events-none absolute inset-0 -z-10 -mx-5 grid-backdrop md:-mx-8"
+			aria-hidden="true"
+		>
+		</div>
+		<nav aria-label={m.breadcrumb_label}>
+			<ol class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+				<li>
+					<a href={`/${lang}`} class="transition-colors hover:text-foreground"
+						>{m.breadcrumb_home}</a
+					>
+				</li>
+				<li aria-hidden="true"><ChevronRight class="size-4" /></li>
+				<li>
+					<a href={`/${lang}/#services`} class="transition-colors hover:text-foreground"
+						>{m.nav_services}</a
+					>
+				</li>
+				<li aria-hidden="true"><ChevronRight class="size-4" /></li>
+				<li>
+					<a href={`/${lang}/business/it-ai`} class="transition-colors hover:text-foreground"
+						>{m.business_ai_title}</a
+					>
+				</li>
+				<li aria-hidden="true"><ChevronRight class="size-4" /></li>
+				<li class="text-foreground" aria-current="page">{m.agent_meta_title}</li>
+			</ol>
+		</nav>
+		<div class="mt-10 grid gap-10 lg:grid-cols-[1fr_20rem] lg:items-end">
+			<div>
+				<Badge
+					variant="outline"
+					class="rounded-full px-3 py-1 font-mono text-[0.65rem] tracking-[0.16em] uppercase"
+					>{m.agent_eyebrow}</Badge
+				>
+				<h1 class="mt-6 text-4xl leading-[1.08] font-semibold sm:text-5xl md:text-7xl">
+					<span class="block">{m.agent_hero_title_lead}</span>
+					<span class="block text-brand">{m.agent_hero_title_accent}</span>
+				</h1>
+				<p class="mt-7 text-base leading-relaxed text-muted-foreground md:text-xl">
+					{m.agent_hero_body}
+				</p>
+				<div class="mt-9 flex flex-wrap gap-3">
+					<Button href={contactHref} variant="brand" size="lg" class="h-11 px-5"
+						>{m.agent_cta_primary}<ArrowRight data-icon="inline-end" /></Button
+					>
+					<Button href="#capabilities" variant="outline" size="lg" class="h-11 px-5"
+						>{m.agent_cta_secondary}</Button
+					>
+				</div>
+			</div>
+			<div
+				class="hidden justify-self-end rounded-3xl border border-brand/20 bg-brand-subtle p-8 text-brand lg:block"
+			>
+				<Bot class="size-36" stroke-width={1.15} />
+			</div>
+		</div>
+	</section>
+
+	<section id="organization" class="border-t border-border section">
+		<SectionHeading eyebrow={m.agent_organization_eyebrow} title={m.agent_organization_title} />
+		<div data-agent-organization class="mt-12 grid items-stretch gap-5 xl:grid-cols-2">
+			<Card data-org-scenario="development" class="h-full overflow-hidden">
+				<CardHeader>
+					<CardTitle>
+						<h3 class="text-xl font-semibold md:text-2xl">
+							{m.agent_organization_development_title}
+						</h3>
+					</CardTitle>
+					<CardDescription class="text-base leading-relaxed">
+						{m.agent_organization_development_body}
+					</CardDescription>
+				</CardHeader>
+				<CardContent class="mt-auto pt-2 pb-7">
+					<div
+						class="grid justify-items-center"
+						aria-label={m.agent_organization_development_title}
+					>
+						<div
+							data-org-node
+							class="flex items-center gap-3 rounded-2xl border bg-background px-5 py-3 shadow-sm"
+						>
+							<span class="flex size-9 items-center justify-center rounded-xl bg-muted">
+								<UserRound class="size-5" />
+							</span>
+							<span class="font-medium">{m.agent_organization_human}</span>
+						</div>
+						<div class="h-7 w-px bg-border" aria-hidden="true"></div>
+						<div
+							data-org-node
+							class="flex items-center gap-3 rounded-2xl border border-brand/30 bg-brand-subtle px-5 py-3 shadow-sm"
+						>
+							<img
+								src="/brands/openai.svg"
+								alt=""
+								class="size-7 object-contain"
+								width="28"
+								height="28"
+							/>
+							<div>
+								<div class="font-semibold">Codex</div>
+								<div class="text-xs text-muted-foreground">{m.agent_organization_subordinate}</div>
+							</div>
+						</div>
+						<div class="h-7 w-px bg-border" aria-hidden="true"></div>
+						<div class="relative h-7 w-full" aria-hidden="true">
+							<div class="absolute inset-x-[16.666%] top-0 h-px bg-border"></div>
+							<div class="absolute top-0 bottom-0 left-[16.666%] w-px bg-border"></div>
+							<div class="absolute top-0 bottom-0 left-1/2 w-px bg-border"></div>
+							<div class="absolute top-0 right-[16.666%] bottom-0 w-px bg-border"></div>
+						</div>
+						<div class="grid w-full grid-cols-3 gap-2 sm:gap-3">
+							{
+								[
+									m.agent_organization_research,
+									m.agent_organization_implementation,
+									m.agent_organization_review
+								].map((role) => (
+									<div
+										data-org-node
+										class="min-w-0 rounded-xl border bg-background p-2.5 text-center shadow-sm sm:p-3"
+									>
+										<img
+											src="/brands/anthropic.svg"
+											alt=""
+											class="mx-auto size-6 object-contain"
+											width="24"
+											height="24"
+										/>
+										<div class="mt-2 text-[0.6rem] font-semibold whitespace-nowrap sm:text-sm">
+											Claude Code
+										</div>
+										<div class="mt-1 text-[0.65rem] text-muted-foreground sm:text-xs">{role}</div>
+									</div>
+								))
+							}
+						</div>
+					</div>
+				</CardContent>
+			</Card>
+
+			<Card data-org-scenario="operations" class="h-full overflow-hidden">
+				<CardHeader>
+					<CardTitle>
+						<h3 class="text-xl font-semibold md:text-2xl">
+							{m.agent_organization_operations_title}
+						</h3>
+					</CardTitle>
+					<CardDescription class="text-base leading-relaxed">
+						{m.agent_organization_operations_body}
+					</CardDescription>
+				</CardHeader>
+				<CardContent class="mt-auto pt-2 pb-7">
+					<div class="grid justify-items-center" aria-label={m.agent_organization_operations_title}>
+						<div
+							data-org-node
+							class="flex items-center gap-3 rounded-2xl border bg-background px-5 py-3 shadow-sm"
+						>
+							<span class="flex size-9 items-center justify-center rounded-xl bg-muted">
+								<UserRound class="size-5" />
+							</span>
+							<span class="font-medium">{m.agent_organization_human}</span>
+						</div>
+						<div class="h-7 w-px bg-border" aria-hidden="true"></div>
+						<div class="relative h-7 w-full" aria-hidden="true">
+							<div class="absolute inset-x-[16.666%] top-0 h-px bg-border"></div>
+							<div class="absolute top-0 bottom-0 left-[16.666%] w-px bg-border"></div>
+							<div class="absolute top-0 bottom-0 left-1/2 w-px bg-border"></div>
+							<div class="absolute top-0 right-[16.666%] bottom-0 w-px bg-border"></div>
+						</div>
+						<div class="grid w-full grid-cols-3 gap-2 sm:gap-3">
+							<div
+								data-org-node
+								class="min-w-0 rounded-xl border bg-background p-2.5 text-center shadow-sm sm:p-3"
+							>
+								<img
+									src="/agents/grok-bot-mark.svg"
+									alt=""
+									class="mx-auto size-7 object-contain"
+									width="28"
+									height="28"
+								/>
+								<div class="mt-2 text-[0.65rem] font-semibold sm:text-sm">
+									{m.agent_organization_strategist}
+								</div>
+								<div class="mt-1 text-[0.65rem] text-muted-foreground sm:text-xs">Grok Bot</div>
+							</div>
+							<div
+								data-org-node
+								class="min-w-0 rounded-xl border bg-background p-2.5 text-center shadow-sm sm:p-3"
+							>
+								<img
+									src="/agents/grok-bot-mark.svg"
+									alt=""
+									class="mx-auto size-7 object-contain"
+									width="28"
+									height="28"
+								/>
+								<div class="mt-2 text-[0.65rem] font-semibold sm:text-sm">
+									{m.agent_organization_secretary}
+								</div>
+								<div class="mt-1 text-[0.65rem] text-muted-foreground sm:text-xs">Grok Bot</div>
+							</div>
+							<div
+								data-org-node
+								class="min-w-0 rounded-xl border bg-background p-2.5 text-center shadow-sm sm:p-3"
+							>
+								<img
+									src="/agents/grok-bot-mark.svg"
+									alt=""
+									class="mx-auto size-7 object-contain"
+									width="28"
+									height="28"
+								/>
+								<div class="mt-2 text-[0.65rem] font-semibold sm:text-sm">
+									{m.agent_organization_researcher}
+								</div>
+								<div class="mt-1 text-[0.65rem] text-muted-foreground sm:text-xs">Grok Bot</div>
+							</div>
+						</div>
+					</div>
+				</CardContent>
+			</Card>
+		</div>
+	</section>
+
+	<section
+		id="agents"
+		class="-mx-5 border-y border-border bg-muted/30 px-5 section md:-mx-8 md:px-8"
+	>
+		<SectionHeading eyebrow={m.agent_tools_eyebrow} title={m.agent_tools_title} />
+		<div data-agent-list class="mt-12 grid items-stretch gap-5 lg:grid-cols-3">
+			{
+				agents.map((agent) => (
+					<Card class="h-full overflow-hidden py-0 shadow-sm">
+						<a
+							href={agent.source}
+							target="_blank"
+							rel="noreferrer"
+							class="group relative block aspect-video overflow-hidden border-b border-border bg-muted"
+						>
+							<img
+								data-agent-screen
+								src={agent.screenshot}
+								alt={agent.screenshotAlt}
+								class="size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+								width="1200"
+								height="675"
+								loading="lazy"
+							/>
+							<span class="absolute right-3 bottom-3 inline-flex items-center gap-1.5 rounded-full border border-white/30 bg-black/75 px-3 py-1.5 text-xs font-medium text-white backdrop-blur-sm">
+								{m.agent_tool_official_screen}
+								<ExternalLink class="size-3.5" />
+							</span>
+						</a>
+						<CardHeader class="p-7 md:p-9 md:pb-5">
+							<div class="flex size-14 items-center justify-center rounded-2xl border border-border bg-background">
+								<img
+									data-agent-logo
+									src={agent.logo}
+									alt=""
+									class="size-7 object-contain"
+									width="28"
+									height="28"
+								/>
+							</div>
+							<CardTitle class="mt-6">
+								<h3 class="text-2xl font-semibold md:text-3xl">{agent.name}</h3>
+							</CardTitle>
+						</CardHeader>
+						<CardContent class="px-7 pb-7 md:px-9 md:pb-9">
+							<p class="leading-relaxed text-muted-foreground">{agent.body}</p>
+						</CardContent>
+					</Card>
+				))
+			}
+		</div>
+		<p class="mt-5 text-xs leading-relaxed text-muted-foreground">{m.ai_models_note}</p>
+	</section>
+
+	<section id="capabilities" class="border-b border-border section">
+		<SectionHeading eyebrow={m.agent_services_eyebrow} title={m.agent_services_title} />
+		<div class="mt-12 grid gap-5 md:grid-cols-2">
+			{
+				services.map(({ icon: Icon, title, body }) => (
+					<Card data-agent-service class="h-full">
+						<CardHeader>
+							<span class="flex size-10 items-center justify-center rounded-xl bg-brand-subtle text-brand">
+								<Icon class="size-5" />
+							</span>
+							<CardTitle class="mt-4 w-full">
+								<h3 class="text-xl font-semibold text-wrap">{title}</h3>
+							</CardTitle>
+						</CardHeader>
+						<CardContent class="flex-auto">
+							<p class="leading-relaxed text-muted-foreground">{body}</p>
+						</CardContent>
+					</Card>
+				))
+			}
+		</div>
+	</section>
+
+	<section class="py-16 md:py-24">
+		<div
+			class="relative overflow-hidden rounded-3xl bg-brand px-6 py-14 text-brand-foreground md:px-12 md:py-18"
+		>
+			<div class="relative">
+				<h2 class="text-3xl font-semibold md:text-5xl">{m.agent_cta_title}</h2>
+				<p class="mt-4 text-white/70 md:text-lg">{m.agent_cta_body}</p>
+				<Button href={contactHref} variant="secondary" size="lg" class="mt-8 h-11 px-5"
+					>{m.agent_cta_primary}<ArrowRight data-icon="inline-end" /></Button
+				>
+			</div>
+		</div>
+	</section>
+
+	<section id="faq" class="border-t border-border section">
+		<SectionHeading eyebrow={m.agent_faq_eyebrow} title={m.agent_faq_title} />
+		<div class="mt-10 divide-y divide-border border-y border-border">
+			{
+				faqs.map((faq) => (
+					<details class="group py-5">
+						<summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">
+							{faq.question}
+							<ChevronDown class="size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
+						</summary>
+						<p class="pt-4 pr-8 leading-relaxed text-muted-foreground">{faq.answer}</p>
+					</details>
+				))
+			}
+		</div>
+	</section>
+</BaseLayout>

@@ -55,7 +55,12 @@ for (const locale of ['en', 'ja']) {
 		);
 	});
 
-	for (const route of ['business/it-ai', 'business/corporate-advisory']) {
+	for (const route of [
+		'business/it-ai',
+		'business/it-ai/agent-adoption',
+		'business/it-ai/solution-development',
+		'business/corporate-advisory'
+	]) {
 		test(`renders the ${locale} ${route} page`, async ({ page }) => {
 			await page.goto(`/${locale}/${route}`);
 			await expect(page.locator('html')).toHaveAttribute('lang', locale);
@@ -91,12 +96,18 @@ test('uses shadcn dropdown and sheet navigation', async ({ page }) => {
 });
 
 test('preserves the business page when changing language', async ({ page }) => {
-	await page.goto('/en/business/it-ai');
-	await page.locator('[data-slot="dropdown-menu-trigger"]').click();
-	await expect(page.getByRole('menuitem', { name: '日本語' })).toHaveAttribute(
-		'href',
-		'/ja/business/it-ai'
-	);
+	for (const path of [
+		'/business/it-ai',
+		'/business/it-ai/agent-adoption',
+		'/business/it-ai/solution-development'
+	]) {
+		await page.goto(`/en${path}`);
+		await page.locator('[data-slot="dropdown-menu-trigger"]').click();
+		await expect(page.getByRole('menuitem', { name: '日本語' })).toHaveAttribute(
+			'href',
+			`/ja${path}`
+		);
+	}
 });
 
 test('uses only page-local links in the header navigation', async ({ page }) => {
@@ -109,16 +120,27 @@ test('uses only page-local links in the header navigation', async ({ page }) => 
 
 	await page.goto('/ja/business/it-ai');
 	headerNav = page.locator('[data-site-header] nav').first();
-	await expect(headerNav.locator('a')).toHaveCount(5);
+	await expect(headerNav.locator('a')).toHaveCount(2);
+	await expect(headerNav.locator('a')).toHaveText(['パートナー', '事業内容']);
+	await expect(headerNav.locator('a[href="/ja/business/corporate-advisory"]')).toHaveCount(0);
+
+	await page.goto('/ja/business/it-ai/agent-adoption');
+	headerNav = page.locator('[data-site-header] nav').first();
 	await expect(headerNav.locator('a')).toHaveText([
-		'パートナー',
+		'AI組織図',
+		'対応エージェント',
+		'支援内容',
+		'よくある質問'
+	]);
+
+	await page.goto('/ja/business/it-ai/solution-development');
+	headerNav = page.locator('[data-site-header] nav').first();
+	await expect(headerNav.locator('a')).toHaveText([
 		'支援内容',
 		'弊社の強み',
-		'プロダクト',
-		'支援対象'
+		'支援対象',
+		'よくある質問'
 	]);
-	await expect(headerNav.getByRole('link', { name: 'FAQ' })).toHaveCount(0);
-	await expect(headerNav.locator('a[href="/ja/business/corporate-advisory"]')).toHaveCount(0);
 });
 
 test('shows semantic breadcrumbs on business pages', async ({ page }) => {
@@ -196,74 +218,45 @@ test('presents the revised Japanese business structure and company identity', as
 	]);
 });
 
-test('shows colored model choices and customer benefits on the IT and AI page', async ({
-	page
-}) => {
+test('presents three clear entry points on the IT and AI overview', async ({ page }) => {
 	await page.goto('/ja/business/it-ai');
 	await expect(
 		page.getByRole('heading', {
-			name: /AIを、実験で終わらせない。\s+業務と組織に実装する。/
+			name: /AIを、組織の力に。\s+導入から開発まで伴走する。/
 		})
 	).toBeVisible();
-	await expect(page.getByRole('heading', { name: 'AIネイティブな組織へ。' })).toBeVisible();
-	for (const model of ['GPT', 'Claude', 'Gemini', 'Grok']) {
-		await expect(page.getByText(model, { exact: true }).first()).toBeVisible();
-	}
-	await expect(page.locator('#capabilities').getByText('GPT', { exact: true })).toBeVisible();
-	const peFund = page
-		.locator('#clients')
-		.getByRole('heading', { name: 'PEファンド' })
-		.locator('xpath=ancestor::*[@data-slot="card"]');
-	await expect(peFund).toContainText('投資先企業を対象に、AIを活用した業務変革と収益性向上');
-	await expect(peFund).toContainText('投資先企業のAI活用戦略');
-	await expect(page.getByText('Investment Operations', { exact: true })).toHaveCount(0);
-	await expect(page.getByText(/投資判断、投資先支援、モニタリングに散在する情報/)).toHaveCount(0);
-	await expect(page.locator('[data-section-heading-body]')).toHaveCount(0);
 	expect(
 		await page.locator('main section[id]').evaluateAll((sections) => sections.map(({ id }) => id))
-	).toEqual(['partners', 'capabilities', 'strengths', 'product', 'clients', 'faq']);
-	const strengths = page.locator('[data-page-chapter="strengths"]');
-	await expect(strengths.getByRole('heading', { name: '弊社の強み' })).toBeVisible();
-	await expect(strengths.locator('#benefits')).toContainText(
-		'導入後に、使える仕組みと知見が残る。'
+	).toEqual(['partners', 'capabilities']);
+
+	const offerings = page.locator('#capabilities');
+	await expect(offerings.locator('[data-slot="card"]')).toHaveCount(3);
+	await expect(offerings.locator('[data-slot="card-title"] h3')).toHaveText([
+		'AIエージェント導入支援',
+		'AIソリューション開発',
+		'd6e AI Gateway'
+	]);
+	await expect(offerings.getByRole('link', { name: '導入支援を見る' })).toHaveAttribute(
+		'href',
+		'/ja/business/it-ai/agent-adoption'
 	);
-	await expect(page.getByText('Why CAUCHYE', { exact: true })).toHaveCount(0);
-	await expect(strengths.locator('#security')).toContainText('セキュリティを、AI導入の前提に。');
-	await expect(strengths.locator('#foundation')).toContainText('培ってきた経験値を共通基盤へ。');
-	await expect(
-		strengths.locator('#foundation a[href="https://www.d6e.ai"] svg.lucide-external-link')
-	).toBeVisible();
-	await expect(strengths.locator('#security li')).toHaveCount(3);
-	await expect(strengths.locator('#foundation li')).toHaveCount(3);
-	await expect(strengths.locator('#product')).toHaveCount(0);
-	const product = page.locator('#product');
-	await expect(product.locator(':scope > h2')).toHaveText('注目のプロダクト');
-	await expect(product.locator('[data-slot="badge"]')).toHaveCount(0);
-	await expect(product).toContainText('d6e AI Gateway');
-	await expect(
-		product.locator('a[href="https://gateway.d6e.ai"] svg.lucide-external-link')
-	).toBeVisible();
-	const productCardBox = await product.locator(':scope > div').boundingBox();
-	const productHeadingBox = await product
-		.getByRole('heading', { name: 'AI利用料を下げ、顧客請求と入金までひとつに。' })
-		.boundingBox();
-	expect(productCardBox).not.toBeNull();
-	expect(productHeadingBox).not.toBeNull();
-	expect((productHeadingBox?.width ?? 0) / (productCardBox?.width ?? 1)).toBeGreaterThan(0.8);
-	await expect(page.locator('#clients + section').getByRole('heading')).toHaveText(
-		'AIネイティブな組織へ。'
+	await expect(offerings.getByRole('link', { name: '開発支援を見る' })).toHaveAttribute(
+		'href',
+		'/ja/business/it-ai/solution-development'
 	);
-	await expect(page.locator('#clients + section + #faq')).toBeVisible();
-	await expect(page.getByText('GPT / Responses API')).toHaveCount(0);
-	await expect(page.getByText('セキュリティを、AI導入の前提に。')).toBeVisible();
-	await expect(page.getByText('RAG', { exact: true })).toHaveCount(0);
+	const gatewayLink = offerings.getByRole('link', { name: 'd6e AI Gatewayを見る' });
+	await expect(gatewayLink).toHaveAttribute('href', 'https://gateway.d6e.ai');
+	await expect(gatewayLink).toHaveAttribute('target', '_blank');
+	await expect(gatewayLink.locator('svg.lucide-external-link')).toBeVisible();
 	for (const benefit of [
 		'対象処理のAI利用料を最大50%削減',
 		'利用実績から顧客向け請求書を作成し、入金まで管理',
 		'発行済みの請求を、支払期日前に現金化'
 	]) {
-		await expect(page.getByText(benefit, { exact: true })).toBeVisible();
+		await expect(offerings.getByText(benefit, { exact: true })).toBeVisible();
 	}
+	await expect(page.locator('#product, #strengths, #clients')).toHaveCount(0);
+	await expect(page.getByText('RAG', { exact: true })).toHaveCount(0);
 	for (const genericPoint of [
 		'複数のAIプロバイダーを一つのAPIで利用',
 		'ワークロード・顧客別に利用量を集計',
@@ -271,6 +264,7 @@ test('shows colored model choices and customer benefits on the IT and AI page', 
 	]) {
 		await expect(page.getByText(genericPoint, { exact: true })).toHaveCount(0);
 	}
+
 	const partnerList = page.locator('#partners ul:not([aria-hidden="true"])');
 	const partnerNames = [
 		'京都大学ソーシャルイノベーションセンター',
@@ -293,26 +287,126 @@ test('shows colored model choices and customer benefits on the IT and AI page', 
 		await partnerList.locator('img').evaluateAll((images) => images.map((image) => image.alt))
 	).toEqual(partnerNames);
 	await expect(partnerList.locator('img')).toHaveCount(11);
+});
+
+test('explains organization-wide AI agent adoption on its dedicated page', async ({ page }) => {
+	await page.goto('/ja/business/it-ai/agent-adoption');
 	await expect(
-		partnerList.locator(
-			'a[href="https://innovationkyoto.org/"] img[src="/partners/kyoto-social-innovation-center.png"]'
-		)
-	).toBeAttached();
+		page.getByRole('heading', { name: /AIエージェントを、\s+日々の業務の中へ。/ })
+	).toBeVisible();
+	await expect(page.getByText(/組織をAIエージェント化し/)).toBeVisible();
+	expect(
+		await page.locator('main section[id]').evaluateAll((sections) => sections.map(({ id }) => id))
+	).toEqual(['organization', 'agents', 'capabilities', 'faq']);
+	await expect(page.locator('#organization [data-org-scenario]')).toHaveCount(2);
+	await expect(page.locator('#organization [data-org-node]')).toHaveCount(9);
+	await expect(page.locator('[data-org-scenario="development"] [data-org-node]')).toContainText([
+		'あなた',
+		'Codex',
+		'Claude Code',
+		'Claude Code',
+		'Claude Code'
+	]);
+	await expect(page.locator('[data-org-scenario="operations"] [data-org-node]')).toContainText([
+		'あなた',
+		'参謀Bot',
+		'秘書Bot',
+		'リサーチBot'
+	]);
 	await expect(
-		partnerList.locator('a[href="https://www.polipoli.work/"] img[src="/partners/polipoli.png"]')
-	).toBeAttached();
+		page.locator('[data-org-scenario="operations"] img[src="/agents/grok-bot-mark.svg"]')
+	).toHaveCount(3);
+	await expect(page.locator('#capabilities [data-slot="card"]')).toHaveCount(4);
 	await expect(
-		partnerList.locator(
-			'a[href="https://stir.network/"] img[src="/partners/ethersecurity-stir.svg"]'
-		)
-	).toBeAttached();
+		page.locator('#capabilities').getByRole('heading', { name: 'AIネイティブ組織開発支援' })
+	).toBeVisible();
 	await expect(
-		partnerList.locator(
-			'a[href="https://runnerup-plus.com/"] img[src="/partners/runner-up-plus.svg"]'
-		)
-	).toBeAttached();
+		page.locator('#capabilities').getByRole('heading', { name: 'AI活用研修・ワークショップ' })
+	).toBeVisible();
+	const serviceHeadingLayout = await page
+		.locator('#capabilities [data-agent-service] h3')
+		.first()
+		.evaluate((heading) => ({
+			textWrap: getComputedStyle(heading).textWrap,
+			headingWidth: heading.getBoundingClientRect().width,
+			cardWidth: heading.closest('[data-agent-service]')?.getBoundingClientRect().width ?? 0
+		}));
+	expect(serviceHeadingLayout.textWrap).toBe('wrap');
+	expect(serviceHeadingLayout.headingWidth / serviceHeadingLayout.cardWidth).toBeGreaterThan(0.8);
+	await expect(page.locator('[data-agent-list] h3')).toHaveText([
+		'Codex',
+		'Claude Code',
+		'Grok Bot'
+	]);
+	expect(
+		await page
+			.locator('[data-agent-list] [data-agent-logo]')
+			.evaluateAll((images) => images.map((image) => image.getAttribute('src')))
+	).toEqual(['/brands/openai.svg', '/brands/anthropic.svg', '/brands/grok.svg']);
+	expect(
+		await page
+			.locator('[data-agent-list] [data-agent-screen]')
+			.evaluateAll((images) => images.map((image) => image.getAttribute('src')))
+	).toEqual([
+		'/agents/codex-interface.webp',
+		'/agents/claude-code-interface.png',
+		'/agents/grok-bot-coordination.png'
+	]);
+	const breadcrumb = page.getByRole('navigation', { name: 'パンくずリスト' });
+	await expect(breadcrumb.getByRole('link', { name: 'IT・AIソリューション事業' })).toHaveAttribute(
+		'href',
+		'/ja/business/it-ai'
+	);
+	await expect(breadcrumb.locator('[aria-current="page"]')).toHaveText('AIエージェント導入支援');
 	const openAiLogo = await (await page.request.get('/brands/openai.svg')).text();
 	expect(openAiLogo).not.toContain('#10A37F');
+});
+
+test('moves the existing technical detail to the AI solution development page', async ({
+	page
+}) => {
+	await page.goto('/ja/business/it-ai/solution-development');
+	await expect(
+		page.getByRole('heading', { name: /業務に合わせたAIを、\s+使われるシステムへ。/ })
+	).toBeVisible();
+	expect(
+		await page.locator('main section[id]').evaluateAll((sections) => sections.map(({ id }) => id))
+	).toEqual(['capabilities', 'strengths', 'clients', 'faq']);
+	for (const model of ['GPT', 'Claude', 'Gemini', 'Grok']) {
+		await expect(page.getByText(model, { exact: true }).first()).toBeVisible();
+	}
+	await expect(page.getByRole('heading', { name: 'Forward Deployed Engineer' })).toBeVisible();
+	await expect(page.getByRole('heading', { name: 'AIネイティブ組織開発支援' })).toHaveCount(0);
+	await expect(page.getByRole('heading', { name: 'AI活用研修・ワークショップ' })).toHaveCount(0);
+	const vibeProduction = page.locator('[data-vibe-production]');
+	await expect(vibeProduction).toContainText('社内バイブコーディングの本番化支援');
+	await expect(vibeProduction).toContainText('セキュリティと運用の専門家が診断');
+	await expect(vibeProduction).toContainText('本番環境への移行から監視、障害対応、継続保守');
+	const strengths = page.locator('[data-page-chapter="strengths"]');
+	await expect(strengths.getByRole('heading', { name: '弊社の強み' })).toBeVisible();
+	await expect(strengths.locator('#benefits')).toContainText(
+		'導入後に、使える仕組みと知見が残る。'
+	);
+	await expect(strengths.locator('#security')).toContainText('セキュリティを、AI導入の前提に。');
+	await expect(strengths.locator('#foundation')).toContainText('培ってきた経験値を共通基盤へ。');
+	await expect(
+		strengths.locator('#foundation a[href="https://www.d6e.ai"] svg.lucide-external-link')
+	).toBeVisible();
+	await expect(strengths.locator('#security li')).toHaveCount(3);
+	await expect(strengths.locator('#foundation li')).toHaveCount(3);
+	await expect(strengths.locator('#product')).toHaveCount(0);
+	await expect(page.locator('#clients + section').getByRole('heading')).toHaveText(
+		'AIネイティブな組織へ。'
+	);
+	await expect(page.locator('#clients + section + #faq')).toBeVisible();
+	await expect(page.getByText('RAG', { exact: true })).toHaveCount(0);
+	await expect(page.locator('#partners, #product')).toHaveCount(0);
+	const peFund = page
+		.locator('#clients')
+		.getByRole('heading', { name: 'PEファンド' })
+		.locator('xpath=ancestor::*[@data-slot="card"]');
+	await expect(peFund).toContainText('投資先企業を対象に、AIを活用した業務変革と収益性向上');
+	await expect(peFund).toContainText('投資先企業のAI活用戦略');
 	await expect(page.locator('#clients').getByRole('heading', { name: 'PEファンド' })).toBeVisible();
 	await expect(page.locator('#clients').getByRole('heading', { name: '事業会社' })).toBeVisible();
 	await expect(page.locator('#clients h2')).toHaveCount(1);

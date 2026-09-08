@@ -1,28 +1,18 @@
 ---
-import {
-	ArrowRight,
-	Bot,
-	BriefcaseBusiness,
-	Building2,
-	Check,
-	ChevronDown,
-	ChevronRight,
-	CodeXml,
-	Compass,
-	ExternalLink,
-	GraduationCap,
-	ShieldCheck,
-	Sparkles,
-	UsersRound
-} from 'lucide-astro';
+import { ArrowRight, Bot, Check, ChevronRight, CodeXml, ExternalLink, Gauge } from 'lucide-astro';
 
-import D6eMark from '../../../components/D6eMark.astro';
-import GatewayFeature from '../../../components/sections/GatewayFeature.astro';
 import PartnerShowcase from '../../../components/sections/PartnerShowcase.astro';
 import SectionHeading from '../../../components/sections/SectionHeading.astro';
 import { Badge } from '../../../components/ui/badge/index.js';
 import { Button } from '../../../components/ui/button/index.js';
-import { Card, CardContent, CardHeader } from '../../../components/ui/card/index.js';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardFooter,
+	CardHeader,
+	CardTitle
+} from '../../../components/ui/card/index.js';
 import { getDictionary, isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { d6e } from '../../../site';
@@ -31,37 +21,47 @@ const { lang } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/business/it-ai', 302);
 const m = getDictionary(lang);
 const contactHref = `/${lang}/contact`;
-const services = [
-	{ icon: Compass, title: m.ai_service_1_title, body: m.ai_service_1_body },
-	{ icon: CodeXml, title: m.ai_service_2_title, body: m.ai_service_2_body },
-	{ icon: UsersRound, title: m.ai_service_3_title, body: m.ai_service_3_body },
-	{ icon: GraduationCap, title: m.ai_service_4_title, body: m.ai_service_4_body }
+
+const offerings = [
+	{
+		icon: Bot,
+		title: m.ai_offering_agent_title,
+		body: m.ai_offering_agent_body,
+		note: m.ai_offering_agent_note,
+		points: [m.ai_offering_agent_point_1, m.ai_offering_agent_point_2, m.ai_offering_agent_point_3],
+		href: `/${lang}/business/it-ai/agent-adoption`,
+		cta: m.ai_offering_agent_cta,
+		external: false,
+		product: false
+	},
+	{
+		icon: CodeXml,
+		title: m.ai_offering_development_title,
+		body: m.ai_offering_development_body,
+		note: m.ai_offering_development_note,
+		points: [
+			m.ai_offering_development_point_1,
+			m.ai_offering_development_point_2,
+			m.ai_offering_development_point_3
+		],
+		href: `/${lang}/business/it-ai/solution-development`,
+		cta: m.ai_offering_development_cta,
+		external: false,
+		product: false
+	},
+	{
+		icon: Gauge,
+		title: 'd6e AI Gateway',
+		body: m.gateway_body,
+		note: m.ai_offering_gateway_note,
+		points: [m.gateway_point_1, m.gateway_point_2, m.gateway_point_3],
+		href: d6e.gatewayUrl,
+		cta: m.gateway_cta,
+		external: true,
+		product: true
+	}
 ];
-const challenges = [
-	m.ai_challenge_1,
-	m.ai_challenge_2,
-	m.ai_challenge_3,
-	m.ai_challenge_4,
-	m.ai_challenge_5
-];
-const reasons = [
-	m.ai_why_point_1,
-	m.ai_why_point_2,
-	m.ai_why_point_3,
-	m.ai_why_point_4,
-	m.ai_why_point_5
-];
-const faqs = [
-	{ question: m.ai_faq_1_q, answer: m.ai_faq_1_a },
-	{ question: m.ai_faq_2_q, answer: m.ai_faq_2_a },
-	{ question: m.ai_faq_3_q, answer: m.ai_faq_3_a }
-];
-const providers = [
-	{ name: 'OpenAI', detail: 'GPT', logo: '/brands/openai.svg' },
-	{ name: 'Anthropic', detail: 'Claude', logo: '/brands/anthropic.svg' },
-	{ name: 'Google', detail: 'Gemini', logo: '/brands/gemini.svg' },
-	{ name: 'xAI', detail: 'Grok', logo: '/brands/grok.svg' }
-];
+
 const partners = [
 	{
 		name:
@@ -133,22 +133,6 @@ const partners = [
 		logoClass: 'h-12 w-full'
 	}
 ];
-const clientExamples = [
-	{
-		icon: BriefcaseBusiness,
-		label: m.ai_client_pe_label,
-		title: m.ai_client_pe_title,
-		body: m.ai_client_pe_body,
-		points: [m.ai_client_pe_point_1, m.ai_client_pe_point_2, m.ai_client_pe_point_3]
-	},
-	{
-		icon: Building2,
-		label: m.ai_client_company_label,
-		title: m.ai_client_company_title,
-		body: m.ai_client_company_body,
-		points: [m.ai_client_company_point_1, m.ai_client_company_point_2, m.ai_client_company_point_3]
-	}
-];
 ---
 
 <BaseLayout
@@ -215,210 +199,56 @@ const clientExamples = [
 	<PartnerShowcase eyebrow={m.ai_partners_eyebrow} title={m.ai_partners_title} {partners} />
 
 	<section id="capabilities" class="border-t border-border section">
-		<SectionHeading eyebrow={m.ai_services_eyebrow} title={m.ai_services_title} />
-		<div class="mt-12 grid gap-5 md:grid-cols-2">
+		<SectionHeading eyebrow={m.ai_offerings_eyebrow} title={m.ai_offerings_title} />
+		<div class="mt-12 grid items-stretch gap-5 lg:grid-cols-3">
 			{
-				services.map(({ icon: Icon, title, body }) => (
-					<Card class="group min-h-72 transition-all hover:-translate-y-1 hover:border-brand/30 hover:shadow-lg">
+				offerings.map(({ icon: Icon, title, body, note, points, href, cta, external, product }) => (
+					<Card
+						class:list={[
+							'h-full overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg',
+							product ? 'border-brand/25 bg-brand-subtle' : 'hover:border-brand/30'
+						]}
+					>
 						<CardHeader>
-							<div class="flex items-center">
+							<div class="flex items-start justify-between gap-4">
 								<span class="flex size-11 items-center justify-center rounded-xl bg-brand-subtle text-brand">
 									<Icon class="size-5" />
 								</span>
+								<Badge variant="outline" class="rounded-full text-[0.6875rem]">
+									{note}
+								</Badge>
 							</div>
-							<h3 class="mt-5 text-xl font-semibold md:text-2xl">{title}</h3>
+							<CardTitle class="mt-5">
+								<h3 class="text-xl leading-tight font-semibold md:text-2xl">{title}</h3>
+							</CardTitle>
+							<CardDescription class="text-base leading-relaxed">{body}</CardDescription>
 						</CardHeader>
-						<CardContent>
-							<p class="leading-relaxed text-muted-foreground">{body}</p>
-						</CardContent>
-					</Card>
-				))
-			}
-		</div>
-		<div class="mt-14 border-t border-border pt-8 md:mt-18 md:pt-10">
-			<p class="text-center text-xs font-medium tracking-[0.14em] text-muted-foreground uppercase">
-				{m.ai_models_label}
-			</p>
-			<div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
-				{
-					providers.map((provider) => (
-						<div class="flex items-center justify-center gap-3 rounded-xl border border-border bg-card px-3 py-4 shadow-sm">
-							<img
-								src={provider.logo}
-								alt=""
-								class="size-6 shrink-0 object-contain"
-								width="24"
-								height="24"
-							/>
-							<div class="min-w-0">
-								<p class="text-sm font-semibold">{provider.name}</p>
-								<p class="hidden text-xs text-muted-foreground sm:block">{provider.detail}</p>
-							</div>
-						</div>
-					))
-				}
-			</div>
-			<p class="mt-4 text-center text-xs leading-relaxed text-muted-foreground">
-				{m.ai_models_note}
-			</p>
-		</div>
-	</section>
-
-	<section
-		id="strengths"
-		data-page-chapter="strengths"
-		class="-mx-5 border-y border-border bg-muted/30 px-5 section md:-mx-8 md:px-8"
-	>
-		<SectionHeading eyebrow={m.ai_strengths_eyebrow} title={m.ai_strengths_title} />
-		<div class="mt-12 grid items-stretch gap-5 xl:grid-cols-2">
-			<Card
-				id="security"
-				class="dark h-full overflow-hidden border-0 bg-background py-0 text-foreground shadow-sm"
-			>
-				<CardHeader class="p-7 md:p-10 md:pb-5">
-					<div
-						class="flex size-12 items-center justify-center rounded-xl bg-brand text-brand-foreground"
-					>
-						<ShieldCheck class="size-6" />
-					</div>
-					<p class="mt-7 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
-						{m.ai_security_eyebrow}
-					</p>
-					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">
-						{m.ai_security_title}
-					</h3>
-				</CardHeader>
-				<CardContent class="flex flex-1 flex-col px-7 pb-7 md:px-10 md:pb-10">
-					<p class="flex-auto leading-relaxed text-white/65">
-						{m.ai_security_body}
-					</p>
-					<ul class="mt-8 grid flex-none gap-3">
-						{
-							[m.ai_security_point_1, m.ai_security_point_2, m.ai_security_point_3].map((point) => (
-								<li class="flex min-h-16 items-center gap-4 rounded-xl border border-white/10 bg-white/5 p-4">
-									<Check class="size-5 shrink-0 text-brand" />
-									<span class="leading-relaxed text-white/80">{point}</span>
-								</li>
-							))
-						}
-					</ul>
-				</CardContent>
-			</Card>
-
-			<Card
-				id="foundation"
-				class="relative h-full overflow-hidden border-brand/15 bg-brand-subtle py-0 shadow-sm"
-			>
-				<div class="absolute right-0 bottom-0 text-brand/8" aria-hidden="true">
-					<D6eMark class="size-56" />
-				</div>
-				<CardHeader class="relative p-7 md:p-10 md:pb-5">
-					<div class="flex items-start justify-between gap-4">
-						<div
-							class="flex size-12 items-center justify-center rounded-xl bg-brand text-brand-foreground"
-						>
-							<D6eMark class="size-8" />
-						</div>
-						<Button
-							href={d6e.url}
-							target="_blank"
-							rel="noreferrer"
-							variant="outline"
-							size="sm"
-							class="h-9 px-3"
-						>
-							{m.d6e_foundation_cta}<ExternalLink data-icon="inline-end" />
-						</Button>
-					</div>
-					<p class="mt-7 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
-						{m.d6e_foundation_eyebrow}
-					</p>
-					<h3 class="mt-3 text-2xl font-semibold md:text-3xl">
-						{m.d6e_foundation_title}
-					</h3>
-				</CardHeader>
-				<CardContent class="relative flex flex-1 flex-col px-7 pb-7 md:px-10 md:pb-10">
-					<p class="flex-auto leading-relaxed text-muted-foreground">
-						{m.d6e_foundation_body}
-					</p>
-					<ul class="mt-8 grid flex-none gap-3">
-						{
-							[m.d6e_foundation_point_1, m.d6e_foundation_point_2, m.d6e_foundation_point_3].map(
-								(point) => (
-									<li class="flex min-h-16 items-center gap-3 rounded-xl bg-background/70 p-4 text-sm">
-										<ShieldCheck class="size-4 shrink-0 text-brand" />
-										{point}
-									</li>
-								)
-							)
-						}
-					</ul>
-				</CardContent>
-			</Card>
-		</div>
-
-		<div id="benefits" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
-			<h3 class="text-2xl font-semibold md:text-3xl">{m.ai_why_title}</h3>
-			<div class="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-5">
-				<div>
-					<h4 class="text-xl font-semibold md:text-2xl">{m.ai_challenges_title}</h4>
-					<ol class="mt-5 divide-y divide-border border-y border-border">
-						{
-							challenges.map((challenge, index) => (
-								<li class="flex gap-4 py-4">
-									<span class="shrink-0 font-mono text-xs text-brand">
-										{String(index + 1).padStart(2, '0')}
-									</span>
-									<p class="leading-relaxed text-muted-foreground">{challenge}</p>
-								</li>
-							))
-						}
-					</ol>
-				</div>
-				<div>
-					<h4 class="text-xl font-semibold md:text-2xl">{m.ai_why_reasons_title}</h4>
-					<div class="mt-5 overflow-hidden rounded-2xl border border-border bg-card">
-						{
-							reasons.map((reason) => (
-								<div class="flex gap-5 border-b border-border p-5 last:border-b-0 md:p-6">
-									<Check class="mt-0.5 size-5 shrink-0 text-brand" />
-									<p class="leading-relaxed font-medium">{reason}</p>
-								</div>
-							))
-						}
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
-	<GatewayFeature messages={m} />
-
-	<section id="clients" class="border-t border-border section">
-		<SectionHeading eyebrow={m.ai_clients_eyebrow} title={m.ai_clients_title} />
-		<div class="mt-12 grid gap-5 lg:grid-cols-2">
-			{
-				clientExamples.map(({ icon: Icon, label, title, body, points }) => (
-					<Card class="overflow-hidden py-0 shadow-sm">
-						<CardHeader class="p-7 md:p-10 md:pb-4">
-							<div class="flex size-12 items-center justify-center rounded-xl bg-brand-subtle text-brand">
-								<Icon class="size-7" />
-							</div>
-							<p class="mt-8 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
-								{label}
-							</p>
-							<h3 class="mt-3 text-2xl font-semibold md:text-3xl">{title}</h3>
-						</CardHeader>
-						<CardContent class="flex flex-1 flex-col px-7 pb-7 md:px-10 md:pb-10">
-							<p class="mt-6 leading-relaxed text-muted-foreground">{body}</p>
-							<ul class="mt-auto flex flex-wrap gap-2 pt-8">
+						<CardContent class="flex-auto">
+							<ul class="grid gap-3">
 								{points.map((point) => (
-									<li class="rounded-full border border-border bg-muted px-3 py-1.5 text-xs font-medium text-muted-foreground">
-										{point}
+									<li class="flex gap-3 text-sm leading-relaxed text-muted-foreground">
+										<Check class="mt-0.5 size-4 shrink-0 text-brand" />
+										<span>{point}</span>
 									</li>
 								))}
 							</ul>
 						</CardContent>
+						<CardFooter>
+							<Button
+								href={href}
+								target={external ? '_blank' : undefined}
+								rel={external ? 'noreferrer' : undefined}
+								variant={product ? 'brand' : 'outline'}
+								class="w-full"
+							>
+								{cta}
+								{external ? (
+									<ExternalLink data-icon="inline-end" />
+								) : (
+									<ArrowRight data-icon="inline-end" />
+								)}
+							</Button>
+						</CardFooter>
 					</Card>
 				))
 			}
@@ -429,31 +259,13 @@ const clientExamples = [
 		<div
 			class="relative overflow-hidden rounded-3xl bg-brand px-6 py-14 text-brand-foreground md:px-12 md:py-18"
 		>
-			<Sparkles class="absolute -top-8 -right-6 size-48 text-white/8" />
 			<div class="relative">
-				<h2 class="text-3xl font-semibold md:text-5xl">{m.ai_cta_title}</h2>
-				<p class="mt-4 text-white/70 md:text-lg">{m.ai_cta_body}</p>
-				<Button href={contactHref} variant="secondary" size="lg" class="mt-8 h-11 px-5"
-					>{m.ai_cta_primary}<ArrowRight data-icon="inline-end" /></Button
-				>
+				<h2 class="text-3xl font-semibold md:text-5xl">{m.ai_overview_cta_title}</h2>
+				<p class="mt-4 text-white/70 md:text-lg">{m.ai_overview_cta_body}</p>
+				<Button href={contactHref} variant="secondary" size="lg" class="mt-8 h-11 px-5">
+					{m.ai_cta_primary}<ArrowRight data-icon="inline-end" />
+				</Button>
 			</div>
-		</div>
-	</section>
-
-	<section id="faq" class="border-t border-border section">
-		<SectionHeading eyebrow={m.ai_faq_eyebrow} title={m.ai_faq_title} />
-		<div class="mt-10 divide-y divide-border border-y border-border">
-			{
-				faqs.map((faq) => (
-					<details class="group py-5">
-						<summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-medium">
-							{faq.question}
-							<ChevronDown class="size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180" />
-						</summary>
-						<p class="pt-4 pr-8 leading-relaxed text-muted-foreground">{faq.answer}</p>
-					</details>
-				))
-			}
 		</div>
 	</section>
 </BaseLayout>
