@@ -323,6 +323,21 @@ test('explains organization-wide AI agent adoption on its dedicated page', async
 	await expect(
 		page.locator('#capabilities').getByRole('heading', { name: 'AI活用研修・ワークショップ' })
 	).toBeVisible();
+	const fdeMission = page.locator('[data-fde-mission]');
+	await expect(
+		fdeMission.getByRole('heading', { name: 'AI実装の知見を発信する、FDE Mission' })
+	).toBeVisible();
+	const fdeMissionLink = fdeMission.getByRole('link', { name: 'FDE Missionを見る' });
+	await expect(fdeMissionLink).toHaveAttribute('href', 'https://fde-mission.cauchye.com');
+	await expect(fdeMissionLink).toHaveAttribute('target', '_blank');
+	await expect(fdeMissionLink.locator('svg.lucide-external-link')).toBeVisible();
+	const fdeMissionBox = await fdeMission.boundingBox();
+	const ctaBox = await page
+		.getByRole('heading', { name: 'まず1部門から、始めませんか。' })
+		.boundingBox();
+	expect(fdeMissionBox).not.toBeNull();
+	expect(ctaBox).not.toBeNull();
+	expect(fdeMissionBox?.y ?? 0).toBeLessThan(ctaBox?.y ?? 0);
 	const serviceHeadingLayout = await page
 		.locator('#capabilities [data-agent-service] h3')
 		.first()

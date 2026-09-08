@@ -21,6 +21,10 @@ export const d6e = {
 	gatewayUrl: 'https://gateway.d6e.ai'
 } as const;
 
+export const fdeMission = {
+	url: 'https://fde-mission.cauchye.com'
+} as const;
+
 export const addressLines = [
 	site.address.street,
 	site.address.unit,
