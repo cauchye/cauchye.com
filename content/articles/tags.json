@@ -7,6 +7,6 @@
 	"ja/gemini-agentic-video-cost-cut": ["Video", "Cost"],
 	"ja/claude-fable-5-1-cost-paradox": ["Model Evaluation", "Cost"],
 	"ja/paintnet-wine-claude-review-debt": ["Coding Agents", "Governance"],
-	"ja/gemini-notebook-before-you-subscribe": ["Research"],
+	"ja/gemini-notebook-before-you-subscribe": ["Research", "Cost"],
 	"ja/grok-bot-morning-research": ["AI Agents", "Research", "Automation"]
 }
