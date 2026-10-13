@@ -87,7 +87,7 @@ You do not have to design a framework from scratch. The U.S. National Institute 
 - Prepare a definition of done and evaluation cases before starting.
 - Put the builders where the work happens, and fix things together with the people who do it.
 
-CAUCHYE ASIA supports AI agent adoption starting from one department and a few people. If you are working through which workflow to choose or how to design permissions, [tell us about it](/en/contact).
+CAUCHYE ASIA supports AI agent adoption. If you are working through which workflow to choose or how to design permissions, [tell us about it](/en/contact).
 
 ## Primary sources
 
