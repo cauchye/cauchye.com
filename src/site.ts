@@ -38,6 +38,43 @@ export const fdeMission = {
 	url: 'https://fde-mission.cauchye.com'
 } as const;
 
+// Official CauchyE ASIA accounts on other media, with the latest posts of each (all in
+// Japanese). The footer, the article list, and the Organization `sameAs` read from here.
+export const officialMedia = [
+	{
+		id: 'note',
+		label: 'note',
+		url: 'https://note.com/shiny_ivy9017',
+		posts: [
+			{
+				title: '20年動かなかった壁を、Claudeは約3週間で越えた。でも作者は18万行を読み切れなかった',
+				url: 'https://note.com/shiny_ivy9017/n/nf25d5f3832bf'
+			},
+			{
+				title: '【月$20 vs $2,000】GPT-6 Luna の登場で「安いモデル」の基準が変わった',
+				url: 'https://note.com/shiny_ivy9017/n/nad0b7bce8581'
+			}
+		]
+	},
+	{
+		id: 'zenn',
+		label: 'Zenn',
+		url: 'https://zenn.dev/cauchye_asia',
+		posts: [
+			{
+				title:
+					'Codexのconfig.toml 2行で長期タスク向けの文脈管理をON｜0.152以前はエラー、0.153.0から認識',
+				url: 'https://zenn.dev/cauchye_asia/articles/3d7cb4decab538'
+			},
+			{
+				title:
+					'月1億トークンの試算で$20〜$2,000の100倍差｜モデル7構成の月額をPythonで比較して分かった節約の順番',
+				url: 'https://zenn.dev/cauchye_asia/articles/e99a1a03fdcad5'
+			}
+		]
+	}
+] as const;
+
 export const addressLines = [
 	site.address.street,
 	site.address.unit,

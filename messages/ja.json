@@ -313,6 +313,7 @@
 	"footer_rights": "All rights reserved.",
 	"footer_nav_label": "サイト",
 	"footer_company_label": "会社情報",
+	"footer_official_label": "公式アカウント",
 
 	"articles_meta_title": "記事",
 	"articles_meta_description": "AIの実装・運用とコーポレートアドバイザリーに関する、CAUCHYE ASIAの記事一覧です。",
@@ -332,5 +333,7 @@
 	"articles_other_title": "他の記事",
 	"articles_view_all": "記事一覧へ",
 	"articles_contact_title": "記事の内容について、お気軽にご相談ください",
-	"articles_contact_body": "AIエージェントの導入やAIソリューション開発、コーポレートアドバイザリーまで、検討中の課題をお聞かせください。"
+	"articles_contact_body": "AIエージェントの導入やAIソリューション開発、コーポレートアドバイザリーまで、検討中の課題をお聞かせください。",
+	"articles_official_title": "「note」と「Zenn」でも発信中",
+	"articles_official_japanese": "日本語"
 }

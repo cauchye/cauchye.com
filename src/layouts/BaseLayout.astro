@@ -4,7 +4,7 @@ import Header from '../components/Header.svelte';
 import { hasArticles } from '../cms/content';
 import { type Dictionary, type Locale, locales } from '../i18n';
 import { feedPath } from '../cms/rss';
-import { absoluteUrl, defaultShareImage, site } from '../site';
+import { absoluteUrl, defaultShareImage, officialMedia, site } from '../site';
 import '../styles/global.css';
 
 interface Props {
@@ -62,6 +62,7 @@ const organizationSchema = JSON.stringify({
 	description,
 	identifier: site.uen,
 	foundingDate: String(site.foundedYear),
+	sameAs: officialMedia.map((media) => media.url),
 	address: {
 		'@type': 'PostalAddress',
 		streetAddress: `${site.address.street}, ${site.address.unit}`,

@@ -493,3 +493,61 @@ test.describe('with published articles', () => {
 		await expect(cards).toHaveCount(2);
 	});
 });
+
+test.describe('official media', () => {
+	const profiles = ['https://note.com/shiny_ivy9017', 'https://zenn.dev/cauchye_asia'];
+
+	test('links the official accounts from the footer and the organization data', async ({
+		page
+	}) => {
+		for (const [locale, label] of [
+			['ja', '公式アカウント'],
+			['en', 'Official accounts']
+		]) {
+			await page.goto(`/${locale}`);
+			const group = page.locator('footer [data-official-accounts]');
+			await expect(group.locator('h2')).toHaveText(label);
+			const links = group.locator('a');
+			await expect(links).toHaveText(['note', 'Zenn']);
+			for (const [index, url] of profiles.entries()) {
+				await expect(links.nth(index)).toHaveAttribute('href', url);
+				await expect(links.nth(index)).toHaveAttribute('target', '_blank');
+				await expect(links.nth(index)).toHaveAttribute('rel', /noopener/);
+			}
+			const organization = JSON.parse(
+				(await page.locator('script[type="application/ld+json"]').first().textContent()) ?? ''
+			);
+			expect(organization.sameAs).toEqual(profiles);
+		}
+	});
+
+	test('shows the latest note and Zenn posts on the article list', async ({ page }) => {
+		for (const [locale, title] of [
+			['ja', '「note」と「Zenn」でも発信中'],
+			['en', 'Also publishing on note and Zenn']
+		]) {
+			await page.goto(`/${locale}/articles`);
+			const block = page.locator('[data-official-media]');
+			await expect(block.locator('h2')).toContainText(title);
+			// The posts are Japanese, which the English page says.
+			await expect(block.getByText('Japanese', { exact: true })).toHaveCount(
+				locale === 'en' ? 1 : 0
+			);
+			const posts = block.locator('li a');
+			await expect(posts).toHaveCount(4);
+			await expect(posts.first()).toHaveAttribute(
+				'href',
+				'https://note.com/shiny_ivy9017/n/nf25d5f3832bf'
+			);
+			await expect(posts.last()).toHaveAttribute(
+				'href',
+				'https://zenn.dev/cauchye_asia/articles/e99a1a03fdcad5'
+			);
+			for (const link of await block.locator('a').all()) {
+				await expect(link).toHaveAttribute('target', '_blank');
+				await expect(link).toHaveAttribute('rel', /noopener/);
+			}
+			for (const post of await posts.all()) await expect(post).toHaveAttribute('lang', 'ja');
+		}
+	});
+});

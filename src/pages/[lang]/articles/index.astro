@@ -1,5 +1,5 @@
 ---
-import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-astro';
+import { ArrowLeft, ArrowRight, ChevronRight, ExternalLink } from 'lucide-astro';
 
 import ArticleCard from '../../../components/articles/ArticleCard.astro';
 import { Badge } from '../../../components/ui/badge/index.js';
@@ -8,6 +8,7 @@ import { articlePage } from '../../../cms/articles';
 import { getArticles, getMessages } from '../../../cms/content';
 import { isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { officialMedia } from '../../../site';
 
 const { lang } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/articles', 302);
@@ -98,5 +99,58 @@ const newerHref = page > 2 ? `${listHref}?page=${page - 1}` : listHref;
 				</nav>
 			)
 		}
+	</section>
+
+	<section
+		data-official-media
+		aria-labelledby="official-media-title"
+		class="border-t border-border py-12 md:py-16"
+	>
+		<h2 id="official-media-title" class="flex flex-wrap items-center gap-3 text-xl font-semibold">
+			{m.articles_official_title}
+			{
+				lang !== 'ja' && (
+					<Badge
+						variant="outline"
+						class="rounded-full px-2.5 py-0.5 font-mono text-[0.65rem] tracking-[0.16em] uppercase"
+					>
+						{m.articles_official_japanese}
+					</Badge>
+				)
+			}
+		</h2>
+		<div class="mt-6 grid gap-5 md:grid-cols-2">
+			{
+				officialMedia.map((media) => (
+					<div class="rounded-2xl border border-border bg-card p-6 shadow-sm">
+						<a
+							href={media.url}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="inline-flex items-center gap-1.5 font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase underline-offset-4 hover:underline"
+						>
+							{media.label}
+							<ExternalLink class="size-3.5" aria-hidden="true" />
+						</a>
+						<ul class="mt-4 flex flex-col gap-3">
+							{media.posts.map((post) => (
+								<li>
+									<a
+										href={post.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										lang="ja"
+										hreflang="ja"
+										class="text-sm leading-relaxed text-foreground underline-offset-4 transition-colors hover:text-brand hover:underline"
+									>
+										{post.title}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				))
+			}
+		</div>
 	</section>
 </BaseLayout>
