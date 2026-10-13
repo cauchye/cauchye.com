@@ -1,9 +1,9 @@
 ---
-import { Mail } from 'lucide-astro';
+import { ExternalLink, Mail } from 'lucide-astro';
 
 import { Separator } from './ui/separator/index.js';
 import type { Dictionary, Locale } from '../i18n';
-import { addressLines, navItems, site } from '../site';
+import { addressLines, navItems, officialMedia, site } from '../site';
 
 interface Props {
 	locale: Locale;
@@ -18,7 +18,7 @@ const year = new Date().getFullYear();
 
 <footer class="mt-auto border-t border-border bg-muted/30">
 	<div class="container mx-auto py-14">
-		<div class="grid gap-10 md:grid-cols-[1.5fr_1fr_1fr]">
+		<div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
 			<div>
 				<div class="flex items-center gap-2.5">
 					<img src="/favicon.svg" alt="" class="size-6" width="24" height="24" loading="lazy" />
@@ -64,6 +64,29 @@ const year = new Date().getFullYear();
 					}
 				</ul>
 			</nav>
+
+			<div data-official-accounts>
+				<h2 class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase">
+					{m.footer_official_label}
+				</h2>
+				<ul class="mt-4 flex flex-col gap-2.5">
+					{
+						officialMedia.map((media) => (
+							<li>
+								<a
+									href={media.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+								>
+									{media.label}
+									<ExternalLink class="size-3.5" aria-hidden="true" />
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</div>
 
 			<div>
 				<h2 class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase">

@@ -313,6 +313,7 @@
 	"footer_rights": "All rights reserved.",
 	"footer_nav_label": "Site",
 	"footer_company_label": "Company",
+	"footer_official_label": "Official accounts",
 
 	"articles_meta_title": "Articles",
 	"articles_meta_description": "Articles from CAUCHYE ASIA on AI implementation, operations, and corporate advisory.",
@@ -332,5 +333,7 @@
 	"articles_other_title": "More articles",
 	"articles_view_all": "View all articles",
 	"articles_contact_title": "Talk to us about what you read",
-	"articles_contact_body": "From AI adoption and solution development to corporate advisory, tell us what you are working on."
+	"articles_contact_body": "From AI adoption and solution development to corporate advisory, tell us what you are working on.",
+	"articles_official_title": "Also publishing on note and Zenn",
+	"articles_official_japanese": "Japanese"
 }
