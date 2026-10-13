@@ -22,6 +22,8 @@
 		"types": "wrangler types",
 		"articles:import": "node scripts/import-articles.ts",
 		"articles:fixtures": "node scripts/seed-article-fixtures.ts",
+		"articles:add": "node scripts/add-article.ts",
+		"og:build": "node scripts/build-og-image.ts",
 		"seed:build": "node scripts/build-seed.ts && prettier --write seed/seed.json",
 		"deploy": "pnpm run build && wrangler deploy",
 		"deploy:dry-run": "pnpm run build && wrangler deploy --dry-run"

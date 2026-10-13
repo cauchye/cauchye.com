@@ -1,5 +1,5 @@
 import type { AstroGlobal } from 'astro';
-import { getEmDashCollection, getEmDashEntry, getTranslations } from 'emdash';
+import { getEmDashCollection, getEmDashEntry, getTermsForEntries, getTranslations } from 'emdash';
 
 import { type Dictionary, type Locale, getDictionary } from '../i18n';
 import type { Partner, PartnerPlacement } from '../partners';
@@ -8,6 +8,9 @@ import {
 	ARTICLE_TEASER_COUNT,
 	type ArticleEntry,
 	type ArticleSummary,
+	type RelatedArticles,
+	pickArticles,
+	pickRelatedArticles,
 	resolveArticle,
 	resolveArticles
 } from './articles';
@@ -150,6 +153,89 @@ export async function getSitemapArticles(locale: Locale): Promise<SitemapArticle
 		console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
 		return [];
 	}
+}
+
+// EmDash taxonomy the article tags are terms of.
+const TAG_TAXONOMY = 'tag';
+// Newest articles a related-article pick chooses from.
+const RELATED_ARTICLE_POOL = 50;
+
+function entryId(entry: ArticleEntry): string | undefined {
+	return typeof entry.data.id === 'string' ? entry.data.id : undefined;
+}
+
+// Tag slugs by entry id. Tags belong to an article's translation group, so both languages
+// of an article carry the same slugs. A failed lookup reads as no tags.
+async function articleTags(
+	locale: Locale,
+	entryIds: readonly string[]
+): Promise<Map<string, string[]>> {
+	try {
+		const terms = await getTermsForEntries('articles', [...entryIds], TAG_TAXONOMY, { locale });
+		return new Map([...terms].map(([id, entryTerms]) => [id, entryTerms.map(({ slug }) => slug)]));
+	} catch (error) {
+		console.error('EmDash tag lookup failed', { collection: 'articles', locale, error });
+		return new Map();
+	}
+}
+
+// The newest published articles of a locale with their tags, for the feeds and the
+// related-article pick. A failed lookup reads as none.
+export async function getTaggedArticles(
+	locale: Locale,
+	limit: number,
+	Astro?: AstroGlobal
+): Promise<ArticleSummary[]> {
+	try {
+		const { entries, cacheHint, error } = await getEmDashCollection('articles', {
+			locale,
+			status: 'published',
+			limit,
+			orderBy: { published_at: 'desc' }
+		});
+		if (error) {
+			console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
+			return [];
+		}
+		if (Astro?.cache?.enabled) Astro.cache.set(cacheHint);
+		const articleEntries = entries as unknown as ArticleEntry[];
+		const tags = await articleTags(
+			locale,
+			articleEntries.flatMap((entry) => entryId(entry) ?? [])
+		);
+		return articleEntries
+			.flatMap((entry) => {
+				const article = resolveArticle(locale, entry);
+				return article ? { ...article, tags: tags.get(entryId(entry) ?? '') ?? [] } : [];
+			})
+			.sort(
+				(left, right) => (right.publishedAt?.getTime() ?? 0) - (left.publishedAt?.getTime() ?? 0)
+			);
+	} catch (error) {
+		console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
+		return [];
+	}
+}
+
+// Articles to read after `article`: same language, most shared tags first, then the newest.
+export async function getRelatedArticles(
+	Astro: AstroGlobal,
+	locale: Locale,
+	article: Article
+): Promise<RelatedArticles> {
+	const pool = await getTaggedArticles(locale, RELATED_ARTICLE_POOL, Astro);
+	// Without the pool, the newest articles the navigation already read still make a teaser.
+	if (pool.length === 0) {
+		return {
+			articles: pickArticles(await getLatestArticles(Astro, locale), article.slug),
+			matched: 0
+		};
+	}
+	const tags =
+		pool.find(({ slug }) => slug === article.slug)?.tags ??
+		(article.entryId ? (await articleTags(locale, [article.entryId])).get(article.entryId) : []) ??
+		[];
+	return pickRelatedArticles(tags, pool, article.slug);
 }
 
 export interface Article extends ArticleSummary {

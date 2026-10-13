@@ -1,3 +1,8 @@
+import { execFileSync } from 'node:child_process';
+import { mkdtempSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+
 import { expect, test } from '@playwright/test';
 
 import { seedArticleFixtures } from '../scripts/seed-article-fixtures';
@@ -44,6 +49,19 @@ test.describe('before any article is published', () => {
 		expect(xml).toContain('<loc>https://www.cauchye.com/ja/business/it-ai/agent-adoption</loc>');
 		expect(xml).not.toContain('/articles');
 		expect((await request.get('/sitemap-articles.xml')).status()).toBe(404);
+	});
+
+	test('serves valid feeds without items', async ({ request }) => {
+		for (const path of ['/rss.xml', '/en/rss.xml', '/ja/rss.xml']) {
+			const response = await request.get(path);
+			expect(response.status(), path).toBe(200);
+			expect(response.headers()['content-type'], path).toBe('application/rss+xml; charset=utf-8');
+			const xml = await response.text();
+			expect(xml, path).toContain('<rss version="2.0"');
+			expect(xml, path).toContain(`<atom:link href="https://www.cauchye.com${path}"`);
+			expect(xml, path).not.toContain('<item>');
+		}
+		expect((await request.get('/fr/rss.xml')).status()).toBe(404);
 	});
 
 	test('answers 404 for an unknown article', async ({ page }) => {
@@ -257,6 +275,10 @@ test.describe('with published articles', () => {
 		);
 		await expect(meta('og:image:alt')).toHaveAttribute('content', 'カバー画像のサンプル');
 		await expect(meta('twitter:card')).toHaveAttribute('content', 'summary_large_image');
+		await expect(meta('twitter:image')).toHaveAttribute(
+			'content',
+			'https://www.cauchye.com/agents/grok-bot-coordination.png'
+		);
 		await expect(meta('og:site_name')).toHaveAttribute('content', 'CAUCHYE ASIA PTE. LTD.');
 		await expect(meta('og:locale')).toHaveAttribute('content', 'ja_JP');
 		await expect(meta('og:url')).toHaveAttribute(
@@ -274,12 +296,55 @@ test.describe('with published articles', () => {
 		// An article without a cover image, and a page that is not an article.
 		await page.goto('/ja/articles/sample-ja-only');
 		await expect(meta('og:type')).toHaveAttribute('content', 'article');
-		await expect(meta('og:image')).toHaveCount(0);
-		await expect(meta('og:image:alt')).toHaveCount(0);
-		await expect(meta('twitter:card')).toHaveAttribute('content', 'summary');
+		await expect(meta('og:image')).toHaveAttribute(
+			'content',
+			'https://www.cauchye.com/og-default.png'
+		);
+		await expect(meta('og:image:alt')).toHaveAttribute('content', 'CAUCHYE ASIA PTE. LTD.');
+		await expect(meta('twitter:card')).toHaveAttribute('content', 'summary_large_image');
 		await page.goto('/ja/articles');
 		await expect(meta('og:type')).toHaveAttribute('content', 'website');
+		await expect(meta('og:image')).toHaveAttribute(
+			'content',
+			'https://www.cauchye.com/og-default.png'
+		);
 		await expect(meta('article:published_time')).toHaveCount(0);
+	});
+
+	test('lists the articles in the feeds', async ({ page, request }) => {
+		const items = async (path: string) => {
+			const response = await request.get(path);
+			expect(response.headers()['content-type'], path).toBe('application/rss+xml; charset=utf-8');
+			return (await response.text()).split('<item>').slice(1);
+		};
+
+		const japanese = await items('/ja/rss.xml');
+		expect(japanese).toHaveLength(3);
+		const sample = japanese.find((item) => item.includes('/ja/articles/sample-article<'));
+		expect(sample).toContain('<title>サンプル記事：記事レイアウトの確認</title>');
+		expect(sample).toContain('<link>https://www.cauchye.com/ja/articles/sample-article</link>');
+		expect(sample).toContain(
+			'<guid isPermaLink="true">https://www.cauchye.com/ja/articles/sample-article</guid>'
+		);
+		expect(sample).toMatch(/<pubDate>\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} GMT<\/pubDate>/);
+
+		const english = await items('/en/rss.xml');
+		expect(english).toHaveLength(2);
+		expect(english.join()).not.toContain('sample-draft');
+		expect(english.join()).not.toContain('/ja/articles/');
+		expect(await items('/rss.xml')).toHaveLength(5);
+
+		// Every page names the feed of its language.
+		for (const [path, href] of [
+			['/ja', 'https://www.cauchye.com/ja/rss.xml'],
+			['/en/articles/sample-article', 'https://www.cauchye.com/en/rss.xml']
+		]) {
+			await page.goto(path);
+			await expect(
+				page.locator('link[rel="alternate"][type="application/rss+xml"]'),
+				path
+			).toHaveAttribute('href', href);
+		}
 	});
 
 	test('lists the articles of both languages in the sitemap', async ({ request }) => {
@@ -389,5 +454,42 @@ test.describe('with published articles', () => {
 			);
 			expect(widest, path).toBeLessThanOrEqual(390);
 		}
+	});
+
+	test('puts the articles sharing a tag first below an article', async ({ page }) => {
+		// Tags the fixtures the way `pnpm run articles:add --tags` tags published articles.
+		const tags = join(mkdtempSync(join(tmpdir(), 'cauchye-e2e-tags-')), 'tags.json');
+		writeFileSync(
+			tags,
+			JSON.stringify({
+				'ja/sample-ja-only': ['AI Agents', 'Governance'],
+				'en/sample-english-slug': ['Governance']
+			})
+		);
+		execFileSync(
+			'node',
+			[
+				'scripts/add-article.ts',
+				'--local',
+				'--persist-to',
+				process.env.PLAYWRIGHT_STATE_DIR!,
+				'--tags',
+				tags
+			],
+			{ stdio: 'inherit' }
+		);
+
+		// The Japanese translation shares the tag of its English original.
+		await page.goto('/ja/articles/sample-ja-only');
+		const related = page.locator('[data-article-teasers]');
+		await expect(related.locator('h2')).toHaveText('関連記事');
+		const cards = related.locator('[data-article-card]');
+		await expect(cards).toHaveCount(2);
+		await expect(cards.first()).toHaveAttribute('href', '/ja/articles/sample-japanese-slug');
+
+		// An article without tags still gets the newest ones.
+		await page.goto('/ja/articles/sample-article');
+		await expect(related.locator('h2')).toHaveText('他の記事');
+		await expect(cards).toHaveCount(2);
 	});
 });

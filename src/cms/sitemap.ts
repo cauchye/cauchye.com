@@ -46,7 +46,7 @@ export function sitemapPages(articles: readonly SitemapArticle[]): SitemapPage[]
 	return [...pages, list, ...groups.values()];
 }
 
-function escapeXml(value: string): string {
+export function escapeXml(value: string): string {
 	return value
 		.replace(/&/g, '&amp;')
 		.replace(/</g, '&lt;')

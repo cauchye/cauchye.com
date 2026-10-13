@@ -18,6 +18,8 @@ export interface ArticleSummary {
 	excerpt: string;
 	image?: ArticleImage;
 	publishedAt?: Date;
+	// Slugs of the article's tags, when they were looked up.
+	tags?: string[];
 }
 
 // Shape of an `articles` entry as far as these resolvers care. `id` is the locale-qualified
@@ -94,6 +96,35 @@ export function pickArticles(
 	count = ARTICLE_TEASER_COUNT
 ): ArticleSummary[] {
 	return articles.filter((article) => article.slug !== excludeSlug).slice(0, count);
+}
+
+export interface RelatedArticles {
+	articles: ArticleSummary[];
+	// How many of them share a tag with the article being read; those come first.
+	matched: number;
+}
+
+// Articles to read next: the ones sharing the most tags first, then the newest. `articles`
+// is one language's list, newest first, so ties keep that order.
+export function pickRelatedArticles(
+	tags: readonly string[],
+	articles: readonly ArticleSummary[],
+	excludeSlug?: string,
+	count = ARTICLE_TEASER_COUNT
+): RelatedArticles {
+	const wanted = new Set(tags);
+	const scored = articles
+		.filter((article) => article.slug !== excludeSlug)
+		.map((article) => ({
+			article,
+			score: new Set(article.tags).intersection(wanted).size
+		}));
+	// Array.prototype.sort is stable: equal scores stay newest first.
+	const picked = scored.sort((left, right) => right.score - left.score).slice(0, count);
+	return {
+		articles: picked.map(({ article }) => article),
+		matched: picked.filter(({ score }) => score > 0).length
+	};
 }
 
 const DATE_FORMATS: Record<Locale, Intl.DateTimeFormat> = {
