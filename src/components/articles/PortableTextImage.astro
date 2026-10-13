@@ -1,0 +1,32 @@
+---
+import { portableImageSource } from '../../cms/articles';
+
+interface Props {
+	node: {
+		asset?: { _ref?: string; url?: string };
+		alt?: string;
+		caption?: string;
+		width?: number;
+		height?: number;
+	};
+}
+
+const { node } = Astro.props;
+const src = portableImageSource(node.asset);
+---
+
+{
+	src && (
+		<figure>
+			<img
+				{src}
+				alt={node.alt ?? ''}
+				width={node.width}
+				height={node.height}
+				loading="lazy"
+				decoding="async"
+			/>
+			{node.caption && <figcaption>{node.caption}</figcaption>}
+		</figure>
+	)
+}

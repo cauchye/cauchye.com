@@ -3,7 +3,7 @@
 
 /// <reference types="emdash/locals" />
 
-import type { ContentBylineCredit, TaxonomyTerm } from 'emdash';
+import type { ContentBylineCredit, PortableTextBlock, TaxonomyTerm } from 'emdash';
 
 export interface Page {
 	id: string;
@@ -70,10 +70,39 @@ export interface Partner {
 	terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface Article {
+	id: string;
+	slug: string | null;
+	status: string;
+	title: string;
+	excerpt: string;
+	featured_image?: {
+		id: string;
+		src?: string;
+		alt?: string;
+		width?: number;
+		height?: number;
+		filename?: string;
+		mimeType?: string;
+		blurhash?: string;
+		dominantColor?: string;
+		provider?: string;
+		previewUrl?: string;
+		meta?: Record<string, unknown>;
+	};
+	content: PortableTextBlock[];
+	createdAt: Date;
+	updatedAt: Date;
+	publishedAt: Date | null;
+	bylines?: ContentBylineCredit[];
+	terms?: Record<string, TaxonomyTerm[]>;
+}
+
 declare module 'emdash' {
 	interface EmDashCollections {
 		pages: Page;
 		faqs: Faq;
 		partners: Partner;
+		articles: Article;
 	}
 }

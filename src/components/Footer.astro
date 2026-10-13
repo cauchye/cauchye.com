@@ -8,9 +8,10 @@ import { addressLines, navItems, site } from '../site';
 interface Props {
 	locale: Locale;
 	messages: Dictionary;
+	showArticles?: boolean;
 }
 
-const { locale, messages: m } = Astro.props;
+const { locale, messages: m, showArticles = false } = Astro.props;
 const home = `/${locale}`;
 const year = new Date().getFullYear();
 ---
@@ -48,6 +49,18 @@ const year = new Date().getFullYear();
 								</a>
 							</li>
 						))
+					}
+					{
+						showArticles && (
+							<li>
+								<a
+									href={`${home}/articles`}
+									class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+								>
+									{m.nav_articles}
+								</a>
+							</li>
+						)
 					}
 				</ul>
 			</nav>

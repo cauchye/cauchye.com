@@ -143,6 +143,42 @@
 					"type": "integer"
 				}
 			]
+		},
+		{
+			"slug": "articles",
+			"label": "Articles",
+			"labelSingular": "Article",
+			"urlPattern": "/articles/{slug}",
+			"titleField": "title",
+			"supports": ["drafts", "revisions", "seo", "search"],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Excerpt",
+					"type": "text",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured image",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"required": true,
+					"searchable": true
+				}
+			]
 		}
 	],
 	"content": {
@@ -1208,6 +1244,7 @@
 					"sort_order": 11
 				}
 			}
-		]
+		],
+		"articles": []
 	}
 }

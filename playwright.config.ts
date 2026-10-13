@@ -14,7 +14,12 @@ export const bootstrapToken = 'e2e-only-emdash-bootstrap-token';
 
 export default defineConfig({
 	testDir: './tests',
-	testMatch: '**/*.e2e.ts',
+	// The site suite runs against the seeded content, which has no articles; the articles
+	// suite then adds its fixtures to the same local database.
+	projects: [
+		{ name: 'site', testMatch: 'site.e2e.ts' },
+		{ name: 'articles', testMatch: 'articles.e2e.ts', dependencies: ['site'] }
+	],
 	globalSetup: './tests/global-setup.ts',
 	use: { baseURL },
 	webServer: {

@@ -99,6 +99,7 @@ const UI_PREFIXES = [
 	'locale_',
 	'form_',
 	'footer_',
+	'articles_',
 	'contact_cta'
 ];
 

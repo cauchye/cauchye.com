@@ -16,6 +16,7 @@ URLs, and language handling are unchanged, and the public site has no accounts o
 | `pages`    | a public route (6)       | `title`, `description`, `eyebrow`, `hero_title_lead`, `hero_title_accent`, `hero_body`, `copy` (JSON)                 |
 | `faqs`     | a question on a FAQ page | `question`, `answer`, `page`, `sort_order`                                                                            |
 | `partners` | a partner logo           | `name`, `url`, `logo` (image), `logo_path`, `logo_class`, `show_on_it_ai`, `show_on_corporate_advisory`, `sort_order` |
+| `articles` | an article               | `title`, `excerpt`, `featured_image` (image), `content` (Portable Text)                                               |
 
 Every entry exists once per locale (`en` is the default, `ja` is linked with
 `translationOf`). Public queries always ask for `status: "published"` and a locale.
@@ -45,6 +46,17 @@ authoritative, including when it deliberately leaves a page without partners.
 
 The trade-off is that the bundled copy goes stale as editors change content in EmDash. It
 is a safety net and the source of the initial seed, not a second place to edit.
+
+### Articles
+
+`articles` mirrors fde-mission's collection of the same name, so entries can be moved
+between the two sites with `scripts/import-articles.ts`. Unlike the other collections it has
+no bundled fallback: `/[lang]/articles` lists what is published (newest first, 12 per page)
+and `/[lang]/articles/[slug]` answers 404 for a draft, an unknown slug, or an article that
+exists only in the other language. The footer gains an "Articles" link only while the
+current language has a published article, so the existing pages are unchanged until
+something is published. Sample articles for previews and end-to-end tests live in
+`tests/fixtures/` and are applied to the local database only; they are not in the seed.
 
 ### Media
 

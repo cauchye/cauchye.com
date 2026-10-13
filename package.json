@@ -20,6 +20,8 @@
 		"test:unit": "vitest run",
 		"test:e2e": "playwright test",
 		"types": "wrangler types",
+		"articles:import": "node scripts/import-articles.ts",
+		"articles:fixtures": "node scripts/seed-article-fixtures.ts",
 		"seed:build": "node scripts/build-seed.ts && prettier --write seed/seed.json",
 		"deploy": "pnpm run build && wrangler deploy",
 		"deploy:dry-run": "pnpm run build && wrangler deploy --dry-run"

@@ -1,9 +1,11 @@
 // Builds seed/seed.json — the EmDash schema plus the bundled site content — from
-// messages/*.json and src/partners.ts. Run `pnpm run seed:build` after changing either.
+// messages/*.json, src/partners.ts, and seed/articles.json. Run `pnpm run seed:build` after
+// changing any of them.
 import { writeFile } from 'node:fs/promises';
 
 import en from '../messages/en.json' with { type: 'json' };
 import ja from '../messages/ja.json' with { type: 'json' };
+import importedArticles from '../seed/articles.json' with { type: 'json' };
 import {
 	type FaqPage,
 	type PageSlug,
@@ -22,9 +24,23 @@ const DEFAULT_LOCALE: Locale = 'en';
 const dictionaries: Record<Locale, Messages> = { en, ja };
 const locales: Locale[] = ['en', 'ja'];
 
+interface SeedEntry {
+	id: string;
+	slug: string;
+	locale: Locale;
+	translationOf?: string;
+	status: string;
+	data: Record<string, unknown>;
+}
+
 // Entries of the default locale carry the base id; translations append the locale and
 // point back with `translationOf`.
-function localized(id: string, slug: string, locale: Locale, data: Record<string, unknown>) {
+function localized(
+	id: string,
+	slug: string,
+	locale: Locale,
+	data: Record<string, unknown>
+): SeedEntry {
 	return locale === DEFAULT_LOCALE
 		? { id, slug, locale, status: 'published', data }
 		: { id: `${id}-${locale}`, slug, locale, translationOf: id, status: 'published', data };
@@ -131,6 +147,27 @@ export function buildSeed() {
 					},
 					{ slug: 'sort_order', label: 'Sort order', type: 'integer' }
 				]
+			},
+			// Same shape as fde-mission's `articles`, so entries can move between the two sites.
+			{
+				slug: 'articles',
+				label: 'Articles',
+				labelSingular: 'Article',
+				urlPattern: '/articles/{slug}',
+				titleField: 'title',
+				supports: ['drafts', 'revisions', 'seo', 'search'],
+				fields: [
+					string('title', 'Title', { required: true, searchable: true }),
+					text('excerpt', 'Excerpt', { required: true, searchable: true }),
+					{ slug: 'featured_image', label: 'Featured image', type: 'image' },
+					{
+						slug: 'content',
+						label: 'Content',
+						type: 'portableText',
+						required: true,
+						searchable: true
+					}
+				]
 			}
 		],
 		content: {
@@ -162,7 +199,9 @@ export function buildSeed() {
 						sort_order: index + 1
 					})
 				)
-			)
+			),
+			// Written by scripts/import-articles.ts; entries already carry their locale links.
+			articles: importedArticles.articles as SeedEntry[]
 		}
 	};
 }

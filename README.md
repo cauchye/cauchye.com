@@ -36,6 +36,8 @@ pnpm run build
 pnpm run preview
 pnpm test             # unit tests (Vitest), then end-to-end tests (Playwright)
 pnpm run seed:build   # regenerate seed/seed.json
+pnpm run articles:import <seed.json>   # refresh seed/articles.json from another EmDash seed
+pnpm run articles:fixtures             # add sample articles to the local database
 pnpm run deploy:dry-run
 ```
 
@@ -52,6 +54,7 @@ EmDash collections hold the editable content, in English and Japanese:
 | `pages`    | One entry per route: title, meta description, hero, and section copy |
 | `faqs`     | FAQ items of the agent adoption and solution development pages       |
 | `partners` | Partner name, link, logo, and the pages each partner appears on      |
+| `articles` | Articles: title, excerpt, featured image, and rich-text body         |
 
 Interface strings (navigation, form labels, validation messages) stay in `messages/*.json`.
 That file and `src/partners.ts` also hold the bundled copy of the content: it is what
@@ -59,6 +62,33 @@ That file and `src/partners.ts` also hold the bundled copy of the content: it is
 or the database is unreachable. After changing either, run `pnpm run seed:build`; a unit
 test fails when the committed seed is out of date. The seed only populates an empty
 database — once the site is live, edit content in EmDash.
+
+### Articles
+
+Published `articles` entries are listed at `/[lang]/articles` and rendered at
+`/[lang]/articles/[slug]`. The collection has the same fields as fde-mission's `articles`.
+The footer links the list only while the current language has a published article, and an
+article without a translation is not served in the other language.
+
+`seed/articles.json` holds the articles bundled into the seed. Refresh it from another
+EmDash seed, then rebuild the seed:
+
+```sh
+pnpm run articles:import ../fde-mission/seed/seed.json
+pnpm run seed:build
+```
+
+The import copies the entries and any site-relative image files they reference into
+`public/`. fde-mission's seed contained no articles when this was added, so the bundled
+seed has none.
+
+To look at the article pages locally, add the sample articles of
+`tests/fixtures/articles-seed.json` to a seeded local database (the end-to-end tests do the
+same). This writes to Wrangler's local SQLite file only:
+
+```sh
+pnpm run articles:fixtures            # default: .wrangler/state
+```
 
 Media uploaded in EmDash is stored in the `MEDIA` R2 bucket. The existing logos and
 screenshots in `public/` are still served as static assets; a partner's uploaded logo takes

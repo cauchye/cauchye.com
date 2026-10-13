@@ -1,0 +1,302 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"defaultLocale": "en",
+	"meta": {
+		"name": "cauchye.com local article fixtures",
+		"description": "Sample articles for local preview and end-to-end tests. Never applied to production."
+	},
+	"content": {
+		"articles": [
+			{
+				"id": "fixture-article-sample",
+				"slug": "sample-article",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "Sample article: checking the article layout",
+					"excerpt": "A local-only sample that shows how an article with a cover image, headings, lists, and a quotation is displayed.",
+					"featured_image": {
+						"src": "/agents/grok-bot-coordination.png",
+						"alt": "Sample cover image"
+					},
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "This article is a local-only sample for checking the article list and detail pages. It is not part of the production seed."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Headings and body text"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Body paragraphs use the same typeface, colours, and line height as the rest of the site, within a comfortable reading width."
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "A list"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "First item"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Second item"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "A sample quotation."
+								}
+							]
+						},
+						{
+							"_type": "image",
+							"asset": {
+								"url": "/agents/codex-interface.webp"
+							},
+							"alt": "Sample body image",
+							"caption": "A sample image with a caption"
+						}
+					]
+				}
+			},
+			{
+				"id": "fixture-article-sample-ja",
+				"slug": "sample-article",
+				"locale": "ja",
+				"translationOf": "fixture-article-sample",
+				"status": "published",
+				"data": {
+					"title": "サンプル記事：記事レイアウトの確認",
+					"excerpt": "カバー画像、見出し、箇条書き、引用を含む記事がどのように表示されるかを確認するための、ローカル専用サンプルです。",
+					"featured_image": {
+						"src": "/agents/grok-bot-coordination.png",
+						"alt": "カバー画像のサンプル"
+					},
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "この記事は、記事一覧と記事詳細の表示を確認するためのローカル専用サンプルです。本番の seed には含まれません。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h2",
+							"children": [
+								{
+									"_type": "span",
+									"text": "見出しと本文"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "本文の段落は、既存ページと同じ書体・色・行間で表示されます。長めの文章でも読みやすい幅に収まることを、この段落で確認します。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"markDefs": [
+								{
+									"_key": "home",
+									"_type": "link",
+									"href": "/ja"
+								}
+							],
+							"children": [
+								{
+									"_type": "span",
+									"text": "リンクの例："
+								},
+								{
+									"_type": "span",
+									"text": "トップページへ戻る",
+									"marks": ["home"]
+								},
+								{
+									"_type": "span",
+									"text": "。"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "h3",
+							"children": [
+								{
+									"_type": "span",
+									"text": "箇条書き"
+								}
+							]
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "一つ目の項目"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "二つ目の項目"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "三つ目の項目"
+								}
+							],
+							"listItem": "bullet",
+							"level": 1
+						},
+						{
+							"_type": "block",
+							"style": "blockquote",
+							"children": [
+								{
+									"_type": "span",
+									"text": "引用の表示例です。"
+								}
+							]
+						},
+						{
+							"_type": "image",
+							"asset": {
+								"url": "/agents/codex-interface.webp"
+							},
+							"alt": "本文画像のサンプル",
+							"caption": "本文中の画像とキャプションの表示例"
+						},
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "以上でサンプルは終わりです。"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "fixture-article-ja-only",
+				"slug": "sample-ja-only",
+				"locale": "ja",
+				"status": "published",
+				"data": {
+					"title": "サンプル記事：日本語のみで公開",
+					"excerpt": "英語版のない記事と、カバー画像のない記事カードの表示を確認するためのローカル専用サンプルです。",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "この記事には英語版がありません。言語切り替えは英語の記事一覧へ移動します。"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "fixture-article-draft",
+				"slug": "sample-draft",
+				"locale": "en",
+				"status": "draft",
+				"data": {
+					"title": "Sample draft: never public",
+					"excerpt": "A draft must not appear on the public site.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "Draft body."
+								}
+							]
+						}
+					]
+				}
+			}
+		]
+	}
+}

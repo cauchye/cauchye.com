@@ -109,7 +109,7 @@ export function resolveFaqs(
 	return faqs.length > 0 ? faqs : bundledFaqs(dictionary, page);
 }
 
-function encodeStorageKey(storageKey: string): string {
+export function encodeStorageKey(storageKey: string): string {
 	return storageKey.split('/').map(encodeURIComponent).join('/');
 }
 
