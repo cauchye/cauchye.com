@@ -19,8 +19,8 @@ Set `SLACK_WEBHOOK_URL` in the untracked `.dev.vars` file to test contact delive
 commit webhook values. The English and Japanese pages are available at `/en` and `/ja`;
 `/` redirects to the visitor's preferred language, defaulting to `/en`.
 
-Local development uses Wrangler's local D1, KV, and R2 emulation, so the placeholder
-resource IDs in `wrangler.jsonc` are not a problem locally.
+Local development uses Wrangler's local D1, KV, and R2 emulation, so local work never
+touches the production resources in `wrangler.jsonc`.
 
 The contact form progressively enhances a normal POST. With JavaScript, localized field
 errors preserve entered values. Without JavaScript, the server still validates the request
@@ -96,16 +96,9 @@ Cloudflare Access in front of `/_emdash/admin` first).
 The Worker is named `cauchye-com` and `wrangler.jsonc` targets CAUCHYE ASIA account
 `89d1d38c83b2dbcc52f5df0f165a05ab`.
 
-**The D1 database, KV namespace, and R2 bucket in `wrangler.jsonc` are placeholders.** They
-have not been created; deployment fails until they exist and their IDs are filled in:
-
-```sh
-pnpm exec wrangler login
-pnpm exec wrangler d1 create cauchye-com            # → d1_databases[0].database_id
-pnpm exec wrangler kv namespace create SESSION      # → kv_namespaces[0].id
-pnpm exec wrangler r2 bucket create cauchye-com-media
-pnpm run types                                      # after editing wrangler.jsonc
-```
+The dedicated resources were created in the CAUCHYE ASIA account on 2026-10-13 and are
+recorded in `wrangler.jsonc`: D1 `cauchye-com` (`3d0c054a-8788-44d8-bce6-1de1bd288a06`),
+KV `cauchye-com-session` (`d91506517da340fcbc5528d82988f4a1`), and R2 `cauchye-com-media`.
 
 Then add the production secret interactively and deploy:
 
@@ -152,8 +145,7 @@ The Slack webhook remains a Cloudflare Worker secret and is not passed through G
 ## Production cutover checklist
 
 1. Confirm the Cloudflare zone is active and neither hostname has a conflicting CNAME.
-2. Create the D1 database, KV namespace, and R2 bucket and replace the placeholder IDs in
-   `wrangler.jsonc`.
+2. (Done 2026-10-13) D1, KV, and R2 resources are created and recorded in `wrangler.jsonc`.
 3. Set `SLACK_WEBHOOK_URL` with `wrangler secret put`.
 4. Run check, lint, test, build, and `pnpm run deploy:dry-run`.
 5. Deploy the Worker and verify `/`, `/en`, `/ja`, assets, both hostnames, metadata, and

@@ -19,29 +19,25 @@
 		// Set to "true" only while staff need the admin.
 		"EMDASH_ADMIN_ENABLED": "false"
 	},
-	// PLACEHOLDER IDS: the D1 database, KV namespace, and R2 bucket below do not exist yet.
-	// Create them in the CAUCHYE ASIA account and replace the placeholder values before the
-	// first deployment — `wrangler deploy` fails while they are in place.
+	// Dedicated resources in the CAUCHYE ASIA account (created 2026-10-13).
 	"d1_databases": [
 		{
 			"binding": "DB",
 			"database_name": "cauchye-com",
-			// PLACEHOLDER — `wrangler d1 create cauchye-com`
-			"database_id": "00000000-0000-0000-0000-000000000000"
+			"database_id": "3d0c054a-8788-44d8-bce6-1de1bd288a06"
 		}
 	],
 	"kv_namespaces": [
 		{
 			// Astro sessions, used only by the EmDash admin sign-in.
 			"binding": "SESSION",
-			// PLACEHOLDER — `wrangler kv namespace create SESSION`
-			"id": "00000000000000000000000000000000"
+			// KV namespace: cauchye-com-session
+			"id": "d91506517da340fcbc5528d82988f4a1"
 		}
 	],
 	"r2_buckets": [
 		{
 			"binding": "MEDIA",
-			// PLACEHOLDER — `wrangler r2 bucket create cauchye-com-media`
 			"bucket_name": "cauchye-com-media"
 		}
 	],

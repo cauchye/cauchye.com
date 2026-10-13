@@ -1,7 +1,7 @@
 # cauchye.com — EmDash content design
 
 Status: implemented on `feat/emdash-migration`; not yet deployed. The Cloudflare D1, KV, and
-R2 resources named in `wrangler.jsonc` are placeholders that still have to be created.
+R2 resources in `wrangler.jsonc` exist in the CAUCHYE ASIA account (created 2026-10-13).
 
 ## Boundary
 
