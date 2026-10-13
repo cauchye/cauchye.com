@@ -5,11 +5,13 @@ import { type Dictionary, type Locale, getDictionary } from '../i18n';
 import type { Partner, PartnerPlacement } from '../partners';
 import {
 	ARTICLES_PER_PAGE,
+	ARTICLE_TEASER_COUNT,
 	type ArticleEntry,
 	type ArticleSummary,
 	resolveArticle,
 	resolveArticles
 } from './articles';
+import type { SitemapArticle } from './sitemap';
 import { type CmsEntry, type Faq, mergePageCopy, resolveFaqs, resolvePartners } from './resolve';
 import type { FaqPage } from './schema';
 
@@ -99,8 +101,55 @@ export async function getArticles(
 	}
 }
 
+const latestArticles = new WeakMap<Request, Map<Locale, Promise<ArticleSummary[]>>>();
+
+// The newest published articles, read from D1 once per request. The navigation link and
+// every teaser section of a page share this one lookup; it holds one article more than a
+// teaser shows, so the article being read can be left out.
+export function getLatestArticles(Astro: AstroGlobal, locale: Locale): Promise<ArticleSummary[]> {
+	let byLocale = latestArticles.get(Astro.request);
+	if (!byLocale) latestArticles.set(Astro.request, (byLocale = new Map()));
+	let articles = byLocale.get(locale);
+	if (!articles) {
+		articles = getArticles(Astro, locale, 1, ARTICLE_TEASER_COUNT + 1).then(
+			(list) => list.articles
+		);
+		byLocale.set(locale, articles);
+	}
+	return articles;
+}
+
 export async function hasArticles(Astro: AstroGlobal, locale: Locale): Promise<boolean> {
-	return (await getArticles(Astro, locale, 1, 1)).articles.length > 0;
+	return (await getLatestArticles(Astro, locale)).length > 0;
+}
+
+// Every published article of a locale, for the sitemap. A failed lookup reads as none.
+export async function getSitemapArticles(locale: Locale): Promise<SitemapArticle[]> {
+	try {
+		const { entries, error } = await getEmDashCollection('articles', {
+			locale,
+			status: 'published',
+			orderBy: { published_at: 'desc' }
+		});
+		if (error) {
+			console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
+			return [];
+		}
+		return (entries as unknown as ArticleEntry[]).flatMap((entry) => {
+			const article = resolveArticle(locale, entry);
+			if (!article) return [];
+			const { translationGroup, updatedAt } = entry.data;
+			return {
+				locale,
+				slug: article.slug,
+				translationGroup: typeof translationGroup === 'string' ? translationGroup : undefined,
+				updatedAt: updatedAt instanceof Date ? updatedAt : article.publishedAt
+			};
+		});
+	} catch (error) {
+		console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
+		return [];
+	}
 }
 
 export interface Article extends ArticleSummary {

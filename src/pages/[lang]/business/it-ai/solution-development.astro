@@ -16,6 +16,7 @@ import {
 } from 'lucide-astro';
 
 import D6eMark from '../../../../components/D6eMark.astro';
+import ArticleTeasers from '../../../../components/sections/ArticleTeasers.astro';
 import SectionHeading from '../../../../components/sections/SectionHeading.astro';
 import { Badge } from '../../../../components/ui/badge/index.js';
 import { Button } from '../../../../components/ui/button/index.js';
@@ -375,6 +376,8 @@ const clientExamples = [
 			}
 		</div>
 	</section>
+
+	<ArticleTeasers locale={lang} messages={m} title={m.articles_related_title} />
 
 	<section class="pb-20 md:pb-28">
 		<div

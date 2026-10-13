@@ -326,5 +326,11 @@
 	"articles_older": "過去の記事",
 	"articles_pagination_label": "記事のページ送り",
 	"articles_not_found_title": "記事が見つかりません",
-	"articles_not_found_body": "この記事はこの言語では公開されていないか、公開が終了しています。"
+	"articles_not_found_body": "この記事はこの言語では公開されていないか、公開が終了しています。",
+	"articles_latest_title": "最新記事",
+	"articles_related_title": "関連記事",
+	"articles_other_title": "他の記事",
+	"articles_view_all": "記事一覧へ",
+	"articles_contact_title": "記事の内容について、お気軽にご相談ください",
+	"articles_contact_body": "AIエージェントの導入やAIソリューション開発、コーポレートアドバイザリーまで、検討中の課題をお聞かせください。"
 }

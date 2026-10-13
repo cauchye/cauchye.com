@@ -1,21 +1,33 @@
 ---
 import { PortableText } from 'emdash/ui';
-import { ArrowLeft, ChevronRight } from 'lucide-astro';
+import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-astro';
 
 import PortableTextCode from '../../../components/articles/PortableTextCode.astro';
 import PortableTextImage from '../../../components/articles/PortableTextImage.astro';
 import PortableTextYouTube from '../../../components/articles/PortableTextYouTube.astro';
+import ArticleTeasers from '../../../components/sections/ArticleTeasers.astro';
 import { Button } from '../../../components/ui/button/index.js';
 import { Separator } from '../../../components/ui/separator/index.js';
 import { formatArticleDate } from '../../../cms/articles';
-import { getArticle, getArticleTranslationSlug, getMessages } from '../../../cms/content';
+import {
+	getArticle,
+	getArticleTranslationSlug,
+	getLatestArticles,
+	getMessages
+} from '../../../cms/content';
 import { isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const { lang, slug = '' } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/articles', 302);
 const otherLocale = lang === 'en' ? 'ja' : 'en';
-const [m, article] = await Promise.all([getMessages(Astro, lang), getArticle(Astro, lang, slug)]);
+// The latest articles are only started here, so the lookup the navigation and the teasers
+// share runs alongside the others instead of after them.
+const [m, article] = await Promise.all([
+	getMessages(Astro, lang),
+	getArticle(Astro, lang, slug),
+	getLatestArticles(Astro, lang)
+]);
 const translationSlug = article && (await getArticleTranslationSlug(article, otherLocale));
 const listHref = `/${lang}/articles`;
 if (!article) Astro.response.status = 404;
@@ -31,6 +43,11 @@ const portableTextComponents = {
 	description={article?.excerpt || m.articles_meta_description}
 	pagePath={article ? `/articles/${article.slug}` : '/articles'}
 	translationPath={translationSlug ? `/articles/${translationSlug}` : '/articles'}
+	hasTranslation={!article || Boolean(translationSlug)}
+	ogType={article ? 'article' : 'website'}
+	ogImage={article?.image?.src}
+	ogImageAlt={article?.image?.alt}
+	publishedTime={article?.publishedAt}
 >
 	<article class="mx-auto max-w-3xl py-12 md:py-20">
 		<nav aria-label={m.breadcrumb_label}>
@@ -100,6 +117,36 @@ const portableTextComponents = {
 			{m.articles_back}
 		</Button>
 	</article>
+
+	{
+		article && (
+			<>
+				<ArticleTeasers
+					locale={lang}
+					messages={m}
+					title={m.articles_other_title}
+					exclude={article.slug}
+				/>
+				<section class="pb-20 md:pb-28" data-article-contact>
+					<div class="relative overflow-hidden rounded-3xl bg-brand px-6 py-14 text-brand-foreground md:px-12 md:py-18">
+						<div class="relative">
+							<h2 class="text-3xl font-semibold md:text-5xl">{m.articles_contact_title}</h2>
+							<p class="mt-4 text-white/70 md:text-lg">{m.articles_contact_body}</p>
+							<Button
+								href={`/${lang}/contact`}
+								variant="secondary"
+								size="lg"
+								class="mt-8 h-11 px-5"
+							>
+								{m.contact_cta}
+								<ArrowRight data-icon="inline-end" />
+							</Button>
+						</div>
+					</div>
+				</section>
+			</>
+		)
+	}
 </BaseLayout>
 
 <style is:global>

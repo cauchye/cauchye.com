@@ -326,5 +326,11 @@
 	"articles_older": "Older articles",
 	"articles_pagination_label": "Article pages",
 	"articles_not_found_title": "Article not found",
-	"articles_not_found_body": "This article is not available in this language, or it is no longer published."
+	"articles_not_found_body": "This article is not available in this language, or it is no longer published.",
+	"articles_latest_title": "Latest articles",
+	"articles_related_title": "Related articles",
+	"articles_other_title": "More articles",
+	"articles_view_all": "View all articles",
+	"articles_contact_title": "Talk to us about what you read",
+	"articles_contact_body": "From AI adoption and solution development to corporate advisory, tell us what you are working on."
 }

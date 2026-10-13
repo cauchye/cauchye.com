@@ -17,6 +17,8 @@
 		messages: Dictionary;
 		pagePath?: string;
 		translationPath?: string;
+		// Whether this locale has a published article to link the list for.
+		showArticles?: boolean;
 	}
 
 	const localeOptions = [
@@ -50,13 +52,20 @@
 		{ hash: '#partners', label: 'nav_partners' }
 	];
 
-	let { locale, messages: m, pagePath = '', translationPath = pagePath }: Props = $props();
+	let {
+		locale,
+		messages: m,
+		pagePath = '',
+		translationPath = pagePath,
+		showArticles = false
+	}: Props = $props();
 
 	let mobileOpen = $state(false);
 	let scrolled = $state(false);
 
 	const home = $derived(`/${locale}`);
 	const currentPage = $derived(`${home}${pagePath}`);
+	const articlesCurrent = $derived(pagePath.startsWith('/articles') ? 'page' : undefined);
 	const pageNavItems = $derived(
 		pagePath === '/contact' || pagePath.startsWith('/articles')
 			? []
@@ -110,6 +119,15 @@
 					{m[item.label]}
 				</a>
 			{/each}
+			{#if showArticles}
+				<a
+					href={`${home}/articles`}
+					aria-current={articlesCurrent}
+					class="rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none aria-[current=page]:text-foreground"
+				>
+					{m.nav_articles}
+				</a>
+			{/if}
 		</nav>
 
 		<div class="ml-auto flex items-center gap-1 lg:ml-0">
@@ -197,6 +215,16 @@
 								{m[item.label]}
 							</a>
 						{/each}
+						{#if showArticles}
+							<a
+								href={`${home}/articles`}
+								aria-current={articlesCurrent}
+								onclick={() => (mobileOpen = false)}
+								class="border-b border-border py-3.5 text-base transition-colors hover:text-brand aria-[current=page]:text-brand"
+							>
+								{m.nav_articles}
+							</a>
+						{/if}
 					</nav>
 
 					<Sheet.Footer>

@@ -2,8 +2,8 @@
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.svelte';
 import { hasArticles } from '../cms/content';
-import type { Dictionary, Locale } from '../i18n';
-import { site } from '../site';
+import { type Dictionary, type Locale, locales } from '../i18n';
+import { absoluteUrl, site } from '../site';
 import '../styles/global.css';
 
 interface Props {
@@ -14,6 +14,13 @@ interface Props {
 	pagePath?: string;
 	// Path of this page in the other locale, when it differs from `pagePath`.
 	translationPath?: string;
+	// False when the other locale has no version of this page: it is then not an alternate.
+	hasTranslation?: boolean;
+	ogType?: 'website' | 'article';
+	// Share image, as a site path or an absolute URL.
+	ogImage?: string;
+	ogImageAlt?: string;
+	publishedTime?: Date;
 }
 
 const {
@@ -22,7 +29,12 @@ const {
 	pageTitle,
 	description = messages.hero_body,
 	pagePath = '',
-	translationPath = pagePath
+	translationPath = pagePath,
+	hasTranslation = true,
+	ogType = 'website',
+	ogImage,
+	ogImageAlt,
+	publishedTime
 } = Astro.props;
 const title = pageTitle
 	? `${pageTitle} | ${site.shortName}`
@@ -31,6 +43,11 @@ const localizedPath = `/${locale}${pagePath}`;
 const pageUrl = `${site.url}${localizedPath}`;
 const alternateUrl = (alternate: Locale) =>
 	`${site.url}/${alternate}${alternate === locale ? pagePath : translationPath}`;
+// As in the sitemap: English is the default, unless this page has no English version.
+const alternateLocales = hasTranslation ? locales : [locale];
+const defaultLocale = alternateLocales.includes('en') ? 'en' : locale;
+const OG_LOCALES: Record<Locale, string> = { en: 'en_US', ja: 'ja_JP' };
+const imageUrl = ogImage && absoluteUrl(ogImage);
 // The article list is only linked once it has something to show.
 const showArticles = await hasArticles(Astro, locale);
 const organizationSchema = JSON.stringify({
@@ -61,18 +78,38 @@ const organizationSchema = JSON.stringify({
 		<title>{title}</title>
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="canonical" href={pageUrl} />
-		<link rel="alternate" hreflang="en" href={alternateUrl('en')} />
-		<link rel="alternate" hreflang="ja" href={alternateUrl('ja')} />
-		<link rel="alternate" hreflang="x-default" href={alternateUrl('en')} />
+		{
+			alternateLocales.map((alternate) => (
+				<link rel="alternate" hreflang={alternate} href={alternateUrl(alternate)} />
+			))
+		}
+		<link rel="alternate" hreflang="x-default" href={alternateUrl(defaultLocale)} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
-		<meta property="og:type" content="website" />
+		<meta property="og:type" content={ogType} />
 		<meta property="og:url" content={pageUrl} />
+		<meta property="og:site_name" content={site.legalName} />
+		<meta property="og:locale" content={OG_LOCALES[locale]} />
+		{imageUrl && <meta property="og:image" content={imageUrl} />}
+		{imageUrl && ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+		{
+			ogType === 'article' && publishedTime && (
+				<meta property="article:published_time" content={publishedTime.toISOString()} />
+			)
+		}
+		<meta name="twitter:card" content={imageUrl ? 'summary_large_image' : 'summary'} />
 		<script is:inline type="application/ld+json" set:html={organizationSchema} />
 	</head>
 	<body>
 		<div class="flex min-h-svh flex-col">
-			<Header {locale} messages={messages} {pagePath} {translationPath} client:load />
+			<Header
+				{locale}
+				messages={messages}
+				{pagePath}
+				{translationPath}
+				{showArticles}
+				client:load
+			/>
 			<main class="container mx-auto flex-1">
 				<slot />
 			</main>

@@ -1,4 +1,5 @@
 ---
+import ArticleTeasers from '../../components/sections/ArticleTeasers.astro';
 import Company from '../../components/sections/Company.astro';
 import Hero from '../../components/sections/Hero.astro';
 import Services from '../../components/sections/Services.astro';
@@ -16,5 +17,6 @@ const messages = await getMessages(Astro, lang);
 <BaseLayout locale={lang} {messages}>
 	<Hero {messages} />
 	<Services locale={lang} {messages} />
+	<ArticleTeasers locale={lang} {messages} title={messages.articles_latest_title} />
 	<Company {messages} />
 </BaseLayout>

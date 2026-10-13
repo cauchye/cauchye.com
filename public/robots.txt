@@ -1,3 +1,7 @@
 # allow crawling the public site; EmDash system routes are not content
 User-agent: *
 Disallow: /_emdash/
+# uploaded media is public: article images are used as share images
+Allow: /_emdash/api/media/file/
+
+Sitemap: https://www.cauchye.com/sitemap.xml

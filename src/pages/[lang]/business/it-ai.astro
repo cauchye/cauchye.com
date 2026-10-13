@@ -1,6 +1,7 @@
 ---
 import { ArrowRight, Bot, Check, ChevronRight, CodeXml, ExternalLink, Gauge } from 'lucide-astro';
 
+import ArticleTeasers from '../../../components/sections/ArticleTeasers.astro';
 import PartnerShowcase from '../../../components/sections/PartnerShowcase.astro';
 import SectionHeading from '../../../components/sections/SectionHeading.astro';
 import { Badge } from '../../../components/ui/badge/index.js';
@@ -185,6 +186,8 @@ const partners = await getPartners(Astro, lang, 'it-ai');
 			}
 		</div>
 	</section>
+
+	<ArticleTeasers locale={lang} messages={m} title={m.articles_related_title} />
 
 	<section class="pb-20 md:pb-28">
 		<div
