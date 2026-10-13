@@ -1,0 +1,13 @@
+---
+// Replaces EmDash's dark default so code blocks take the article's own `pre` styling.
+interface Props {
+	node: {
+		code?: string;
+		language?: string;
+	};
+}
+
+const { node } = Astro.props;
+---
+
+<pre data-language={node.language}><code set:text={node.code ?? ''} /></pre>

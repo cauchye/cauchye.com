@@ -102,6 +102,18 @@
 							},
 							"alt": "Sample body image",
 							"caption": "A sample image with a caption"
+						},
+						{
+							"_type": "code",
+							"language": "toml",
+							"code": "[sample]\nenabled = true\nlong_value = \"a value long enough to need horizontal scrolling inside the code block on a phone\""
+						},
+						{
+							"_type": "youtube",
+							"videoId": "aqz-KE-bpKQ",
+							"start": 30,
+							"title": "Sample video",
+							"caption": "A sample video caption"
 						}
 					]
 				}
@@ -241,12 +253,69 @@
 							"caption": "本文中の画像とキャプションの表示例"
 						},
 						{
+							"_type": "code",
+							"language": "toml",
+							"code": "[sample]\nenabled = true\nlong_value = \"a value long enough to need horizontal scrolling inside the code block on a phone\""
+						},
+						{
+							"_type": "youtube",
+							"videoId": "aqz-KE-bpKQ",
+							"start": 30,
+							"title": "Sample video",
+							"caption": "動画キャプションの表示例"
+						},
+						{
 							"_type": "block",
 							"style": "normal",
 							"children": [
 								{
 									"_type": "span",
 									"text": "以上でサンプルは終わりです。"
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "fixture-article-slugs",
+				"slug": "sample-english-slug",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "Sample article: its own slug per language",
+					"excerpt": "A local-only sample whose translation uses a different slug.",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "The Japanese translation of this article has a different slug."
+								}
+							]
+						}
+					]
+				}
+			},
+			{
+				"id": "fixture-article-slugs-ja",
+				"slug": "sample-japanese-slug",
+				"locale": "ja",
+				"translationOf": "fixture-article-slugs",
+				"status": "published",
+				"data": {
+					"title": "サンプル記事：言語ごとに異なるスラッグ",
+					"excerpt": "翻訳が別のスラッグを持つ、ローカル専用サンプルです。",
+					"content": [
+						{
+							"_type": "block",
+							"style": "normal",
+							"children": [
+								{
+									"_type": "span",
+									"text": "この記事の英語版は別のスラッグを持ちます。"
 								}
 							]
 						}

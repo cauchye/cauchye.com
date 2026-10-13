@@ -2,25 +2,26 @@
 import { PortableText } from 'emdash/ui';
 import { ArrowLeft, ChevronRight } from 'lucide-astro';
 
+import PortableTextCode from '../../../components/articles/PortableTextCode.astro';
 import PortableTextImage from '../../../components/articles/PortableTextImage.astro';
+import PortableTextYouTube from '../../../components/articles/PortableTextYouTube.astro';
 import { Button } from '../../../components/ui/button/index.js';
 import { Separator } from '../../../components/ui/separator/index.js';
 import { formatArticleDate } from '../../../cms/articles';
-import { getArticle, getMessages } from '../../../cms/content';
+import { getArticle, getArticleTranslationSlug, getMessages } from '../../../cms/content';
 import { isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const { lang, slug = '' } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/articles', 302);
 const otherLocale = lang === 'en' ? 'ja' : 'en';
-const [m, article, translation] = await Promise.all([
-	getMessages(Astro, lang),
-	getArticle(Astro, lang, slug),
-	getArticle(Astro, otherLocale, slug)
-]);
+const [m, article] = await Promise.all([getMessages(Astro, lang), getArticle(Astro, lang, slug)]);
+const translationSlug = article && (await getArticleTranslationSlug(article, otherLocale));
 const listHref = `/${lang}/articles`;
 if (!article) Astro.response.status = 404;
-const portableTextComponents = { type: { image: PortableTextImage } };
+const portableTextComponents = {
+	type: { code: PortableTextCode, image: PortableTextImage, youtube: PortableTextYouTube }
+};
 ---
 
 <BaseLayout
@@ -29,7 +30,7 @@ const portableTextComponents = { type: { image: PortableTextImage } };
 	pageTitle={article?.title ?? m.articles_not_found_title}
 	description={article?.excerpt || m.articles_meta_description}
 	pagePath={article ? `/articles/${article.slug}` : '/articles'}
-	translationPath={article && translation ? `/articles/${translation.slug}` : '/articles'}
+	translationPath={translationSlug ? `/articles/${translationSlug}` : '/articles'}
 >
 	<article class="mx-auto max-w-3xl py-12 md:py-20">
 		<nav aria-label={m.breadcrumb_label}>

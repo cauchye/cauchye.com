@@ -21,3 +21,6 @@ Thumbs.db
 # Playwright
 test-results
 playwright-report
+
+# Local-only data (imported article text and images)
+/.local/

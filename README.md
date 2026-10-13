@@ -36,7 +36,7 @@ pnpm run build
 pnpm run preview
 pnpm test             # unit tests (Vitest), then end-to-end tests (Playwright)
 pnpm run seed:build   # regenerate seed/seed.json
-pnpm run articles:import <seed.json>   # refresh seed/articles.json from another EmDash seed
+pnpm run articles:import <export dir>   # load exported fde-mission articles into the local database
 pnpm run articles:fixtures             # add sample articles to the local database
 pnpm run deploy:dry-run
 ```
@@ -66,21 +66,27 @@ database — once the site is live, edit content in EmDash.
 ### Articles
 
 Published `articles` entries are listed at `/[lang]/articles` and rendered at
-`/[lang]/articles/[slug]`. The collection has the same fields as fde-mission's `articles`.
-The footer links the list only while the current language has a published article, and an
-article without a translation is not served in the other language.
+`/[lang]/articles/[slug]`. The collection has fde-mission's `articles` fields (`title`,
+`excerpt`, `featured_image`, `content`); fde-mission's `category` is not carried over. The
+body renders images, code blocks, and `youtube` blocks. The footer links the list only
+while the current language has a published article, and an article without a translation
+is not served in the other language. Translations are found by EmDash's translation group,
+so the two languages of an article may use different slugs.
 
-`seed/articles.json` holds the articles bundled into the seed. Refresh it from another
-EmDash seed, then rebuild the seed:
+`seed/articles.json` holds the articles bundled into the seed; it is empty, and real
+article text and images are never committed. To look at real articles locally, import an
+export of fde-mission's D1 `ec_articles` and `media` rows (`articles.json`, `media.json`)
+and the media files (`media/<storage key>`) into a seeded local database:
 
 ```sh
-pnpm run articles:import ../fde-mission/seed/seed.json
-pnpm run seed:build
+pnpm run articles:import ../fde-export --persist-to .wrangler/state \
+  --substitute <storage key>=<image file>   # optional, for a media file the export lacks
 ```
 
-The import copies the entries and any site-relative image files they reference into
-`public/`. fde-mission's seed contained no articles when this was added, so the bundled
-seed has none.
+The import keeps the translation links and publication dates, stores the media rows and
+files in Wrangler's local D1 and R2, and writes the generated seed and a report (including
+any substituted file) to the untracked `.local/articles-import/`. It only writes under the
+`--persist-to` directory; nothing reaches the production resources.
 
 To look at the article pages locally, add the sample articles of
 `tests/fixtures/articles-seed.json` to a seeded local database (the end-to-end tests do the

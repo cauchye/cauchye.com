@@ -110,3 +110,16 @@ export function portableImageSource(
 	const storageKey = text(asset.url) ?? text(asset._ref);
 	return storageKey ? `/_emdash/api/media/file/${encodeStorageKey(storageKey)}` : undefined;
 }
+
+const YOUTUBE_VIDEO_ID = /^[A-Za-z0-9_-]{11}$/;
+
+// Privacy-enhanced embed URL of a Portable Text `youtube` block.
+export function youtubeEmbedSource(videoId: unknown, start?: unknown): string | undefined {
+	if (typeof videoId !== 'string' || !YOUTUBE_VIDEO_ID.test(videoId)) return undefined;
+	const url = new URL(`https://www.youtube-nocookie.com/embed/${videoId}`);
+	url.searchParams.set('rel', '0');
+	if (typeof start === 'number' && Number.isInteger(start) && start > 0) {
+		url.searchParams.set('start', String(start));
+	}
+	return url.toString();
+}

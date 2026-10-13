@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('..', import.meta.url));
 
-function localDatabase(persistDir: string): string {
+export function localDatabase(persistDir: string): string {
 	const directory = join(resolve(persistDir), 'v3/d1/miniflare-D1DatabaseObject');
 	let files: string[] = [];
 	try {

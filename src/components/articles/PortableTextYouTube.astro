@@ -1,0 +1,34 @@
+---
+import { youtubeEmbedSource } from '../../cms/articles';
+
+interface Props {
+	node: {
+		videoId?: string;
+		start?: number;
+		title?: string;
+		caption?: string;
+	};
+}
+
+const { node } = Astro.props;
+const src = youtubeEmbedSource(node.videoId, node.start);
+---
+
+{
+	src && (
+		<figure>
+			<div class="aspect-video overflow-hidden rounded-2xl border border-border bg-muted">
+				<iframe
+					{src}
+					title={node.title ?? 'YouTube'}
+					loading="lazy"
+					referrerpolicy="strict-origin-when-cross-origin"
+					allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+					allowfullscreen
+					class="size-full border-0"
+				/>
+			</div>
+			{node.caption && <figcaption>{node.caption}</figcaption>}
+		</figure>
+	)
+}

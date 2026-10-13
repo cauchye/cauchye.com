@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
 
 import { buildSeed } from '../../scripts/build-seed';
+import { exportedRows, planArticleImport } from '../../scripts/import-articles';
 import {
 	type ArticleEntry,
 	articlePage,
@@ -10,7 +11,8 @@ import {
 	formatArticleDate,
 	portableImageSource,
 	resolveArticle,
-	resolveArticles
+	resolveArticles,
+	youtubeEmbedSource
 } from '../../src/cms/articles';
 
 const seed = buildSeed();
@@ -147,5 +149,103 @@ describe('article resolution', () => {
 		expect(portableImageSource({ _ref: 'editorial/a b.png' })).toBe(
 			'/_emdash/api/media/file/editorial/a%20b.png'
 		);
+	});
+
+	it('builds privacy-enhanced YouTube embed URLs for valid video ids only', () => {
+		expect(youtubeEmbedSource('aqz-KE-bpKQ')).toBe(
+			'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?rel=0'
+		);
+		expect(youtubeEmbedSource('aqz-KE-bpKQ', 90)).toBe(
+			'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?rel=0&start=90'
+		);
+		expect(youtubeEmbedSource('aqz-KE-bpKQ', -1)).toBe(
+			'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?rel=0'
+		);
+		for (const id of [undefined, '', 'short', 'aqz-KE-bpKQ/../x', 'https://evil.example']) {
+			expect(youtubeEmbedSource(id)).toBeUndefined();
+		}
+	});
+});
+
+describe('article import from a D1 export', () => {
+	const content = JSON.stringify([
+		{ _type: 'block', style: 'normal', children: [{ _type: 'span', text: 'Body' }] },
+		{ _type: 'image', asset: { url: '/_emdash/api/media/file/editorial/body%20image.png' } }
+	]);
+	const featured = JSON.stringify({ id: 'media-1', meta: { storageKey: 'cover.png' } });
+	function row(overrides: Record<string, unknown>) {
+		return {
+			id: 'ja-1',
+			slug: 'story-ja',
+			status: 'published',
+			locale: 'ja',
+			translation_group: 'ja-1',
+			published_at: '2026-09-05T01:00:00.000Z',
+			created_at: '2026-09-04T01:00:00.000Z',
+			updated_at: '2026-09-06T01:00:00.000Z',
+			deleted_at: null,
+			title: 'Title',
+			excerpt: 'Excerpt',
+			category: null,
+			content,
+			featured_image: featured,
+			...overrides
+		};
+	}
+
+	it('unwraps the result envelope of `wrangler d1 execute --json`', () => {
+		expect(exportedRows([{ results: [{ id: 'a' }, { id: 'b' }] }])).toEqual([
+			{ id: 'a' },
+			{ id: 'b' }
+		]);
+		expect(exportedRows([{ id: 'a' }])).toEqual([{ id: 'a' }]);
+		expect(() => exportedRows({})).toThrow();
+	});
+
+	it('links translations by translation group, original first, whatever the slugs', () => {
+		const plan = planArticleImport([
+			row({ id: 'en-1', slug: 'story-en', locale: 'en', category: 'NEWS' }),
+			row({}),
+			row({ id: 'ja-2', slug: 'ja-only', translation_group: 'ja-2', featured_image: null }),
+			row({ id: 'draft', slug: 'draft', status: 'draft', translation_group: 'draft' }),
+			row({ id: 'gone', slug: 'gone', deleted_at: '2026-09-07', translation_group: 'gone' })
+		]);
+
+		expect(
+			plan.articles.map(({ id, slug, locale, translationOf }) => [id, slug, locale, translationOf])
+		).toEqual([
+			['ja-1', 'story-ja', 'ja', undefined],
+			['ja-2', 'ja-only', 'ja', undefined],
+			['en-1', 'story-en', 'en', 'ja-1']
+		]);
+		expect(plan.articles[0].data).toEqual({
+			title: 'Title',
+			excerpt: 'Excerpt',
+			featured_image: { id: 'media-1', meta: { storageKey: 'cover.png' } },
+			content: JSON.parse(content)
+		});
+		expect(plan.articles[1].data).not.toHaveProperty('featured_image');
+		expect(plan.mediaKeys).toEqual(['editorial/body image.png', 'cover.png']);
+		expect(plan.dates[0]).toEqual({
+			slug: 'story-ja',
+			locale: 'ja',
+			publishedAt: '2026-09-05T01:00:00.000Z',
+			createdAt: '2026-09-04T01:00:00.000Z',
+			updatedAt: '2026-09-06T01:00:00.000Z'
+		});
+		expect(plan.warnings).toEqual([
+			'Skipped 2 unpublished or deleted rows',
+			"Columns without a field in this site's collection: category"
+		]);
+	});
+
+	it('rejects rows it cannot import faithfully', () => {
+		expect(() => planArticleImport([row({ locale: 'fr' })])).toThrow('Unsupported locale');
+		expect(() => planArticleImport([row({}), row({ id: 'ja-9' })])).toThrow('Duplicate article');
+		expect(() => planArticleImport([row({}), row({ id: 'ja-9', slug: 'other' })])).toThrow(
+			'two "ja" articles'
+		);
+		expect(() => planArticleImport([row({ content: '{' })])).toThrow('Invalid JSON in content');
+		expect(() => planArticleImport([row({ content: 'null' })])).toThrow('no Portable Text');
 	});
 });

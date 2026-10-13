@@ -49,8 +49,9 @@ is a safety net and the source of the initial seed, not a second place to edit.
 
 ### Articles
 
-`articles` mirrors fde-mission's collection of the same name, so entries can be moved
-between the two sites with `scripts/import-articles.ts`. Unlike the other collections it has
+`articles` mirrors fde-mission's collection of the same name, so an export of its entries
+and media can be loaded into a local database with `scripts/import-articles.ts`; the
+article text and images themselves stay out of the repository. Unlike the other collections it has
 no bundled fallback: `/[lang]/articles` lists what is published (newest first, 12 per page)
 and `/[lang]/articles/[slug]` answers 404 for a draft, an unknown slug, or an article that
 exists only in the other language. The footer gains an "Articles" link only while the

@@ -1,5 +1,5 @@
 import type { AstroGlobal } from 'astro';
-import { getEmDashCollection, getEmDashEntry } from 'emdash';
+import { getEmDashCollection, getEmDashEntry, getTranslations } from 'emdash';
 
 import { type Dictionary, type Locale, getDictionary } from '../i18n';
 import type { Partner, PartnerPlacement } from '../partners';
@@ -104,6 +104,8 @@ export async function hasArticles(Astro: AstroGlobal, locale: Locale): Promise<b
 }
 
 export interface Article extends ArticleSummary {
+	// EmDash's id of the entry, which its translations are looked up by.
+	entryId?: string;
 	content: unknown[];
 }
 
@@ -129,7 +131,35 @@ export async function getArticle(
 		const summary = resolveArticle(locale, entry as unknown as ArticleEntry);
 		if (!summary) return undefined;
 		const content = entry.data.content as unknown;
-		return { ...summary, content: Array.isArray(content) ? content : [] };
+		const entryId = (entry.data as { id?: unknown }).id;
+		return {
+			...summary,
+			entryId: typeof entryId === 'string' ? entryId : undefined,
+			content: Array.isArray(content) ? content : []
+		};
+	} catch (error) {
+		console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
+		return undefined;
+	}
+}
+
+// Slug of the article's published translation. Translations are linked by EmDash's
+// translation group, not by slug: the two languages of an article may use different slugs.
+export async function getArticleTranslationSlug(
+	article: Article,
+	locale: Locale
+): Promise<string | undefined> {
+	if (!article.entryId) return undefined;
+	try {
+		const { translations, error } = await getTranslations('articles', article.entryId);
+		if (error) {
+			console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
+			return undefined;
+		}
+		const translation = translations.find(
+			(candidate) => candidate.locale === locale && candidate.status === 'published'
+		);
+		return translation?.slug ?? undefined;
 	} catch (error) {
 		console.error('EmDash content lookup failed', { collection: 'articles', locale, error });
 		return undefined;

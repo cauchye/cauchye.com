@@ -46,7 +46,7 @@ test.describe('with published articles', () => {
 		// Both fixtures are published in the same instant, so their order is not asserted.
 		await expect(cards.filter({ hasText: 'サンプル記事：記事レイアウトの確認' })).toHaveCount(1);
 		await expect(cards.filter({ hasText: 'サンプル記事：日本語のみで公開' })).toHaveCount(1);
-		await expect(cards).toHaveCount(2);
+		await expect(cards).toHaveCount(3);
 		await expect(page.locator('[data-articles-empty]')).toHaveCount(0);
 		const card = page.locator('[data-article-card][href="/ja/articles/sample-article"]');
 		await expect(card.locator('img')).toHaveAttribute('src', '/agents/grok-bot-coordination.png');
@@ -54,9 +54,11 @@ test.describe('with published articles', () => {
 		await expect(card).toContainText('記事を読む');
 
 		await page.goto('/en/articles');
-		await expect(page.locator('[data-article-card] h2')).toHaveText([
-			'Sample article: checking the article layout'
-		]);
+		const englishCards = page.locator('[data-article-card]');
+		await expect(englishCards).toHaveCount(2);
+		await expect(
+			englishCards.filter({ hasText: 'Sample article: checking the article layout' })
+		).toHaveCount(1);
 		await expect(page.getByText('Sample draft: never public')).toHaveCount(0);
 	});
 
@@ -90,7 +92,24 @@ test.describe('with published articles', () => {
 			'/ja'
 		);
 		await expect(body.locator('figure img')).toHaveAttribute('src', '/agents/codex-interface.webp');
-		await expect(body.locator('figcaption')).toHaveText('本文中の画像とキャプションの表示例');
+		await expect(body.locator('figcaption')).toHaveText([
+			'本文中の画像とキャプションの表示例',
+			'動画キャプションの表示例'
+		]);
+		// Code keeps its line breaks and the page's light styling; a long line scrolls inside it.
+		const code = body.locator('pre');
+		await expect(code.locator('code')).toHaveText(/^\[sample\]\nenabled = true\nlong_value = /);
+		await expect(code).toHaveCSS('overflow-x', 'auto');
+		const [codeColor, bodyColor] = await Promise.all([
+			code.locator('code').evaluate((element) => getComputedStyle(element).color),
+			body.evaluate((element) => getComputedStyle(element).color)
+		]);
+		expect(codeColor).toBe(bodyColor);
+		await expect(body.locator('iframe')).toHaveAttribute(
+			'src',
+			'https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ?rel=0&start=30'
+		);
+		await expect(body.locator('iframe')).toHaveAttribute('title', 'Sample video');
 
 		// The article uses the same typeface and colours as the existing pages.
 		const articleFont = await article
@@ -130,6 +149,19 @@ test.describe('with published articles', () => {
 			'https://www.cauchye.com/en/articles/sample-article'
 		);
 
+		// A translation is found by its translation group, not by sharing the slug.
+		await page.goto('/ja/articles/sample-japanese-slug');
+		await page.locator('[data-slot="dropdown-menu-trigger"]').click();
+		await expect(page.getByRole('menuitem', { name: 'English' })).toHaveAttribute(
+			'href',
+			'/en/articles/sample-english-slug'
+		);
+		await page.goto('/en/articles/sample-english-slug');
+		await expect(page.locator('link[hreflang="ja"]')).toHaveAttribute(
+			'href',
+			'https://www.cauchye.com/ja/articles/sample-japanese-slug'
+		);
+
 		await page.goto('/ja/articles/sample-ja-only');
 		await expect(page.locator('main article h1')).toHaveText('サンプル記事：日本語のみで公開');
 		await page.locator('[data-slot="dropdown-menu-trigger"]').click();
@@ -143,6 +175,7 @@ test.describe('with published articles', () => {
 		for (const path of [
 			'/en/articles/sample-draft',
 			'/en/articles/sample-ja-only',
+			'/en/articles/sample-japanese-slug',
 			'/ja/articles/unknown'
 		]) {
 			const response = await request.get(path);
@@ -162,6 +195,16 @@ test.describe('with published articles', () => {
 				() => document.documentElement.scrollWidth > window.innerWidth
 			);
 			expect(hasHorizontalOverflow, path).toBe(false);
+			// Images and embeds stay within the page width.
+			const widest = await page.evaluate(() =>
+				Math.max(
+					0,
+					...[...document.querySelectorAll('main img, main iframe')].map(
+						(element) => element.getBoundingClientRect().right
+					)
+				)
+			);
+			expect(widest, path).toBeLessThanOrEqual(390);
 		}
 	});
 });
