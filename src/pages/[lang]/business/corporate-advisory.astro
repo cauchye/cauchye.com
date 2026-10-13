@@ -17,12 +17,13 @@ import SectionHeading from '../../../components/sections/SectionHeading.astro';
 import { Badge } from '../../../components/ui/badge/index.js';
 import { Button } from '../../../components/ui/button/index.js';
 import { Card, CardContent, CardHeader } from '../../../components/ui/card/index.js';
-import { getDictionary, isLocale } from '../../../i18n';
+import { getMessages, getPartners } from '../../../cms/content';
+import { isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 const { lang } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/business/corporate-advisory', 302);
-const m = getDictionary(lang);
+const m = await getMessages(Astro, lang);
 const contactHref = `/${lang}/contact`;
 const services = [
 	{
@@ -47,14 +48,7 @@ const strengths = [
 	m.advisory_strength_point_3,
 	m.advisory_strength_point_4
 ];
-const partners = [
-	{
-		name: lang === 'ja' ? 'テセウスコンサルティング株式会社' : 'Theseus Consulting Inc.',
-		logo: '/partners/theseus-consulting.png',
-		site: 'https://theseus-grp.com/',
-		logoClass: 'h-16 w-full'
-	}
-];
+const partners = await getPartners(Astro, lang, 'corporate-advisory');
 ---
 
 <BaseLayout

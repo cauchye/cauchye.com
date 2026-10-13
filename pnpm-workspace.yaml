@@ -1,7 +1,10 @@
 allowBuilds:
   esbuild: true
   workerd: true
+  sharp: false
 minimumReleaseAgeExclude:
   - shadcn-svelte@1.5.1
   - miniflare@5.20260826.0-alpha
   - wrangler@4.127.0
+  - emdash
+  - '@emdash-cms/*'

@@ -2,14 +2,15 @@
 import Company from '../../components/sections/Company.astro';
 import Hero from '../../components/sections/Hero.astro';
 import Services from '../../components/sections/Services.astro';
-import { getDictionary, isLocale } from '../../i18n';
+import { getMessages } from '../../cms/content';
+import { isLocale } from '../../i18n';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const { lang } = Astro.params;
 if (!isLocale(lang)) {
 	return Astro.redirect('/en', 302);
 }
-const messages = getDictionary(lang);
+const messages = await getMessages(Astro, lang);
 ---
 
 <BaseLayout locale={lang} {messages}>

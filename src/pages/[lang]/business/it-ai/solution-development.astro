@@ -26,13 +26,14 @@ import {
 	CardHeader,
 	CardTitle
 } from '../../../../components/ui/card/index.js';
-import { getDictionary, isLocale } from '../../../../i18n';
+import { getFaqs, getMessages } from '../../../../cms/content';
+import { isLocale } from '../../../../i18n';
 import BaseLayout from '../../../../layouts/BaseLayout.astro';
 import { d6e } from '../../../../site';
 
 const { lang } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/business/it-ai/solution-development', 302);
-const m = getDictionary(lang);
+const m = await getMessages(Astro, lang);
 const contactHref = `/${lang}/contact`;
 const services = [
 	{ icon: Compass, title: m.ai_service_1_title, body: m.ai_service_1_body },
@@ -52,11 +53,7 @@ const reasons = [
 	m.ai_why_point_4,
 	m.ai_why_point_5
 ];
-const faqs = [
-	{ question: m.ai_faq_1_q, answer: m.ai_faq_1_a },
-	{ question: m.ai_faq_2_q, answer: m.ai_faq_2_a },
-	{ question: m.ai_faq_3_q, answer: m.ai_faq_3_a }
-];
+const faqs = await getFaqs(Astro, lang, 'solution-development', m);
 const providers = [
 	{ name: 'OpenAI', detail: 'GPT', logo: '/brands/openai.svg' },
 	{ name: 'Anthropic', detail: 'Claude', logo: '/brands/anthropic.svg' },

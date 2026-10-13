@@ -5,6 +5,8 @@ pnpm-lock.yaml
 /dist/
 /.astro/
 /worker-configuration.d.ts
+/emdash-env.d.ts
+/.emdash/
 
 # Installed agent skills
 /.agents/skills/

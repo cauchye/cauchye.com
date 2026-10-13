@@ -3,6 +3,7 @@ node_modules
 # Output
 /dist
 /.astro
+/.emdash/migrations.json
 /.vercel
 .wrangler
 

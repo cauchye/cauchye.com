@@ -1,0 +1,93 @@
+# cauchye.com — EmDash content design
+
+Status: implemented on `feat/emdash-migration`; not yet deployed. The Cloudflare D1, KV, and
+R2 resources named in `wrangler.jsonc` are placeholders that still have to be created.
+
+## Boundary
+
+cauchye.com is a bilingual corporate site, not an application. EmDash is added for one
+purpose: letting staff edit the site's content without a code change. The public design,
+URLs, and language handling are unchanged, and the public site has no accounts or sign-in.
+
+## Content model
+
+| Collection | One entry is             | Fields                                                                                                                |
+| ---------- | ------------------------ | --------------------------------------------------------------------------------------------------------------------- |
+| `pages`    | a public route (6)       | `title`, `description`, `eyebrow`, `hero_title_lead`, `hero_title_accent`, `hero_body`, `copy` (JSON)                 |
+| `faqs`     | a question on a FAQ page | `question`, `answer`, `page`, `sort_order`                                                                            |
+| `partners` | a partner logo           | `name`, `url`, `logo` (image), `logo_path`, `logo_class`, `show_on_it_ai`, `show_on_corporate_advisory`, `sort_order` |
+
+Every entry exists once per locale (`en` is the default, `ja` is linked with
+`translationOf`). Public queries always ask for `status: "published"` and a locale.
+
+The page templates were written against a flat dictionary of message keys
+(`messages/*.json`). That stays the rendering contract: `src/cms/content.ts` overlays the
+published `pages` entries on the bundled dictionary and hands the result to the unchanged
+components. `src/cms/schema.ts` assigns every message key to exactly one owner — the
+interface, the FAQ collection, or one page — and a page entry can only replace keys it
+owns. A page's hero and metadata have dedicated fields; the rest of its section copy is the
+`copy` JSON object keyed by message key. This keeps about 220 strings per locale editable without as many
+schema fields, at the cost of a plain JSON editor for section copy. Promoting a section to
+structured fields later is a schema change plus a mapping entry, not a template rewrite.
+
+Interface strings — navigation, breadcrumbs, form labels, validation and status messages —
+are code, not content, and are not in the CMS. The contact endpoint keeps using them
+directly.
+
+### Bundled content and fallback
+
+`messages/*.json` and `src/partners.ts` remain the bundled copy of the content.
+`scripts/build-seed.ts` generates `seed/seed.json` (schema and content) from them, and a
+unit test fails if the committed seed drifts. At runtime a missing entry, an empty field,
+or a failed query falls back to the bundled value, so a database problem degrades to the
+last committed copy instead of a blank page. A populated `partners` collection is
+authoritative, including when it deliberately leaves a page without partners.
+
+The trade-off is that the bundled copy goes stale as editors change content in EmDash. It
+is a safety net and the source of the initial seed, not a second place to edit.
+
+### Media
+
+EmDash stores uploads in the `MEDIA` R2 bucket and serves them from
+`/_emdash/api/media/file/...`. The existing logos, brand marks, and screenshots stay in
+`public/` as static assets: seeded partners reference them through `logo_path`, and an
+uploaded `logo` takes precedence. Partner logo sizing is a small allow-list of utility
+classes, because classes that never appear in the source are not in the compiled CSS.
+
+## Routing and i18n
+
+Public routes are still the explicit `/[lang]/...` pages, with `/` redirecting by
+`Accept-Language`. Astro's `i18n` block exists only to tell EmDash which locales content
+has; `routing: "manual"` with a pass-through middleware keeps Astro from adding locale
+routing of its own. EmDash's system routes live under the unprefixed `/_emdash/`.
+
+## Administration and trust
+
+- `src/worker.ts` wraps the Astro handler. While `EMDASH_ADMIN_ENABLED` is not exactly
+  `"true"` it answers a non-cacheable `503` for `/_emdash/admin`, `/_emdash/api/setup`,
+  `/_emdash/api/auth`, `/_emdash/api/oauth`, `/_emdash/oauth`, `/_emdash/api/mcp`, and
+  `/_emdash/.well-known/auth`. This is broader than fde-mission's gate (admin and setup
+  only) because here "closed" is the normal state rather than a launch-time precaution.
+  Media delivery and other content routes under `/_emdash/` stay reachable.
+- A fresh database must not expose EmDash's first-admin race. The only opening while the
+  admin is closed is the exact `POST /_emdash/api/setup` carrying the high-entropy
+  `EMDASH_BOOTSTRAP_TOKEN` secret; it applies the seed and creates no user. Remove the
+  secret afterwards.
+- EmDash redirects visitors to its setup wizard when its tables do not exist. Because that
+  wizard is closed, the Worker reacts to that redirect on public `GET`/`HEAD` requests by
+  running EmDash's unauthenticated runtime initialisation once (schema only) and then
+  serving the requested page. A deployment against an empty database therefore serves the
+  bundled content instead of an error.
+- EmDash staff authentication (passkeys, stored in D1; sessions in the `SESSION` KV
+  namespace) only becomes reachable when the admin is enabled. The private content API
+  requires an EmDash session regardless.
+
+## Infrastructure
+
+- Astro server output on Cloudflare Workers; EmDash's D1 (`DB`) and R2 (`MEDIA`) adapters;
+  Astro sessions in KV (`SESSION`).
+- A per-minute cron trigger runs EmDash's scheduled handler (scheduled publishing and
+  housekeeping).
+- React is a dependency of the EmDash admin only. The public site remains Astro + Svelte.
+- No transactional email provider and no sandboxed plugins are configured; passkeys are the
+  only staff sign-in method.
