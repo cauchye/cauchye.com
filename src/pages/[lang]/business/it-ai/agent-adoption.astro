@@ -11,6 +11,7 @@ import {
 	UsersRound
 } from 'lucide-astro';
 
+import ArticleTeasers from '../../../../components/sections/ArticleTeasers.astro';
 import SectionHeading from '../../../../components/sections/SectionHeading.astro';
 import { Badge } from '../../../../components/ui/badge/index.js';
 import { Button } from '../../../../components/ui/button/index.js';
@@ -411,6 +412,8 @@ const faqs = await getFaqs(Astro, lang, 'agent-adoption', m);
 			</CardFooter>
 		</Card>
 	</section>
+
+	<ArticleTeasers locale={lang} messages={m} title={m.articles_related_title} />
 
 	<section class="py-16 md:py-24">
 		<div

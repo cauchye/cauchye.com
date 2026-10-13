@@ -54,9 +54,21 @@ and media can be loaded into a local database with `scripts/import-articles.ts`;
 article text and images themselves stay out of the repository. Unlike the other collections it has
 no bundled fallback: `/[lang]/articles` lists what is published (newest first, 12 per page)
 and `/[lang]/articles/[slug]` answers 404 for a draft, an unknown slug, or an article that
-exists only in the other language. The footer gains an "Articles" link only while the
-current language has a published article, so the existing pages are unchanged until
-something is published. Sample articles for previews and end-to-end tests live in
+exists only in the other language.
+
+Articles are linked from the header and footer, a "latest articles" section on the home
+page, a "related articles" section on the four business pages, and an "other articles"
+section plus a contact call-to-action below each article. All of them appear only while
+the current language has a published article, so the existing pages are unchanged until
+something is published. They share one lookup per request (`getLatestArticles`: the four
+newest articles, of which a section shows three). Articles have no category, so "related"
+articles are the newest ones.
+
+`/sitemap.xml` replaces EmDash's sitemap, which knows neither the static pages nor the
+`/<locale>` prefix. It lists every static page and published article once per locale, each
+with `hreflang` alternates; translations are paired by translation group, and an article
+published in one language names only that language. The page `<head>` follows the same
+rule, and article pages add `og:type=article`, the cover image, and the publication time. Sample articles for previews and end-to-end tests live in
 `tests/fixtures/` and are applied to the local database only; they are not in the seed.
 
 ### Media

@@ -68,9 +68,12 @@ database — once the site is live, edit content in EmDash.
 Published `articles` entries are listed at `/[lang]/articles` and rendered at
 `/[lang]/articles/[slug]`. The collection has fde-mission's `articles` fields (`title`,
 `excerpt`, `featured_image`, `content`); fde-mission's `category` is not carried over. The
-body renders images, code blocks, and `youtube` blocks. The footer links the list only
-while the current language has a published article, and an article without a translation
-is not served in the other language. Translations are found by EmDash's translation group,
+body renders images, code blocks, and `youtube` blocks. An article without a translation
+is not served in the other language. While the current language has a published article,
+the header and footer link the list, the home page shows the three latest articles, the
+business pages show up to three, and an article ends with other articles and a link to the
+contact page; a language without articles shows none of these. `/sitemap.xml` lists the
+static pages and the published articles with their `hreflang` alternates. Translations are found by EmDash's translation group,
 so the two languages of an article may use different slugs.
 
 `seed/articles.json` holds the articles bundled into the seed; it is empty, and real

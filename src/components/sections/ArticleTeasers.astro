@@ -1,0 +1,46 @@
+---
+import { ArrowRight } from 'lucide-astro';
+
+import ArticleCard from '../articles/ArticleCard.astro';
+import { Button } from '../ui/button/index.js';
+import { pickArticles } from '../../cms/articles';
+import { getLatestArticles } from '../../cms/content';
+import type { Dictionary, Locale } from '../../i18n';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+	locale: Locale;
+	messages: Dictionary;
+	title: string;
+	// Slug of the article being read, which is left out.
+	exclude?: string;
+}
+
+const { locale, messages: m, title, exclude } = Astro.props;
+// Every teaser section shows the newest articles, including "related articles" on the
+// business pages. Articles carry no category, and matching keywords in titles would need
+// a hand-kept word list per page and language plus a read of every article; the newest
+// ones come from the lookup the navigation already makes, so this adds no D1 query.
+const articles = pickArticles(await getLatestArticles(Astro, locale), exclude);
+---
+
+{
+	articles.length > 0 && (
+		<section data-article-teasers class="border-t border-border section">
+			<div class="flex flex-wrap items-end justify-between gap-6">
+				<SectionHeading eyebrow={m.articles_eyebrow} title={title} />
+				<Button href={`/${locale}/articles`} variant="outline" class="h-10 px-4">
+					{m.articles_view_all}
+					<ArrowRight data-icon="inline-end" />
+				</Button>
+			</div>
+			<ul class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+				{articles.map((article) => (
+					<li>
+						<ArticleCard locale={locale} {article} readLabel={m.articles_read} headingLevel={3} />
+					</li>
+				))}
+			</ul>
+		</section>
+	)
+}

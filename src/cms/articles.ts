@@ -2,6 +2,8 @@ import type { Locale } from '../i18n';
 import { type CmsMediaValue, cmsMediaSource, encodeStorageKey } from './resolve';
 
 export const ARTICLES_PER_PAGE = 12;
+// Articles shown in a teaser section: latest on the home page, related, and other articles.
+export const ARTICLE_TEASER_COUNT = 3;
 
 export interface ArticleImage {
 	src: string;
@@ -83,6 +85,15 @@ export function resolveArticles(
 		.sort(
 			(left, right) => (right.publishedAt?.getTime() ?? 0) - (left.publishedAt?.getTime() ?? 0)
 		);
+}
+
+// The newest articles for a teaser section, leaving out the one being read.
+export function pickArticles(
+	articles: readonly ArticleSummary[],
+	excludeSlug?: string,
+	count = ARTICLE_TEASER_COUNT
+): ArticleSummary[] {
+	return articles.filter((article) => article.slug !== excludeSlug).slice(0, count);
 }
 
 const DATE_FORMATS: Record<Locale, Intl.DateTimeFormat> = {

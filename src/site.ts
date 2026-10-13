@@ -15,6 +15,11 @@ export const site = {
 	foundedYear: 2022
 } as const;
 
+// Absolute URL of a path on this site; an already absolute URL is kept.
+export function absoluteUrl(path: string): string {
+	return new URL(path, site.url).href;
+}
+
 export const d6e = {
 	url: 'https://www.d6e.ai',
 	docsUrl: 'https://docs.d6e.ai',
