@@ -38,6 +38,8 @@ pnpm test             # unit tests (Vitest), then end-to-end tests (Playwright)
 pnpm run seed:build   # regenerate seed/seed.json
 pnpm run articles:import <export dir>   # load exported fde-mission articles into the local database
 pnpm run articles:fixtures             # add sample articles to the local database
+pnpm run articles:add --local <file>    # insert or update an article from content/articles/
+pnpm run og:build                       # regenerate public/og-default.png
 pnpm run deploy:dry-run
 ```
 
@@ -71,10 +73,20 @@ Published `articles` entries are listed at `/[lang]/articles` and rendered at
 body renders images, code blocks, and `youtube` blocks. An article without a translation
 is not served in the other language. While the current language has a published article,
 the header and footer link the list, the home page shows the three latest articles, the
-business pages show up to three, and an article ends with other articles and a link to the
-contact page; a language without articles shows none of these. `/sitemap.xml` lists the
+business pages show up to three, and an article ends with up to three related articles
+(same language, most shared tags first, then the newest) and a link to the contact page; a language without articles shows none of these. `/sitemap.xml` lists the
 static pages and the published articles with their `hreflang` alternates. Translations are found by EmDash's translation group,
 so the two languages of an article may use different slugs.
+
+New articles are written as files in `content/articles/` and written to D1 with
+`pnpm run articles:add` — locally with `--local`, in production with `--remote` — without
+opening the admin. The file format, the tags that drive the related articles, and the
+production procedure are in [docs/articles.md](docs/articles.md).
+
+`/rss.xml` is an RSS 2.0 feed of the articles of both languages, `/en/rss.xml` and
+`/ja/rss.xml` of one language each; every page links the feed of its language. A page
+without its own share image — everything but an article with a cover image — uses
+`public/og-default.png` for `og:image` and `twitter:image`.
 
 `seed/articles.json` holds the articles bundled into the seed; it is empty, and real
 article text and images are never committed. To look at real articles locally, import an

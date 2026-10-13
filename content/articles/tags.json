@@ -1,0 +1,12 @@
+{
+	"ja/ai-agent-60-hours-a-day": ["AI Agents", "Coding Agents", "Operations"],
+	"ja/ai-remote-operations-seven-boundaries": ["AI Agents", "Operations", "Governance"],
+	"ja/world-labs-atlas-three-phone-bullet-time": ["Video"],
+	"ja/gpt-6-astra-mid-turn-work-review": ["AI Agents", "Model Evaluation", "Governance"],
+	"ja/codex-context-management-experimental-mode": ["Coding Agents", "Cost"],
+	"ja/gemini-agentic-video-cost-cut": ["Video", "Cost"],
+	"ja/claude-fable-5-1-cost-paradox": ["Model Evaluation", "Cost"],
+	"ja/paintnet-wine-claude-review-debt": ["Coding Agents", "Governance"],
+	"ja/gemini-notebook-before-you-subscribe": ["Research"],
+	"ja/grok-bot-morning-research": ["AI Agents", "Research", "Automation"]
+}

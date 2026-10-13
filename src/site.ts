@@ -20,6 +20,14 @@ export function absoluteUrl(path: string): string {
 	return new URL(path, site.url).href;
 }
 
+// Share image of every page that has none of its own (1200x630, in public/).
+export const defaultShareImage = {
+	path: '/og-default.png',
+	width: 1200,
+	height: 630,
+	alt: 'CAUCHYE ASIA PTE. LTD.'
+} as const;
+
 export const d6e = {
 	url: 'https://www.d6e.ai',
 	docsUrl: 'https://docs.d6e.ai',
