@@ -66,9 +66,13 @@
 	const home = $derived(`/${locale}`);
 	const currentPage = $derived(`${home}${pagePath}`);
 	const articlesCurrent = $derived(pagePath.startsWith('/articles') ? 'page' : undefined);
+	// Pages without sections of their own (contact, articles) link to the home page's.
+	const navBase = $derived(
+		pagePath === '/contact' || pagePath.startsWith('/articles') ? home : currentPage
+	);
 	const pageNavItems = $derived(
 		pagePath === '/contact' || pagePath.startsWith('/articles')
-			? []
+			? homeNavItems
 			: pagePath === '/business/it-ai'
 				? aiOverviewNavItems
 				: pagePath === '/business/it-ai/agent-adoption'
@@ -113,7 +117,7 @@
 		<nav class="hidden flex-1 items-center gap-1 lg:flex" aria-label={m.nav_menu_label}>
 			{#each pageNavItems as item (item.hash)}
 				<a
-					href={`${currentPage}${item.hash}`}
+					href={`${navBase}${item.hash}`}
 					class="rounded-full px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
 				>
 					{m[item.label]}
@@ -208,7 +212,7 @@
 					<nav class="flex flex-col px-4" aria-label={m.nav_menu_label}>
 						{#each pageNavItems as item (item.hash)}
 							<a
-								href={`${currentPage}${item.hash}`}
+								href={`${navBase}${item.hash}`}
 								onclick={() => (mobileOpen = false)}
 								class="border-b border-border py-3.5 text-base transition-colors hover:text-brand"
 							>

@@ -78,6 +78,30 @@ test.describe('with published articles', () => {
 		seedArticleFixtures(stateDir);
 	});
 
+	test('keeps the site navigation in the header on every page', async ({ page }) => {
+		const pages = [
+			['ja', '/ja', ['事業内容', '会社概要', '記事']],
+			['ja', '/ja/contact', ['事業内容', '会社概要', '記事']],
+			['ja', '/ja/articles', ['事業内容', '会社概要', '記事']],
+			['ja', '/ja/articles/sample-article', ['事業内容', '会社概要', '記事']],
+			['en', '/en/articles', ['Services', 'Company', 'Articles']],
+			['en', '/en/articles/sample-article', ['Services', 'Company', 'Articles']]
+		] as const;
+		for (const [locale, path, labels] of pages) {
+			await page.setViewportSize({ width: 1280, height: 800 });
+			await page.goto(path);
+			const headerNav = page.locator('[data-site-header] nav').first();
+			await expect(headerNav.locator('a')).toHaveText([...labels]);
+			await expect(headerNav.locator('a').first()).toHaveAttribute('href', `/${locale}#services`);
+
+			await page.setViewportSize({ width: 390, height: 800 });
+			await page.locator('[data-site-header] [data-slot="sheet-trigger"]').click();
+			const menu = page.locator('[data-slot="sheet-content"] nav');
+			await expect(menu.locator('a')).toHaveText([...labels]);
+			await page.keyboard.press('Escape');
+		}
+	});
+
 	test('lists published articles in the requested language', async ({ page }) => {
 		await page.goto('/ja/articles');
 		const cards = page.locator('[data-article-card]');
@@ -110,7 +134,11 @@ test.describe('with published articles', () => {
 			'https://www.cauchye.com/ja/articles/sample-article'
 		);
 		await expect(page.locator('[data-site-header]')).toBeVisible();
-		await expect(page.locator('[data-site-header] nav').first().locator('a')).toHaveText(['記事']);
+		await expect(page.locator('[data-site-header] nav').first().locator('a')).toHaveText([
+			'事業内容',
+			'会社概要',
+			'記事'
+		]);
 		await expect(page.locator('footer')).toContainText('CAUCHYE ASIA PTE. LTD.');
 
 		const article = page.locator('main article');
