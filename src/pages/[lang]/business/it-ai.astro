@@ -13,13 +13,14 @@ import {
 	CardHeader,
 	CardTitle
 } from '../../../components/ui/card/index.js';
-import { getDictionary, isLocale } from '../../../i18n';
+import { getMessages, getPartners } from '../../../cms/content';
+import { isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { d6e } from '../../../site';
 
 const { lang } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/business/it-ai', 302);
-const m = getDictionary(lang);
+const m = await getMessages(Astro, lang);
 const contactHref = `/${lang}/contact`;
 
 const offerings = [
@@ -62,77 +63,7 @@ const offerings = [
 	}
 ];
 
-const partners = [
-	{
-		name:
-			lang === 'ja'
-				? '京都大学ソーシャルイノベーションセンター'
-				: 'Kyoto University Social Innovation Center',
-		logo: '/partners/kyoto-social-innovation-center.png',
-		site: 'https://innovationkyoto.org/',
-		logoClass: 'h-14 w-full invert'
-	},
-	{
-		name: lang === 'ja' ? '株式会社PoliPoli' : 'PoliPoli, Inc.',
-		logo: '/partners/polipoli.png',
-		site: 'https://www.polipoli.work/',
-		logoClass: 'h-10 w-full'
-	},
-	{
-		name: lang === 'ja' ? '柳澤国際税務会計事務所' : 'Yanagisawa and Company',
-		logo: '/partners/yanagisawa-accounting.png',
-		site: 'https://www.yanagisawa-accounting.com/',
-		logoClass: 'h-11 w-full'
-	},
-	{
-		name: 'STIR — Ethersecurity Pacific Holdings Pte. Ltd.',
-		logo: '/partners/ethersecurity-stir.svg',
-		site: 'https://stir.network/',
-		logoClass: 'h-14 w-full'
-	},
-	{
-		name: 'TECHFUND',
-		logo: '/partners/techfund.png',
-		site: 'https://techfund.jp/',
-		logoClass: 'h-16 w-full'
-	},
-	{
-		name: 'JP-FORCE',
-		logo: '/partners/jp-force.png',
-		site: 'https://www.jp-force.net/',
-		logoClass: 'h-14 w-full'
-	},
-	{
-		name: lang === 'ja' ? '南青山アドバイザリーグループ' : 'Minami Aoyama Advisory Group',
-		logo: '/partners/minami-aoyama.png',
-		site: 'https://minami-aoyama.jp/',
-		logoClass: 'h-12 w-full'
-	},
-	{
-		name: lang === 'ja' ? 'テセウスコンサルティング株式会社' : 'Theseus Consulting Inc.',
-		logo: '/partners/theseus-consulting.png',
-		site: 'https://theseus-grp.com/',
-		logoClass: 'h-16 w-full'
-	},
-	{
-		name: lang === 'ja' ? '株式会社Runner UP Plus' : 'Runner UP Plus, Inc.',
-		logo: '/partners/runner-up-plus.svg',
-		site: 'https://runnerup-plus.com/',
-		logoClass: 'h-12 w-full'
-	},
-	{
-		name: 'EsTRUTH',
-		logo: '/partners/estruth.svg',
-		site: 'https://www.estruth.co.jp/',
-		logoClass: 'h-14 w-full invert dark:invert-0'
-	},
-	{
-		name: 'Morus',
-		logo: '/partners/morus.svg',
-		site: 'https://morus.jp/jp/',
-		logoClass: 'h-12 w-full'
-	}
-];
+const partners = await getPartners(Astro, lang, 'it-ai');
 ---
 
 <BaseLayout

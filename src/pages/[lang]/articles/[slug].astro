@@ -1,0 +1,180 @@
+---
+import { PortableText } from 'emdash/ui';
+import { ArrowLeft, ChevronRight } from 'lucide-astro';
+
+import PortableTextCode from '../../../components/articles/PortableTextCode.astro';
+import PortableTextImage from '../../../components/articles/PortableTextImage.astro';
+import PortableTextYouTube from '../../../components/articles/PortableTextYouTube.astro';
+import { Button } from '../../../components/ui/button/index.js';
+import { Separator } from '../../../components/ui/separator/index.js';
+import { formatArticleDate } from '../../../cms/articles';
+import { getArticle, getArticleTranslationSlug, getMessages } from '../../../cms/content';
+import { isLocale } from '../../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const { lang, slug = '' } = Astro.params;
+if (!isLocale(lang)) return Astro.redirect('/en/articles', 302);
+const otherLocale = lang === 'en' ? 'ja' : 'en';
+const [m, article] = await Promise.all([getMessages(Astro, lang), getArticle(Astro, lang, slug)]);
+const translationSlug = article && (await getArticleTranslationSlug(article, otherLocale));
+const listHref = `/${lang}/articles`;
+if (!article) Astro.response.status = 404;
+const portableTextComponents = {
+	type: { code: PortableTextCode, image: PortableTextImage, youtube: PortableTextYouTube }
+};
+---
+
+<BaseLayout
+	locale={lang}
+	messages={m}
+	pageTitle={article?.title ?? m.articles_not_found_title}
+	description={article?.excerpt || m.articles_meta_description}
+	pagePath={article ? `/articles/${article.slug}` : '/articles'}
+	translationPath={translationSlug ? `/articles/${translationSlug}` : '/articles'}
+>
+	<article class="mx-auto max-w-3xl py-12 md:py-20">
+		<nav aria-label={m.breadcrumb_label}>
+			<ol class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+				<li>
+					<a href={`/${lang}`} class="transition-colors hover:text-foreground"
+						>{m.breadcrumb_home}</a
+					>
+				</li>
+				<li aria-hidden="true"><ChevronRight class="size-4" /></li>
+				<li>
+					<a href={listHref} class="transition-colors hover:text-foreground">{m.nav_articles}</a>
+				</li>
+			</ol>
+		</nav>
+
+		{
+			article ? (
+				<>
+					<header class="mt-10">
+						{article.publishedAt && (
+							<time
+								datetime={article.publishedAt.toISOString()}
+								class="font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase"
+							>
+								{formatArticleDate(article.publishedAt, lang)}
+							</time>
+						)}
+						<h1 class="mt-4 text-3xl leading-[1.15] font-semibold text-wrap sm:text-4xl md:text-5xl">
+							{article.title}
+						</h1>
+						{article.excerpt && (
+							<p class="mt-6 text-base leading-relaxed text-muted-foreground md:text-xl">
+								{article.excerpt}
+							</p>
+						)}
+					</header>
+					{article.image && (
+						<figure class="mt-10 overflow-hidden rounded-2xl border border-border bg-muted">
+							<img
+								src={article.image.src}
+								alt={article.image.alt}
+								width={article.image.width}
+								height={article.image.height}
+								fetchpriority="high"
+								decoding="async"
+								class="h-auto w-full"
+							/>
+						</figure>
+					)}
+					<Separator class="my-10" />
+					<div class="article-body">
+						<PortableText value={article.content} components={portableTextComponents} />
+					</div>
+				</>
+			) : (
+				<div class="mt-10" data-article-not-found>
+					<h1 class="text-3xl font-semibold sm:text-4xl">{m.articles_not_found_title}</h1>
+					<p class="mt-5 leading-relaxed text-muted-foreground">{m.articles_not_found_body}</p>
+				</div>
+			)
+		}
+
+		<Separator class="my-10" />
+		<Button href={listHref} variant="outline" class="h-10 px-4">
+			<ArrowLeft data-icon="inline-start" />
+			{m.articles_back}
+		</Button>
+	</article>
+</BaseLayout>
+
+<style is:global>
+	@reference '../../../styles/global.css';
+
+	.article-body {
+		@apply text-base leading-[1.85] md:text-[1.0625rem];
+	}
+
+	.article-body > * + * {
+		@apply mt-6;
+	}
+
+	.article-body h2 {
+		@apply mt-14 text-2xl leading-snug font-semibold text-wrap md:text-3xl;
+	}
+
+	.article-body h3 {
+		@apply mt-10 text-xl leading-snug font-semibold text-wrap md:text-2xl;
+	}
+
+	.article-body h4 {
+		@apply mt-8 text-lg font-semibold;
+	}
+
+	.article-body a {
+		@apply text-brand underline underline-offset-4 hover:decoration-2;
+	}
+
+	.article-body ul,
+	.article-body ol {
+		@apply flex flex-col gap-2 pl-6;
+	}
+
+	.article-body ul {
+		@apply list-disc;
+	}
+
+	.article-body ol {
+		@apply list-decimal;
+	}
+
+	.article-body li::marker {
+		@apply text-brand;
+	}
+
+	.article-body blockquote {
+		@apply border-l-2 border-brand pl-5 text-muted-foreground;
+	}
+
+	.article-body code {
+		@apply rounded-md bg-muted px-1.5 py-0.5 font-mono text-[0.875em];
+	}
+
+	.article-body pre {
+		@apply overflow-x-auto rounded-xl border border-border bg-muted p-5 text-sm leading-relaxed;
+	}
+
+	.article-body pre code {
+		@apply bg-transparent p-0;
+	}
+
+	.article-body figure {
+		@apply my-10;
+	}
+
+	.article-body figure img {
+		@apply h-auto w-full rounded-2xl border border-border;
+	}
+
+	.article-body figcaption {
+		@apply mt-3 text-sm leading-relaxed text-muted-foreground;
+	}
+
+	.article-body hr {
+		@apply my-10 border-border;
+	}
+</style>

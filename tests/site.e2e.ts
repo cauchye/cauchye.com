@@ -518,3 +518,59 @@ test('splits escaped Slack messages within section and block limits', () => {
 		expect(chunk).not.toMatch(/&(?:a(?:m(?:p)?)?|l(?:t)?|g(?:t)?)?$/);
 	}
 });
+
+test('keeps EmDash administration and first-admin setup closed', async ({ request }) => {
+	for (const path of [
+		'/_emdash/admin',
+		'/_emdash/admin/setup',
+		'/_emdash/admin/content/pages',
+		'/_emdash/api/auth/me',
+		'/_emdash/api/auth/mode',
+		'/_emdash/oauth/authorize'
+	]) {
+		const response = await request.get(path, { maxRedirects: 0 });
+		expect(response.status(), path).toBe(503);
+		expect(response.headers()['cache-control']).toBe('no-store');
+	}
+
+	const setup = await request.post('/_emdash/api/setup', {
+		data: { title: 'Takeover', includeContent: false }
+	});
+	expect(setup.status()).toBe(503);
+	const admin = await request.post('/_emdash/api/setup/admin', {
+		data: { email: 'attacker@example.com' }
+	});
+	expect(admin.status()).toBe(503);
+	const magicLink = await request.post('/_emdash/api/auth/magic-link/send', {
+		data: { email: 'attacker@example.com' }
+	});
+	expect(magicLink.status()).toBe(503);
+
+	// Public EmDash services such as media delivery are not part of the gate.
+	const media = await request.get('/_emdash/api/media/file/missing');
+	expect(media.status()).toBe(404);
+});
+
+test('offers no sign-in on the public site', async ({ page }) => {
+	for (const path of ['/en', '/ja/business/it-ai', '/en/contact']) {
+		await page.goto(path);
+		await expect(
+			page.locator('a[href*="/_emdash"], a[href*="login"], a[href*="auth"]')
+		).toHaveCount(0);
+		await expect(page.locator('input[type="password"]')).toHaveCount(0);
+	}
+});
+
+test('serves page copy, FAQs, and partners from the seeded EmDash collections', async ({
+	request
+}) => {
+	const content = await request.get('/_emdash/api/content/pages', { maxRedirects: 0 });
+	expect(content.status(), 'the content API stays private').toBe(401);
+
+	const home = await (await request.get('/ja')).text();
+	expect(home).toContain('答えはない。');
+	const agents = await (await request.get('/en/business/it-ai/agent-adoption')).text();
+	expect(agents).toContain('Can non-engineering teams use AI agents?');
+	const overview = await (await request.get('/en/business/it-ai')).text();
+	expect(overview).toContain('alt="Kyoto University Social Innovation Center"');
+});

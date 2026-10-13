@@ -1,0 +1,1250 @@
+{
+	"$schema": "https://emdashcms.com/seed.schema.json",
+	"version": "1",
+	"defaultLocale": "en",
+	"meta": {
+		"name": "CAUCHYE ASIA PTE. LTD.",
+		"description": "Bilingual corporate site content for cauchye.com",
+		"author": "CAUCHYE ASIA PTE. LTD."
+	},
+	"settings": {
+		"title": "CAUCHYE ASIA PTE. LTD.",
+		"tagline": "IT & AI solutions and corporate advisory."
+	},
+	"collections": [
+		{
+			"slug": "pages",
+			"label": "Pages",
+			"labelSingular": "Page",
+			"titleField": "title",
+			"supports": ["drafts", "revisions"],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "description",
+					"label": "Meta description",
+					"type": "text"
+				},
+				{
+					"slug": "eyebrow",
+					"label": "Eyebrow",
+					"type": "string"
+				},
+				{
+					"slug": "hero_title_lead",
+					"label": "Hero title (first line)",
+					"type": "string"
+				},
+				{
+					"slug": "hero_title_accent",
+					"label": "Hero title (accent line)",
+					"type": "string"
+				},
+				{
+					"slug": "hero_body",
+					"label": "Hero body",
+					"type": "text"
+				},
+				{
+					"slug": "copy",
+					"label": "Section copy (message key → text)",
+					"type": "json"
+				}
+			]
+		},
+		{
+			"slug": "faqs",
+			"label": "FAQs",
+			"labelSingular": "FAQ",
+			"titleField": "question",
+			"supports": ["drafts", "revisions"],
+			"fields": [
+				{
+					"slug": "question",
+					"label": "Question",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "answer",
+					"label": "Answer",
+					"type": "text",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "page",
+					"label": "Page (agent-adoption / solution-development)",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "sort_order",
+					"label": "Sort order",
+					"type": "integer"
+				}
+			]
+		},
+		{
+			"slug": "partners",
+			"label": "Partners",
+			"labelSingular": "Partner",
+			"titleField": "name",
+			"supports": ["drafts", "revisions"],
+			"fields": [
+				{
+					"slug": "name",
+					"label": "Name",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "url",
+					"label": "Website URL",
+					"type": "string",
+					"required": true
+				},
+				{
+					"slug": "logo",
+					"label": "Logo (uploaded media)",
+					"type": "image"
+				},
+				{
+					"slug": "logo_path",
+					"label": "Bundled logo path (used when no logo is uploaded)",
+					"type": "string"
+				},
+				{
+					"slug": "logo_class",
+					"label": "Logo size classes",
+					"type": "string"
+				},
+				{
+					"slug": "show_on_it_ai",
+					"label": "Show on IT & AI Solutions",
+					"type": "boolean"
+				},
+				{
+					"slug": "show_on_corporate_advisory",
+					"label": "Show on Corporate Advisory",
+					"type": "boolean"
+				},
+				{
+					"slug": "sort_order",
+					"label": "Sort order",
+					"type": "integer"
+				}
+			]
+		},
+		{
+			"slug": "articles",
+			"label": "Articles",
+			"labelSingular": "Article",
+			"urlPattern": "/articles/{slug}",
+			"titleField": "title",
+			"supports": ["drafts", "revisions", "seo", "search"],
+			"fields": [
+				{
+					"slug": "title",
+					"label": "Title",
+					"type": "string",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "excerpt",
+					"label": "Excerpt",
+					"type": "text",
+					"required": true,
+					"searchable": true
+				},
+				{
+					"slug": "featured_image",
+					"label": "Featured image",
+					"type": "image"
+				},
+				{
+					"slug": "content",
+					"label": "Content",
+					"type": "portableText",
+					"required": true,
+					"searchable": true
+				}
+			]
+		}
+	],
+	"content": {
+		"pages": [
+			{
+				"id": "page-home",
+				"slug": "home",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "IT & AI solutions and corporate advisory.",
+					"hero_title_lead": "There are no answers",
+					"hero_title_accent": "in the average.",
+					"hero_body": "Expected methods produce nothing but expected results. Whatever sits inside the industry average, the domestic consensus, or the well-precedented option has already been claimed by someone else. From Singapore, we work across borders and sectors to reach the answers that lie outside the average.",
+					"copy": {
+						"about_title": "About our name",
+						"about_body_1": "CAUCHYE is named after the Cauchy distribution. Named in turn for the 19th-century mathematician Augustin-Louis Cauchy, it has no expected value: however many samples you draw, the sample mean never converges, and the law of large numbers does not hold. It describes a world where the average is simply not a usable instrument.",
+						"about_body_2": "That is our starting point. Anything an average can settle has been settled already. What we take on sits outside it — AI implementations with little precedent, platforms that do not yet exist, and cross-border assets that no domestic benchmark describes. Results there cannot be predicted from the mean, which is precisely why they can exceed it.",
+						"services_eyebrow": "Business",
+						"services_title": "Business Overview",
+						"business_ai_title": "IT & AI Solutions",
+						"business_ai_lead": "Make AI an organizational capability.",
+						"business_ai_body": "From AI agent adoption and tailored solution development to our own product, we help teams start small and put AI to work in everyday operations.",
+						"business_ai_point_1": "AI agent adoption",
+						"business_ai_point_2": "AI solution development",
+						"business_ai_point_3": "d6e AI Gateway",
+						"business_ai_cta": "Explore our support",
+						"business_advisory_title": "Corporate Advisory",
+						"business_advisory_lead": "Turn the market's view into decisions that build value.",
+						"business_advisory_body": "We connect capital-markets perception with management decisions through IR and shareholder relations, investor perception studies, capital allocation, portfolio review, and M&A evaluation.",
+						"business_advisory_point_1": "IR & shareholder relations",
+						"business_advisory_point_2": "Investor perception studies",
+						"business_advisory_point_3": "Capital allocation & portfolio",
+						"business_advisory_point_4": "M&A evaluation",
+						"business_advisory_cta": "Explore our support",
+						"leader_title": "Leadership",
+						"leader_name": "KIMURA Yu",
+						"leader_name_native": "木村 優",
+						"leader_role": "Representative Director",
+						"leader_bio": "Graduated in Economics from Kyoto University and completed an MBA at its Graduate School of Management; currently enrolled in the doctoral programme at its Graduate School of Informatics. As a white-hat engineer, recovered crypto assets worth roughly ¥500 million from an active hack. Also serves as Co-General Partner of a construction-materials leasing fund in Singapore, through a subsidiary joint venture.",
+						"company_eyebrow": "Company",
+						"company_title": "Company profile",
+						"company_information_title": "Company information",
+						"company_label_name": "Legal name",
+						"company_label_pronunciation": "Pronunciation",
+						"company_pronunciation": "KOH-shee Asia Private Limited",
+						"company_label_uen": "UEN",
+						"company_label_address": "Registered address",
+						"company_label_business": "Business",
+						"company_label_representative": "Representative"
+					}
+				}
+			},
+			{
+				"id": "page-home-ja",
+				"slug": "home",
+				"locale": "ja",
+				"translationOf": "page-home",
+				"status": "published",
+				"data": {
+					"title": "IT・AIソリューションとコーポレートアドバイザリー。",
+					"hero_title_lead": "平均に、",
+					"hero_title_accent": "答えはない。",
+					"hero_body": "期待どおりの手段からは、期待どおりの成果しか生まれません。業界の平均値、国内の常識、前例のある選択肢——その内側にある答えは、すでに誰かが手にしています。私たちはシンガポールを拠点に、国境と業種をまたぎながら、平均の外側にある解を取りに行きます。",
+					"copy": {
+						"about_title": "社名について",
+						"about_body_1": "CAUCHYE という社名は、コーシー分布に由来します。19世紀の数学者オーギュスタン・ルイ・コーシーの名を冠したこの分布には、期待値が存在しません。標本をいくら増やしても標本平均は収束せず、大数の法則が成り立たない。平均という道具が、そもそも通用しない世界です。",
+						"about_body_2": "私たちはそこを出発点にしています。平均で片のつく仕事は、すでに誰かが片をつけている。私たちが引き受けるのは、前例の乏しいAIの実装、まだ市場にない基盤の開発、そして国内の物差しでは測れないクロスボーダーの資産です。いずれも平均から結果を予測することはできません。だからこそ、平均を大きく超える余地があります。",
+						"services_eyebrow": "Business",
+						"services_title": "事業内容",
+						"business_ai_title": "IT・AIソリューション事業",
+						"business_ai_lead": "AIを、組織の力に。",
+						"business_ai_body": "AIエージェントの導入から、業務に合わせたAIソリューション開発、自社プロダクトまで。小さく始め、現場で使われる状態へ進めます。",
+						"business_ai_point_1": "AIエージェント導入支援",
+						"business_ai_point_2": "AIソリューション開発",
+						"business_ai_point_3": "d6e AI Gateway",
+						"business_ai_cta": "支援内容を見る",
+						"business_advisory_title": "コーポレートアドバイザリー事業",
+						"business_advisory_lead": "市場の声を、企業価値を高める意思決定へ。",
+						"business_advisory_body": "資本市場からの見え方を捉え、企業価値を高める意思決定へ。IR・SR支援、投資家パーセプションスタディ、資本配分、M&Aの検討を一体で支援します。",
+						"business_advisory_point_1": "IR・SR支援",
+						"business_advisory_point_2": "投資家認識調査",
+						"business_advisory_point_3": "資本配分・事業ポートフォリオ",
+						"business_advisory_point_4": "M&A検討支援",
+						"business_advisory_cta": "支援内容を見る",
+						"leader_title": "経営陣",
+						"leader_name": "木村 優",
+						"leader_name_native": "KIMURA Yu",
+						"leader_role": "代表取締役",
+						"leader_bio": "京都大学経済学部を卒業後、同大学経営管理大学院を修了。同大学情報学研究科博士課程に在籍。ホワイトハッカーとして、進行中のハッキングから5億円相当の暗号資産を救出した経験を持つ。子会社のジョイントベンチャーを通じ、シンガポールにおける建設資材リースファンドの共同ゼネラルパートナーも務める。",
+						"company_eyebrow": "Company",
+						"company_title": "会社概要",
+						"company_information_title": "会社情報",
+						"company_label_name": "商号",
+						"company_label_pronunciation": "読み方",
+						"company_pronunciation": "コーシー・アジア・プライベート・リミテッド",
+						"company_label_uen": "登記番号（UEN）",
+						"company_label_address": "登記住所",
+						"company_label_business": "事業内容",
+						"company_label_representative": "代表"
+					}
+				}
+			},
+			{
+				"id": "page-it-ai",
+				"slug": "it-ai",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "IT & AI Solutions",
+					"description": "AI agent adoption, tailored AI solution development, and our d6e AI Gateway product.",
+					"eyebrow": "IT & AI Solutions",
+					"hero_title_lead": "Make AI an organizational capability.",
+					"hero_title_accent": "From adoption through development.",
+					"hero_body": "From adopting agents such as Codex and Claude Code to developing AI solutions around your operations, we help teams start small, put AI to work, and build the capability to keep improving it.",
+					"copy": {
+						"ai_cta_primary": "Discuss your AI initiative",
+						"ai_cta_secondary": "Explore the offering",
+						"ai_partners_eyebrow": "Partners",
+						"ai_partners_title": "Specialists and organizations we work alongside.",
+						"ai_offerings_eyebrow": "Services & Product",
+						"ai_offerings_title": "From the first use case to the systems behind the business.",
+						"ai_offering_agent_title": "AI agent adoption",
+						"ai_offering_agent_body": "Bring Codex, Claude Code, and Grok Bot into the way your teams work. We help move adoption beyond individual experiments into safe, repeatable organizational use.",
+						"ai_offering_agent_note": "Start with one team",
+						"ai_offering_agent_point_1": "Adoption design and setup",
+						"ai_offering_agent_point_2": "Workflow-specific use cases",
+						"ai_offering_agent_point_3": "Guidance, access, and training",
+						"ai_offering_agent_cta": "Explore adoption support",
+						"ai_offering_development_title": "AI solution development",
+						"ai_offering_development_body": "Starting from existing operations, data, and systems, we design and build AI agents and internal tools from proof of concept through production.",
+						"ai_offering_development_note": "Start before requirements are final",
+						"ai_offering_development_point_1": "Agents and internal tools",
+						"ai_offering_development_point_2": "System and data integration",
+						"ai_offering_development_point_3": "Security and operations",
+						"ai_offering_development_cta": "Explore development support",
+						"ai_offering_gateway_note": "Our product",
+						"ai_overview_cta_title": "We can help decide where to start.",
+						"ai_overview_cta_body": "You do not need to have selected a tool or finalized requirements. Tell us how work happens today and what you want to change.",
+						"gateway_eyebrow": "Featured Product",
+						"gateway_title": "Cut AI costs. Automate customer billing. Get paid sooner.",
+						"gateway_body": "d6e AI Gateway selects lower-cost execution paths request by request while preserving the required speed. It connects customer-level usage to invoice creation and payment tracking, with optional early funding for selected receivables.",
+						"gateway_point_1": "Reduce eligible AI processing costs by up to 50%",
+						"gateway_point_2": "Create customer invoices from usage and track payment",
+						"gateway_point_3": "Fund selected issued invoices before they are due",
+						"gateway_providers_label": "Available providers",
+						"gateway_api_label": "OpenAI-compatible API",
+						"gateway_cta": "Explore d6e AI Gateway"
+					}
+				}
+			},
+			{
+				"id": "page-it-ai-ja",
+				"slug": "it-ai",
+				"locale": "ja",
+				"translationOf": "page-it-ai",
+				"status": "published",
+				"data": {
+					"title": "IT・AIソリューション事業",
+					"description": "AIエージェント導入支援、AIソリューション開発、自社プロダクトd6e AI Gatewayを提供します。",
+					"eyebrow": "IT & AI Solutions",
+					"hero_title_lead": "AIを、組織の力に。",
+					"hero_title_accent": "導入から開発まで伴走する。",
+					"hero_body": "CodexやClaude CodeなどのAIエージェント導入から、業務に合わせたAIソリューション開発まで。小さく始め、現場で使われる仕組みと自ら改善できる組織づくりを支援します。",
+					"copy": {
+						"ai_cta_primary": "AI活用について相談する",
+						"ai_cta_secondary": "提供内容を見る",
+						"ai_partners_eyebrow": "Partners",
+						"ai_partners_title": "共に価値をつくる、パートナー企業・団体。",
+						"ai_offerings_eyebrow": "Services & Product",
+						"ai_offerings_title": "AI活用の入口から、事業を支える仕組みまで。",
+						"ai_offering_agent_title": "AIエージェント導入支援",
+						"ai_offering_agent_body": "Codex、Claude Code、Grok Botを業務とチームに合わせて導入。個人の試用で終わらせず、組織で安全に使いこなす状態をつくります。",
+						"ai_offering_agent_note": "1部門・数名から",
+						"ai_offering_agent_point_1": "導入設計と初期設定",
+						"ai_offering_agent_point_2": "業務別ユースケース",
+						"ai_offering_agent_point_3": "ルール・権限・研修",
+						"ai_offering_agent_cta": "導入支援を見る",
+						"ai_offering_development_title": "AIソリューション開発",
+						"ai_offering_development_body": "既存業務、データ、システムを起点に、AIエージェントや社内ツールを設計・開発。PoCから本番運用まで伴走します。",
+						"ai_offering_development_note": "要件整理から相談可能",
+						"ai_offering_development_point_1": "AIエージェント・業務ツール",
+						"ai_offering_development_point_2": "既存システム・データ連携",
+						"ai_offering_development_point_3": "セキュリティ・運用設計",
+						"ai_offering_development_cta": "開発支援を見る",
+						"ai_offering_gateway_note": "自社プロダクト",
+						"ai_overview_cta_title": "どこから始めるか、一緒に整理します。",
+						"ai_overview_cta_body": "ツール選定前、要件が固まる前の段階でも構いません。現在の業務と目指す状態をお聞かせください。",
+						"gateway_eyebrow": "注目のプロダクト",
+						"gateway_title": "AI利用料を下げ、顧客請求と入金までひとつに。",
+						"gateway_body": "d6e AI Gatewayは、必要な速さを守りながら、処理ごとにAI利用コストを自動最適化。顧客別の利用集計から請求書作成・入金管理、必要に応じた売掛金の早期現金化まで、AIサービスの収益管理をひとつにつなぎます。",
+						"gateway_point_1": "対象処理のAI利用料を最大50%削減",
+						"gateway_point_2": "利用実績から顧客向け請求書を作成し、入金まで管理",
+						"gateway_point_3": "発行済みの請求を、支払期日前に現金化",
+						"gateway_providers_label": "利用可能なプロバイダー",
+						"gateway_api_label": "OpenAI互換API",
+						"gateway_cta": "d6e AI Gatewayを見る"
+					}
+				}
+			},
+			{
+				"id": "page-agent-adoption",
+				"slug": "agent-adoption",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "AI Agent Adoption",
+					"description": "Bring Codex, Claude Code, and Grok Bot into everyday work and build the practices needed for safe, sustained organizational adoption.",
+					"eyebrow": "AI Agent Adoption",
+					"hero_title_lead": "Put AI agents",
+					"hero_title_accent": "into everyday work.",
+					"hero_body": "We do more than distribute tools. We bring Codex, Claude Code, and Grok Bot into real workflows, help the organization operate with AI agents, and stay through measurable adoption. Start with one team and a small group of users.",
+					"copy": {
+						"agent_cta_primary": "Discuss agent adoption",
+						"agent_cta_secondary": "Explore our support",
+						"agent_organization_eyebrow": "AI Agent Organization",
+						"agent_organization_title": "One person can direct a team of AI subordinates.",
+						"agent_organization_development_title": "Delegate development through a hierarchy",
+						"agent_organization_development_body": "An example structure where a person sets the objective for Codex, then Codex assigns research, implementation, and review to multiple Claude Code agents.",
+						"agent_organization_operations_title": "Work directly with three Bots",
+						"agent_organization_operations_body": "An example structure where a person works directly with a chief-of-staff Bot, an assistant Bot, and a research Bot to advance advice, coordination, and research in parallel.",
+						"agent_organization_human": "You",
+						"agent_organization_subordinate": "AI subordinate",
+						"agent_organization_research": "Research",
+						"agent_organization_implementation": "Build",
+						"agent_organization_review": "Review",
+						"agent_organization_strategist": "Chief-of-staff Bot",
+						"agent_organization_secretary": "Assistant Bot",
+						"agent_organization_researcher": "Research Bot",
+						"agent_tools_eyebrow": "Supported Agents",
+						"agent_tools_title": "Use the right agent for the work.",
+						"agent_tool_codex_title": "Codex",
+						"agent_tool_codex_body": "Fit requirements work, implementation, testing, and review into the repositories and engineering workflows already in place.",
+						"agent_tool_claude_title": "Claude Code",
+						"agent_tool_claude_body": "Extend from large-codebase investigation and implementation into repeatable operations connected with internal systems.",
+						"agent_tool_grok_title": "Grok Bot",
+						"agent_tool_grok_body": "Create a conversational entry point for delegating work to AI and extend adoption beyond engineering teams.",
+						"agent_tool_official_screen": "Official interface",
+						"agent_tool_codex_screen_alt": "Official Codex product interface",
+						"agent_tool_claude_screen_alt": "Official Claude Code terminal interface",
+						"agent_tool_grok_screen_alt": "Official Grok Bot interface coordinating with multiple people",
+						"agent_services_eyebrow": "Support",
+						"agent_services_title": "Support where you need it, from rollout through adoption.",
+						"agent_service_1_title": "Adoption design and use cases",
+						"agent_service_1_body": "Define the first workflows and users, then design the tools, accounts, access, and integrations. Using real work, we define what agents should handle and where people need to decide.",
+						"agent_service_2_title": "AI-native organization development",
+						"agent_service_2_body": "Reshape workflows, engineering practices, guidance, and evaluation so the organization can keep using and improving AI responsibly.",
+						"agent_service_3_title": "Security and governance",
+						"agent_service_3_body": "Set rules for confidential information, access control, logs, and review so adoption can expand safely.",
+						"agent_service_4_title": "AI training and workshops",
+						"agent_service_4_body": "Design practical programmes around real operating problems for executives, business teams, and engineers at different levels of experience.",
+						"agent_fde_title": "Practical AI implementation insights from FDE Mission",
+						"agent_fde_body": "Turn rapid changes in AI into knowledge teams can use. FDE Mission covers the latest developments through the lens of implementation and everyday operations.",
+						"agent_fde_cta": "Visit FDE Mission",
+						"agent_faq_eyebrow": "FAQ",
+						"agent_faq_title": "Questions before adoption",
+						"agent_cta_title": "Start with one team.",
+						"agent_cta_body": "The first workflow does not need to be decided. Tell us how your team works today and where work is getting stuck."
+					}
+				}
+			},
+			{
+				"id": "page-agent-adoption-ja",
+				"slug": "agent-adoption",
+				"locale": "ja",
+				"translationOf": "page-agent-adoption",
+				"status": "published",
+				"data": {
+					"title": "AIエージェント導入支援",
+					"description": "Codex、Claude Code、Grok Botを業務に組み込み、組織で安全に使い続けられる状態まで支援します。",
+					"eyebrow": "AI Agent Adoption",
+					"hero_title_lead": "AIエージェントを、",
+					"hero_title_accent": "日々の業務の中へ。",
+					"hero_body": "ツールを配って終わりにはしません。Codex、Claude Code、Grok Botを実際の業務に組み込み、組織をAIエージェント化し、成果が見える状態まで伴走します。まずは1部門・数名から始められます。",
+					"copy": {
+						"agent_cta_primary": "導入について相談する",
+						"agent_cta_secondary": "支援内容を見る",
+						"agent_organization_eyebrow": "AI Agent Organization",
+						"agent_organization_title": "一人が、AI部下のチームを動かす。",
+						"agent_organization_development_title": "開発を階層で委任する",
+						"agent_organization_development_body": "人がCodexへ目的を伝え、Codexが複数のClaude Codeへ調査、実装、レビューを分担する構成例です。",
+						"agent_organization_operations_title": "3体のBotへ、直接仕事を任せる",
+						"agent_organization_operations_body": "人が参謀Bot、秘書Bot、リサーチBotとそれぞれ直接やりとりし、相談、調整、調査を並行して進める構成例です。",
+						"agent_organization_human": "あなた",
+						"agent_organization_subordinate": "AI部下",
+						"agent_organization_research": "調査",
+						"agent_organization_implementation": "実装",
+						"agent_organization_review": "レビュー",
+						"agent_organization_strategist": "参謀Bot",
+						"agent_organization_secretary": "秘書Bot",
+						"agent_organization_researcher": "リサーチBot",
+						"agent_tools_eyebrow": "Supported Agents",
+						"agent_tools_title": "業務に合わせて、エージェントを使い分ける。",
+						"agent_tool_codex_title": "Codex",
+						"agent_tool_codex_body": "要件整理、実装、テスト、レビューを既存のリポジトリと開発フローに合わせて進めます。",
+						"agent_tool_claude_title": "Claude Code",
+						"agent_tool_claude_body": "大規模なコードベースの調査や実装に加え、社内システムとつないだ定型業務の自動化へ広げます。",
+						"agent_tool_grok_title": "Grok Bot",
+						"agent_tool_grok_body": "普段使うチャットからAIへ仕事を依頼できる入口をつくり、エンジニア以外の部門にも活用を広げます。",
+						"agent_tool_official_screen": "公式画面",
+						"agent_tool_codex_screen_alt": "Codexの公式プロダクト画面",
+						"agent_tool_claude_screen_alt": "Claude Codeの公式ターミナル画面",
+						"agent_tool_grok_screen_alt": "Grok Botが複数の相手へ確認する公式画面",
+						"agent_services_eyebrow": "Support",
+						"agent_services_title": "導入から定着まで、必要なところを支援。",
+						"agent_service_1_title": "導入設計・ユースケース構築",
+						"agent_service_1_body": "対象業務と利用者を整理し、ツール、アカウント、権限、接続先を設計。実際の業務を題材に、エージェントへ任せる範囲と人が判断するポイントを具体化します。",
+						"agent_service_2_title": "AIネイティブ組織開発支援",
+						"agent_service_2_body": "業務設計、開発プロセス、ガイドライン、評価方法まで見直し、組織が継続的にAIを活用・改善できる状態をつくります。",
+						"agent_service_3_title": "セキュリティ・ガバナンス",
+						"agent_service_3_body": "機密情報の範囲、アクセス制御、ログ、レビュー方法を整え、安全に展開できる基準をつくります。",
+						"agent_service_4_title": "AI活用研修・ワークショップ",
+						"agent_service_4_body": "経営層、業務部門、エンジニアなど、役割と習熟度に合わせた実践型プログラムを設計。実際の業務課題を題材にします。",
+						"agent_fde_title": "AI実装の知見を発信する、FDE Mission",
+						"agent_fde_body": "AIの変化を、現場で使える知識に。最新動向を、実装と業務活用の視点から発信しています。",
+						"agent_fde_cta": "FDE Missionを見る",
+						"agent_faq_eyebrow": "FAQ",
+						"agent_faq_title": "導入前によくいただく質問",
+						"agent_cta_title": "まず1部門から、始めませんか。",
+						"agent_cta_body": "対象業務が決まっていない段階でも構いません。現在の業務と体制をお聞かせください。"
+					}
+				}
+			},
+			{
+				"id": "page-solution-development",
+				"slug": "solution-development",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "AI Solution Development",
+					"description": "Design and build AI agents, operational workflows, internal tools, and data foundations, integrated safely with existing systems.",
+					"eyebrow": "AI Solution Development",
+					"hero_title_lead": "Turn AI around your operations",
+					"hero_title_accent": "into systems people use.",
+					"hero_body": "We design and build AI agents, operational workflows, data integrations, and internal tools, supporting the work from requirements through existing-system integration, production operations, and handover.",
+					"copy": {
+						"ai_models_label": "Work across leading AI models and platforms",
+						"ai_models_note": "We select models for the requirement and avoid unnecessary vendor lock-in. Marks shown indicate compatibility, not partnership or certification.",
+						"development_cta_primary": "Discuss solution development",
+						"ai_challenges_eyebrow": "Challenges",
+						"ai_challenges_title": "Does this sound familiar?",
+						"ai_challenge_1": "You want to use AI but cannot identify the right first workflow",
+						"ai_challenge_2": "A proof of concept works, but production and legacy integration remain blocked",
+						"ai_challenge_3": "ChatGPT or Claude is available, but adoption varies widely by team",
+						"ai_challenge_4": "Security and data-governance concerns prevent broader rollout",
+						"ai_challenge_5": "You want capability to remain in-house instead of outsourcing it indefinitely",
+						"ai_services_eyebrow": "Capabilities",
+						"ai_services_title": "One team from strategy to systems to production.",
+						"development_vibe_title": "Production readiness for internally vibe-coded tools",
+						"development_vibe_body": "Our security and operations specialists assess internal tools built by employees through vibe coding. We review and remediate code, dependencies, identity and access, and data handling, then take the tool through production deployment, monitoring, incident response, and ongoing maintenance.",
+						"ai_service_1_title": "Forward Deployed Engineer",
+						"ai_service_1_body": "A Forward Deployed Engineer (FDE) works directly with your team to map workflows, evaluate value, feasibility, and risk, and turn the right priorities into an executable roadmap.",
+						"ai_service_2_title": "AI systems integration",
+						"ai_service_2_body": "We design and build agents, data foundations, workflows, and internal tools, integrating them safely with systems already in place.",
+						"ai_clients_eyebrow": "Clients",
+						"ai_clients_title": "Examples of the organizations we support",
+						"ai_client_pe_label": "Portfolio Value Creation",
+						"ai_client_pe_title": "Private equity funds",
+						"ai_client_pe_body": "We help private equity portfolio companies use AI to transform operations and improve profitability. From workflow discovery and priority setting through implementation and adoption, the work is designed to build enterprise value.",
+						"ai_client_pe_point_1": "AI strategy for portfolio companies",
+						"ai_client_pe_point_2": "Efficiency and profitability improvement",
+						"ai_client_pe_point_3": "Implementation through adoption",
+						"ai_client_company_label": "Business Transformation",
+						"ai_client_company_title": "Operating companies",
+						"ai_client_company_body": "Starting from frontline work and existing systems, we combine AI implementation, security design, and production migration so the resulting systems can be operated continuously.",
+						"ai_client_company_point_1": "Routine and document workflow efficiency",
+						"ai_client_company_point_2": "Integration with internal systems",
+						"ai_client_company_point_3": "Organization-wide AI adoption",
+						"ai_security_eyebrow": "Security Expertise",
+						"ai_security_title": "Security is a foundation, not an afterthought.",
+						"ai_security_body": "A security specialist with real incident-response experience participates from the design stage. That lets AI involving confidential data move beyond a proof of concept toward an architecture suitable for broader deployment.",
+						"ai_security_point_1": "Confidential-data and authorization-boundary design",
+						"ai_security_point_2": "Assessment of AI-specific attacks and data-exposure risks",
+						"ai_security_point_3": "Access control, auditability, and operating guidance",
+						"ai_strengths_eyebrow": "Our Strengths",
+						"ai_strengths_title": "What sets us apart",
+						"ai_why_title": "Working systems and internal capability remain after delivery.",
+						"ai_why_reasons_title": "What CAUCHYE ASIA enables",
+						"ai_why_point_1": "Measure success through time saved and better decisions, not AI adoption itself",
+						"ai_why_point_2": "Move beyond a proof of concept to production connected with existing systems",
+						"ai_why_point_3": "Choose the right AI for each use case without forced model lock-in",
+						"ai_why_point_4": "Design for security, operations, and broader deployment from the beginning",
+						"ai_why_point_5": "Keep improving in-house through documentation and operational handover",
+						"d6e_foundation_eyebrow": "Our Foundation",
+						"d6e_foundation_title": "Turn accumulated experience into a shared foundation.",
+						"d6e_foundation_body": "CAUCHYE ASIA develops d6e, our own AI workflow foundation. Where the engagement calls for it, d6e accelerates integrations, access control, and operating design. We do not make d6e a prerequisite: the right architecture follows the security requirements, existing environment, operating model, and future options.",
+						"d6e_foundation_point_1": "Architectures deployable in the customer's environment",
+						"d6e_foundation_point_2": "Existing-system integration through APIs and MCP",
+						"d6e_foundation_point_3": "Design that avoids single-vendor lock-in",
+						"d6e_foundation_cta": "Visit d6e.ai",
+						"ai_faq_eyebrow": "FAQ",
+						"ai_faq_title": "Questions we often hear before an engagement",
+						"ai_cta_title": "Build an AI-native organization.",
+						"ai_cta_body": "The problem does not need to be fully defined. Tell us how work happens today and what you want to change."
+					}
+				}
+			},
+			{
+				"id": "page-solution-development-ja",
+				"slug": "solution-development",
+				"locale": "ja",
+				"translationOf": "page-solution-development",
+				"status": "published",
+				"data": {
+					"title": "AIソリューション開発",
+					"description": "AIエージェント、業務ワークフロー、社内ツール、データ基盤を設計・開発し、既存システムと安全に統合します。",
+					"eyebrow": "AI Solution Development",
+					"hero_title_lead": "業務に合わせたAIを、",
+					"hero_title_accent": "使われるシステムへ。",
+					"hero_body": "AIエージェント、業務ワークフロー、データ連携、社内ツールを設計・開発。要件整理から既存システムとの統合、本番運用、内製化まで伴走します。",
+					"copy": {
+						"ai_models_label": "主要なAIモデル・基盤を横断して活用",
+						"ai_models_note": "要件に適したモデルを選定し、特定ベンダーへの固定を避けます。各社との提携・認定を示すものではありません。",
+						"development_cta_primary": "開発について相談する",
+						"ai_challenges_eyebrow": "Challenges",
+						"ai_challenges_title": "こんな課題はありませんか",
+						"ai_challenge_1": "どの業務からAI活用を始めるべきか判断できない",
+						"ai_challenge_2": "PoCはできたが、本番運用や既存システムとの統合に進めない",
+						"ai_challenge_3": "ChatGPTやClaudeを導入したが、部門ごとに活用度がばらついている",
+						"ai_challenge_4": "セキュリティやデータ管理への懸念から全社展開できない",
+						"ai_challenge_5": "外部に任せきりにせず、社内にAI活用の力を残したい",
+						"ai_services_eyebrow": "Capabilities",
+						"ai_services_title": "構想、実装、本番運用をひとつのチームで。",
+						"development_vibe_title": "社内バイブコーディングの本番化支援",
+						"development_vibe_body": "社員がバイブコーディングで作成した社内ツールを、セキュリティと運用の専門家が診断します。コード、依存関係、認証・権限、データの扱いを点検・改修し、本番環境への移行から監視、障害対応、継続保守まで引き受けます。",
+						"ai_service_1_title": "Forward Deployed Engineer",
+						"ai_service_1_body": "Forward Deployed Engineer (FDE)が現場に入り、業務を棚卸しします。効果、実現性、リスクからAIを適用すべき領域を見極め、優先順位と実行ロードマップまで具体化します。",
+						"ai_service_2_title": "AI統合システム開発",
+						"ai_service_2_body": "AIエージェント、データ基盤、業務ワークフロー、社内ツールを設計・実装し、既存システムと安全に統合します。",
+						"ai_clients_eyebrow": "Clients",
+						"ai_clients_title": "ご支援するお客様の例",
+						"ai_client_pe_label": "Portfolio Value Creation",
+						"ai_client_pe_title": "PEファンド",
+						"ai_client_pe_body": "PEファンドの投資先企業を対象に、AIを活用した業務変革と収益性向上を支援します。業務の可視化から優先領域の特定、システム実装、現場定着までを進め、企業価値向上につなげます。",
+						"ai_client_pe_point_1": "投資先企業のAI活用戦略",
+						"ai_client_pe_point_2": "業務効率化・収益性向上",
+						"ai_client_pe_point_3": "実装から現場定着まで",
+						"ai_client_company_label": "Business Transformation",
+						"ai_client_company_title": "事業会社",
+						"ai_client_company_body": "現場業務と既存システムを起点に、AIの実装、セキュリティ設計、本番環境への移行を一体で進め、継続運用できる状態をつくります。",
+						"ai_client_company_point_1": "定型・文書業務の効率化",
+						"ai_client_company_point_2": "社内システムとの連携",
+						"ai_client_company_point_3": "AI活用の社内定着",
+						"ai_security_eyebrow": "Security Expertise",
+						"ai_security_title": "セキュリティを、AI導入の前提に。",
+						"ai_security_body": "実際のインシデント対応経験を持つセキュリティ専門家が、構想段階から設計に参加します。機密データを扱うAIも、安全性を理由にPoCで止めず、全社展開を見据えた構成へ進められます。",
+						"ai_security_point_1": "機密データと権限境界の設計",
+						"ai_security_point_2": "AI固有の攻撃と情報流出リスクの評価",
+						"ai_security_point_3": "アクセス制御・監査・運用ルールの整備",
+						"ai_strengths_eyebrow": "Our Strengths",
+						"ai_strengths_title": "弊社の強み",
+						"ai_why_title": "導入後に、使える仕組みと知見が残る。",
+						"ai_why_reasons_title": "弊社が実現すること",
+						"ai_why_point_1": "AI導入ではなく、業務時間の短縮や判断品質の向上を目標にできる",
+						"ai_why_point_2": "PoCで止まらず、既存システムにつながる本番環境まで任せられる",
+						"ai_why_point_3": "特定モデルに固定されず、用途ごとに適切なAIを選べる",
+						"ai_why_point_4": "セキュリティと運用を含め、全社展開を見据えた設計ができる",
+						"ai_why_point_5": "ドキュメントと運用引継ぎにより、外部へ任せきりにせず社内で改善を続けられる",
+						"d6e_foundation_eyebrow": "Our Foundation",
+						"d6e_foundation_title": "培ってきた経験値を共通基盤へ。",
+						"d6e_foundation_body": "弊社は、AI業務自動化基盤「d6e」を自社開発しています。案件の要件に応じてAIソリューションの実装基盤として活用し、既存システムとの連携、アクセス制御、運用設計を効率化します。d6eありきではなく、セキュリティ、既存環境、運用体制、将来の拡張性を踏まえて最適な構成を選びます。",
+						"d6e_foundation_point_1": "お客様の環境で運用できる構成",
+						"d6e_foundation_point_2": "API・MCPによる既存システム連携",
+						"d6e_foundation_point_3": "特定ベンダーに縛られない設計",
+						"d6e_foundation_cta": "d6e.aiを見る",
+						"ai_faq_eyebrow": "FAQ",
+						"ai_faq_title": "ご相談の前によくいただく質問",
+						"ai_cta_title": "AIネイティブな組織へ。",
+						"ai_cta_body": "課題がまだ曖昧な段階でも構いません。現在の業務と目指す状態をお聞かせください。"
+					}
+				}
+			},
+			{
+				"id": "page-corporate-advisory",
+				"slug": "corporate-advisory",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "Corporate Advisory",
+					"description": "Support for IR and shareholder relations, investor perception studies, capital allocation, business portfolios, and M&A evaluation.",
+					"eyebrow": "Corporate Advisory",
+					"hero_title_lead": "Turn the market's view",
+					"hero_title_accent": "into decisions that build enterprise value.",
+					"hero_body": "From understanding how Asian institutional investors see the company to capital allocation, portfolio choices, and M&A evaluation, we connect capital-markets dialogue with management decisions.",
+					"copy": {
+						"advisory_cta_primary": "Discuss corporate advisory",
+						"advisory_scope_label": "Enterprise Value & Capital Strategy Advisory",
+						"advisory_services_eyebrow": "Capabilities",
+						"advisory_services_title": "Understand the market's view and make the next options concrete.",
+						"advisory_service_1_title": "IR, shareholder relations & investor perception",
+						"advisory_service_1_body": "We conduct anonymous research with current holders, former holders, and investors who have never held, then identify awareness, business understanding, and barriers to investment and recommend the next disclosure and dialogue priorities.",
+						"advisory_service_2_title": "Capital allocation & business portfolio",
+						"advisory_service_2_body": "We consider growth, liquidity, risk, and shareholder returns together and organize the options for building enterprise value over the medium to long term.",
+						"advisory_service_3_title": "M&A evaluation support",
+						"advisory_service_3_body": "We clarify strategic intent, target areas, expected effects, and principal risks to support evaluation and management decisions.",
+						"advisory_strength_eyebrow": "Perspective",
+						"advisory_strength_title": "Connecting Japanese companies with Asian investors from Singapore.",
+						"advisory_strength_body": "We read the company's disclosure closely and design the research around its specific questions. We interview Japanese-language decision makers in Japanese and others in English, quantifying assessments an issuer may struggle to obtain directly.",
+						"advisory_strength_point_1": "Disclosure review and question design",
+						"advisory_strength_point_2": "Individual research with current, former, and non-holders",
+						"advisory_strength_point_3": "Quantified awareness, understanding, and non-ownership reasons",
+						"advisory_strength_point_4": "Recommendations for the next disclosure and dialogue themes",
+						"advisory_partners_eyebrow": "Partners",
+						"advisory_partners_title": "Partners in building enterprise value.",
+						"advisory_cta_title": "Clarify the next question around enterprise value.",
+						"advisory_cta_body": "Tell us what you need to understand about investor perception, IR, shareholder relations, or capital allocation."
+					}
+				}
+			},
+			{
+				"id": "page-corporate-advisory-ja",
+				"slug": "corporate-advisory",
+				"locale": "ja",
+				"translationOf": "page-corporate-advisory",
+				"status": "published",
+				"data": {
+					"title": "コーポレートアドバイザリー事業",
+					"description": "IR・SR、投資家パーセプションスタディ、資本配分、事業ポートフォリオ、M&A検討を支援します。",
+					"eyebrow": "Corporate Advisory",
+					"hero_title_lead": "市場の声を、",
+					"hero_title_accent": "企業価値を高める意思決定へ。",
+					"hero_body": "アジアの機関投資家から見た企業認識の把握から、資本配分、事業ポートフォリオ、M&Aの検討まで。資本市場との対話と経営の意思決定をつなぎます。",
+					"copy": {
+						"advisory_cta_primary": "コーポレートアドバイザリーについて相談する",
+						"advisory_scope_label": "企業価値・資本戦略アドバイザリー",
+						"advisory_services_eyebrow": "Capabilities",
+						"advisory_services_title": "市場の見方を捉え、次の選択肢を具体化する。",
+						"advisory_service_1_title": "IR・SR／投資家パーセプションスタディ",
+						"advisory_service_1_body": "現在の株主、過去の保有者、未保有の投資家を対象に、匿名性を担保した調査を実施。認知、事業理解、投資判断を阻む要因を可視化し、次の開示と対話の論点を提案します。",
+						"advisory_service_2_title": "資本配分・事業ポートフォリオ",
+						"advisory_service_2_body": "事業成長、手元資金、リスク、株主還元を俯瞰し、中長期の企業価値向上に向けた選択肢を整理します。",
+						"advisory_service_3_title": "M&A検討支援",
+						"advisory_service_3_body": "戦略上の目的、対象領域、期待効果、主要リスクを整理し、案件の検討と意思決定を支援します。",
+						"advisory_strength_eyebrow": "Perspective",
+						"advisory_strength_title": "シンガポールから、アジアの投資家と日本企業をつなぐ。",
+						"advisory_strength_body": "開示資料を読み込み、企業ごとに調査設計を行います。日本語で運用判断を行う対象者には日本語で、その他の対象者には英語で伺い、発行体が直接尋ねても出てきにくい評価を定量的に把握します。",
+						"advisory_strength_point_1": "開示資料の読み解きと設問設計",
+						"advisory_strength_point_2": "現・元・未保有の投資家への個別調査",
+						"advisory_strength_point_3": "認知・理解・非保有理由の定量化",
+						"advisory_strength_point_4": "次の開示と対話テーマの提案",
+						"advisory_partners_eyebrow": "Partners",
+						"advisory_partners_title": "共に企業価値を支えるパートナー。",
+						"advisory_cta_title": "企業価値をめぐる次の問いを、明確に。",
+						"advisory_cta_body": "IR・SR、投資家認識、資本配分に関する現在の課題をお聞かせください。"
+					}
+				}
+			},
+			{
+				"id": "page-contact",
+				"slug": "contact",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"title": "Get in touch",
+					"description": "From AI strategy, engineering, and organizational adoption to IR, shareholder relations, investor perception, and capital strategy — send us a note using the form.",
+					"eyebrow": "Contact"
+				}
+			},
+			{
+				"id": "page-contact-ja",
+				"slug": "contact",
+				"locale": "ja",
+				"translationOf": "page-contact",
+				"status": "published",
+				"data": {
+					"title": "お問い合わせ",
+					"description": "AI活用の構想・開発・組織定着から、IR・SR、投資家パーセプションスタディ、資本戦略まで。いずれのご相談も、こちらのフォームからお送りください。",
+					"eyebrow": "Contact"
+				}
+			}
+		],
+		"faqs": [
+			{
+				"id": "faq-agent-adoption-1",
+				"slug": "agent-adoption-1",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"question": "How do we choose the right AI agent?",
+					"answer": "The fit depends on the workflow, existing environment, and data involved. We assess the current work and define the first agent and rollout scope.",
+					"page": "agent-adoption",
+					"sort_order": 1
+				}
+			},
+			{
+				"id": "faq-agent-adoption-2",
+				"slug": "agent-adoption-2",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"question": "Can non-engineering teams use AI agents?",
+					"answer": "Yes. We can provide conversational entry points and workflow-specific guidance so people can use agents in everyday work without specialist knowledge.",
+					"page": "agent-adoption",
+					"sort_order": 2
+				}
+			},
+			{
+				"id": "faq-agent-adoption-3",
+				"slug": "agent-adoption-3",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"question": "Can we run a small trial before an organization-wide rollout?",
+					"answer": "Yes. Start with one team and a small user group, measure the change in time and quality, and expand only when the value is clear.",
+					"page": "agent-adoption",
+					"sort_order": 3
+				}
+			},
+			{
+				"id": "faq-agent-adoption-1-ja",
+				"slug": "agent-adoption-1",
+				"locale": "ja",
+				"translationOf": "faq-agent-adoption-1",
+				"status": "published",
+				"data": {
+					"question": "どのAIエージェントを選べばよいか分かりません。",
+					"answer": "用途、既存環境、データの扱いによって向き不向きがあります。現在の業務を伺い、最初に試すエージェントと範囲を整理します。",
+					"page": "agent-adoption",
+					"sort_order": 1
+				}
+			},
+			{
+				"id": "faq-agent-adoption-2-ja",
+				"slug": "agent-adoption-2",
+				"locale": "ja",
+				"translationOf": "faq-agent-adoption-2",
+				"status": "published",
+				"data": {
+					"question": "エンジニアがいない部門でも利用できますか？",
+					"answer": "利用できます。チャットから使える入口や業務別の使い方を用意し、専門知識がなくても日常業務で活用できる状態をつくります。",
+					"page": "agent-adoption",
+					"sort_order": 2
+				}
+			},
+			{
+				"id": "faq-agent-adoption-3-ja",
+				"slug": "agent-adoption-3",
+				"locale": "ja",
+				"translationOf": "faq-agent-adoption-3",
+				"status": "published",
+				"data": {
+					"question": "全社導入の前に小さく試せますか？",
+					"answer": "はい。1部門・数名から始め、業務時間や品質の変化を確認したうえで、導入範囲を広げられます。",
+					"page": "agent-adoption",
+					"sort_order": 3
+				}
+			},
+			{
+				"id": "faq-solution-development-1",
+				"slug": "solution-development-1",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"question": "Can we talk before there is a defined development project?",
+					"answer": "Yes. We can begin with workflow mapping and an AI opportunity assessment, clarifying the objective, available data, constraints, and the smallest useful validation.",
+					"page": "solution-development",
+					"sort_order": 1
+				}
+			},
+			{
+				"id": "faq-solution-development-2",
+				"slug": "solution-development-2",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"question": "Can you work with tools we already use, such as ChatGPT or Claude?",
+					"answer": "Yes. We design around existing contracts and cloud environments where appropriate. No specific model or CAUCHYE platform is mandatory.",
+					"page": "solution-development",
+					"sort_order": 2
+				}
+			},
+			{
+				"id": "faq-solution-development-3",
+				"slug": "solution-development-3",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"question": "Can you support adoption inside the organization as well as development?",
+					"answer": "Yes. We can design usage guidance, role-specific training, workshops based on real work, and the review practices needed for sustained adoption.",
+					"page": "solution-development",
+					"sort_order": 3
+				}
+			},
+			{
+				"id": "faq-solution-development-1-ja",
+				"slug": "solution-development-1",
+				"locale": "ja",
+				"translationOf": "faq-solution-development-1",
+				"status": "published",
+				"data": {
+					"question": "まだ具体的な開発案件になっていなくても相談できますか？",
+					"answer": "はい。対象業務の整理やAI適用診断からご一緒できます。目的、現状の業務、利用できるデータ、制約を伺い、最初に検証すべき範囲を整理します。",
+					"page": "solution-development",
+					"sort_order": 1
+				}
+			},
+			{
+				"id": "faq-solution-development-2-ja",
+				"slug": "solution-development-2",
+				"locale": "ja",
+				"translationOf": "faq-solution-development-2",
+				"status": "published",
+				"data": {
+					"question": "ChatGPTやClaudeなど、すでに導入しているツールを活かせますか？",
+					"answer": "はい。既存契約やクラウド環境を前提に構成を検討します。特定のモデルや自社基盤の利用を必須にはしません。",
+					"page": "solution-development",
+					"sort_order": 2
+				}
+			},
+			{
+				"id": "faq-solution-development-3-ja",
+				"slug": "solution-development-3",
+				"locale": "ja",
+				"translationOf": "faq-solution-development-3",
+				"status": "published",
+				"data": {
+					"question": "開発だけでなく、社内への定着も支援できますか？",
+					"answer": "可能です。利用ガイドライン、役割別研修、実業務を題材にしたワークショップ、レビュー体制の設計まで支援します。",
+					"page": "solution-development",
+					"sort_order": 3
+				}
+			}
+		],
+		"partners": [
+			{
+				"id": "partner-kyoto-social-innovation-center",
+				"slug": "kyoto-social-innovation-center",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "Kyoto University Social Innovation Center",
+					"url": "https://innovationkyoto.org/",
+					"logo_path": "/partners/kyoto-social-innovation-center.png",
+					"logo_class": "h-14 w-full invert",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 1
+				}
+			},
+			{
+				"id": "partner-kyoto-social-innovation-center-ja",
+				"slug": "kyoto-social-innovation-center",
+				"locale": "ja",
+				"translationOf": "partner-kyoto-social-innovation-center",
+				"status": "published",
+				"data": {
+					"name": "京都大学ソーシャルイノベーションセンター",
+					"url": "https://innovationkyoto.org/",
+					"logo_path": "/partners/kyoto-social-innovation-center.png",
+					"logo_class": "h-14 w-full invert",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 1
+				}
+			},
+			{
+				"id": "partner-polipoli",
+				"slug": "polipoli",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "PoliPoli, Inc.",
+					"url": "https://www.polipoli.work/",
+					"logo_path": "/partners/polipoli.png",
+					"logo_class": "h-10 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 2
+				}
+			},
+			{
+				"id": "partner-polipoli-ja",
+				"slug": "polipoli",
+				"locale": "ja",
+				"translationOf": "partner-polipoli",
+				"status": "published",
+				"data": {
+					"name": "株式会社PoliPoli",
+					"url": "https://www.polipoli.work/",
+					"logo_path": "/partners/polipoli.png",
+					"logo_class": "h-10 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 2
+				}
+			},
+			{
+				"id": "partner-yanagisawa-accounting",
+				"slug": "yanagisawa-accounting",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "Yanagisawa and Company",
+					"url": "https://www.yanagisawa-accounting.com/",
+					"logo_path": "/partners/yanagisawa-accounting.png",
+					"logo_class": "h-11 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 3
+				}
+			},
+			{
+				"id": "partner-yanagisawa-accounting-ja",
+				"slug": "yanagisawa-accounting",
+				"locale": "ja",
+				"translationOf": "partner-yanagisawa-accounting",
+				"status": "published",
+				"data": {
+					"name": "柳澤国際税務会計事務所",
+					"url": "https://www.yanagisawa-accounting.com/",
+					"logo_path": "/partners/yanagisawa-accounting.png",
+					"logo_class": "h-11 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 3
+				}
+			},
+			{
+				"id": "partner-ethersecurity-stir",
+				"slug": "ethersecurity-stir",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "STIR — Ethersecurity Pacific Holdings Pte. Ltd.",
+					"url": "https://stir.network/",
+					"logo_path": "/partners/ethersecurity-stir.svg",
+					"logo_class": "h-14 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 4
+				}
+			},
+			{
+				"id": "partner-ethersecurity-stir-ja",
+				"slug": "ethersecurity-stir",
+				"locale": "ja",
+				"translationOf": "partner-ethersecurity-stir",
+				"status": "published",
+				"data": {
+					"name": "STIR — Ethersecurity Pacific Holdings Pte. Ltd.",
+					"url": "https://stir.network/",
+					"logo_path": "/partners/ethersecurity-stir.svg",
+					"logo_class": "h-14 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 4
+				}
+			},
+			{
+				"id": "partner-techfund",
+				"slug": "techfund",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "TECHFUND",
+					"url": "https://techfund.jp/",
+					"logo_path": "/partners/techfund.png",
+					"logo_class": "h-16 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 5
+				}
+			},
+			{
+				"id": "partner-techfund-ja",
+				"slug": "techfund",
+				"locale": "ja",
+				"translationOf": "partner-techfund",
+				"status": "published",
+				"data": {
+					"name": "TECHFUND",
+					"url": "https://techfund.jp/",
+					"logo_path": "/partners/techfund.png",
+					"logo_class": "h-16 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 5
+				}
+			},
+			{
+				"id": "partner-jp-force",
+				"slug": "jp-force",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "JP-FORCE",
+					"url": "https://www.jp-force.net/",
+					"logo_path": "/partners/jp-force.png",
+					"logo_class": "h-14 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 6
+				}
+			},
+			{
+				"id": "partner-jp-force-ja",
+				"slug": "jp-force",
+				"locale": "ja",
+				"translationOf": "partner-jp-force",
+				"status": "published",
+				"data": {
+					"name": "JP-FORCE",
+					"url": "https://www.jp-force.net/",
+					"logo_path": "/partners/jp-force.png",
+					"logo_class": "h-14 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 6
+				}
+			},
+			{
+				"id": "partner-minami-aoyama",
+				"slug": "minami-aoyama",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "Minami Aoyama Advisory Group",
+					"url": "https://minami-aoyama.jp/",
+					"logo_path": "/partners/minami-aoyama.png",
+					"logo_class": "h-12 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 7
+				}
+			},
+			{
+				"id": "partner-minami-aoyama-ja",
+				"slug": "minami-aoyama",
+				"locale": "ja",
+				"translationOf": "partner-minami-aoyama",
+				"status": "published",
+				"data": {
+					"name": "南青山アドバイザリーグループ",
+					"url": "https://minami-aoyama.jp/",
+					"logo_path": "/partners/minami-aoyama.png",
+					"logo_class": "h-12 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 7
+				}
+			},
+			{
+				"id": "partner-theseus-consulting",
+				"slug": "theseus-consulting",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "Theseus Consulting Inc.",
+					"url": "https://theseus-grp.com/",
+					"logo_path": "/partners/theseus-consulting.png",
+					"logo_class": "h-16 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": true,
+					"sort_order": 8
+				}
+			},
+			{
+				"id": "partner-theseus-consulting-ja",
+				"slug": "theseus-consulting",
+				"locale": "ja",
+				"translationOf": "partner-theseus-consulting",
+				"status": "published",
+				"data": {
+					"name": "テセウスコンサルティング株式会社",
+					"url": "https://theseus-grp.com/",
+					"logo_path": "/partners/theseus-consulting.png",
+					"logo_class": "h-16 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": true,
+					"sort_order": 8
+				}
+			},
+			{
+				"id": "partner-runner-up-plus",
+				"slug": "runner-up-plus",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "Runner UP Plus, Inc.",
+					"url": "https://runnerup-plus.com/",
+					"logo_path": "/partners/runner-up-plus.svg",
+					"logo_class": "h-12 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 9
+				}
+			},
+			{
+				"id": "partner-runner-up-plus-ja",
+				"slug": "runner-up-plus",
+				"locale": "ja",
+				"translationOf": "partner-runner-up-plus",
+				"status": "published",
+				"data": {
+					"name": "株式会社Runner UP Plus",
+					"url": "https://runnerup-plus.com/",
+					"logo_path": "/partners/runner-up-plus.svg",
+					"logo_class": "h-12 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 9
+				}
+			},
+			{
+				"id": "partner-estruth",
+				"slug": "estruth",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "EsTRUTH",
+					"url": "https://www.estruth.co.jp/",
+					"logo_path": "/partners/estruth.svg",
+					"logo_class": "h-14 w-full invert dark:invert-0",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 10
+				}
+			},
+			{
+				"id": "partner-estruth-ja",
+				"slug": "estruth",
+				"locale": "ja",
+				"translationOf": "partner-estruth",
+				"status": "published",
+				"data": {
+					"name": "EsTRUTH",
+					"url": "https://www.estruth.co.jp/",
+					"logo_path": "/partners/estruth.svg",
+					"logo_class": "h-14 w-full invert dark:invert-0",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 10
+				}
+			},
+			{
+				"id": "partner-morus",
+				"slug": "morus",
+				"locale": "en",
+				"status": "published",
+				"data": {
+					"name": "Morus",
+					"url": "https://morus.jp/jp/",
+					"logo_path": "/partners/morus.svg",
+					"logo_class": "h-12 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 11
+				}
+			},
+			{
+				"id": "partner-morus-ja",
+				"slug": "morus",
+				"locale": "ja",
+				"translationOf": "partner-morus",
+				"status": "published",
+				"data": {
+					"name": "Morus",
+					"url": "https://morus.jp/jp/",
+					"logo_path": "/partners/morus.svg",
+					"logo_class": "h-12 w-full",
+					"show_on_it_ai": true,
+					"show_on_corporate_advisory": false,
+					"sort_order": 11
+				}
+			}
+		],
+		"articles": []
+	}
+}

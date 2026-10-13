@@ -1,6 +1,7 @@
 ---
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.svelte';
+import { hasArticles } from '../cms/content';
 import type { Dictionary, Locale } from '../i18n';
 import { site } from '../site';
 import '../styles/global.css';
@@ -11,6 +12,8 @@ interface Props {
 	pageTitle?: string;
 	description?: string;
 	pagePath?: string;
+	// Path of this page in the other locale, when it differs from `pagePath`.
+	translationPath?: string;
 }
 
 const {
@@ -18,13 +21,18 @@ const {
 	messages,
 	pageTitle,
 	description = messages.hero_body,
-	pagePath = ''
+	pagePath = '',
+	translationPath = pagePath
 } = Astro.props;
 const title = pageTitle
 	? `${pageTitle} | ${site.shortName}`
 	: `${site.legalName} — ${messages.brand_descriptor}`;
 const localizedPath = `/${locale}${pagePath}`;
 const pageUrl = `${site.url}${localizedPath}`;
+const alternateUrl = (alternate: Locale) =>
+	`${site.url}/${alternate}${alternate === locale ? pagePath : translationPath}`;
+// The article list is only linked once it has something to show.
+const showArticles = await hasArticles(Astro, locale);
 const organizationSchema = JSON.stringify({
 	'@context': 'https://schema.org',
 	'@type': 'Organization',
@@ -53,9 +61,9 @@ const organizationSchema = JSON.stringify({
 		<title>{title}</title>
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 		<link rel="canonical" href={pageUrl} />
-		<link rel="alternate" hreflang="en" href={`${site.url}/en${pagePath}`} />
-		<link rel="alternate" hreflang="ja" href={`${site.url}/ja${pagePath}`} />
-		<link rel="alternate" hreflang="x-default" href={`${site.url}/en${pagePath}`} />
+		<link rel="alternate" hreflang="en" href={alternateUrl('en')} />
+		<link rel="alternate" hreflang="ja" href={alternateUrl('ja')} />
+		<link rel="alternate" hreflang="x-default" href={alternateUrl('en')} />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
@@ -64,11 +72,11 @@ const organizationSchema = JSON.stringify({
 	</head>
 	<body>
 		<div class="flex min-h-svh flex-col">
-			<Header {locale} messages={messages} {pagePath} client:load />
+			<Header {locale} messages={messages} {pagePath} {translationPath} client:load />
 			<main class="container mx-auto flex-1">
 				<slot />
 			</main>
-			<Footer {locale} messages={messages} />
+			<Footer {locale} messages={messages} {showArticles} />
 		</div>
 	</body>
 </html>

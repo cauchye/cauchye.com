@@ -1,0 +1,102 @@
+---
+import { ArrowLeft, ArrowRight, ChevronRight } from 'lucide-astro';
+
+import ArticleCard from '../../../components/articles/ArticleCard.astro';
+import { Badge } from '../../../components/ui/badge/index.js';
+import { Button } from '../../../components/ui/button/index.js';
+import { articlePage } from '../../../cms/articles';
+import { getArticles, getMessages } from '../../../cms/content';
+import { isLocale } from '../../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) return Astro.redirect('/en/articles', 302);
+const m = await getMessages(Astro, lang);
+const listHref = `/${lang}/articles`;
+const page = articlePage(Astro.url.searchParams.get('page'));
+const { articles, hasMore } = await getArticles(Astro, lang, page);
+// A page past the end of the list has nothing to show.
+if (page > 1 && articles.length === 0) return Astro.redirect(listHref, 302);
+const newerHref = page > 2 ? `${listHref}?page=${page - 1}` : listHref;
+---
+
+<BaseLayout
+	locale={lang}
+	messages={m}
+	pageTitle={m.articles_meta_title}
+	description={m.articles_meta_description}
+	pagePath="/articles"
+>
+	<section class="relative isolate py-16 md:py-24">
+		<div
+			class="pointer-events-none absolute inset-0 -z-10 -mx-5 grid-backdrop md:-mx-8"
+			aria-hidden="true"
+		>
+		</div>
+		<nav aria-label={m.breadcrumb_label}>
+			<ol class="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+				<li>
+					<a href={`/${lang}`} class="transition-colors hover:text-foreground"
+						>{m.breadcrumb_home}</a
+					>
+				</li>
+				<li aria-hidden="true"><ChevronRight class="size-4" /></li>
+				<li class="text-foreground" aria-current="page">{m.nav_articles}</li>
+			</ol>
+		</nav>
+		<div class="mt-10">
+			<Badge
+				variant="outline"
+				class="rounded-full px-3 py-1 font-mono text-[0.65rem] tracking-[0.16em] uppercase"
+				>{m.articles_eyebrow}</Badge
+			>
+			<h1 class="mt-6 text-4xl leading-[1.08] font-semibold sm:text-5xl md:text-6xl">
+				{m.articles_title}
+			</h1>
+			<p class="mt-7 text-base leading-relaxed text-muted-foreground md:text-xl">
+				{m.articles_body}
+			</p>
+		</div>
+	</section>
+
+	<section id="articles" class="border-t border-border section">
+		{
+			articles.length > 0 ? (
+				<ul class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+					{articles.map((article) => (
+						<li>
+							<ArticleCard locale={lang} {article} readLabel={m.articles_read} />
+						</li>
+					))}
+				</ul>
+			) : (
+				<p
+					data-articles-empty
+					class="rounded-3xl border border-dashed border-border bg-muted/30 px-6 py-16 text-center text-muted-foreground"
+				>
+					{m.articles_empty}
+				</p>
+			)
+		}
+		{
+			(page > 1 || hasMore) && (
+				<nav aria-label={m.articles_pagination_label} class="mt-12 flex justify-between gap-3">
+					{page > 1 ? (
+						<Button href={newerHref} variant="outline" class="h-10 px-4">
+							<ArrowLeft data-icon="inline-start" />
+							{m.articles_newer}
+						</Button>
+					) : (
+						<span />
+					)}
+					{hasMore && (
+						<Button href={`${listHref}?page=${page + 1}`} variant="outline" class="h-10 px-4">
+							{m.articles_older}
+							<ArrowRight data-icon="inline-end" />
+						</Button>
+					)}
+				</nav>
+			)
+		}
+	</section>
+</BaseLayout>

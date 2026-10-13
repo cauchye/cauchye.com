@@ -21,6 +21,7 @@
 	"nav_outcomes": "AI組織図",
 	"nav_faq": "よくある質問",
 	"nav_perspective": "私たちの強み",
+	"nav_articles": "記事",
 	"nav_menu_open": "メニューを開く",
 	"nav_menu_close": "メニューを閉じる",
 	"nav_menu_label": "ナビゲーション",
@@ -311,5 +312,19 @@
 
 	"footer_rights": "All rights reserved.",
 	"footer_nav_label": "サイト",
-	"footer_company_label": "会社情報"
+	"footer_company_label": "会社情報",
+
+	"articles_meta_title": "記事",
+	"articles_meta_description": "AIの実装・運用とコーポレートアドバイザリーに関する、CAUCHYE ASIAの記事一覧です。",
+	"articles_eyebrow": "Articles",
+	"articles_title": "記事",
+	"articles_body": "AIの実装・運用とコーポレートアドバイザリーについて、CAUCHYE ASIAからお届けします。",
+	"articles_empty": "公開中の記事はまだありません。",
+	"articles_read": "記事を読む",
+	"articles_back": "記事一覧へ戻る",
+	"articles_newer": "新しい記事",
+	"articles_older": "過去の記事",
+	"articles_pagination_label": "記事のページ送り",
+	"articles_not_found_title": "記事が見つかりません",
+	"articles_not_found_body": "この記事はこの言語では公開されていないか、公開が終了しています。"
 }

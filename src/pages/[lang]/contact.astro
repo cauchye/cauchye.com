@@ -1,11 +1,12 @@
 ---
 import Contact from '../../components/sections/Contact.astro';
-import { getDictionary, isLocale } from '../../i18n';
+import { getMessages } from '../../cms/content';
+import { isLocale } from '../../i18n';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 
 const { lang } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/contact', 302);
-const messages = getDictionary(lang);
+const messages = await getMessages(Astro, lang);
 const contactState =
 	Astro.url.searchParams.get('contact') === 'success'
 		? 'success'

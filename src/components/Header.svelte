@@ -16,6 +16,7 @@
 		locale: Locale;
 		messages: Dictionary;
 		pagePath?: string;
+		translationPath?: string;
 	}
 
 	const localeOptions = [
@@ -49,7 +50,7 @@
 		{ hash: '#partners', label: 'nav_partners' }
 	];
 
-	let { locale, messages: m, pagePath = '' }: Props = $props();
+	let { locale, messages: m, pagePath = '', translationPath = pagePath }: Props = $props();
 
 	let mobileOpen = $state(false);
 	let scrolled = $state(false);
@@ -57,7 +58,7 @@
 	const home = $derived(`/${locale}`);
 	const currentPage = $derived(`${home}${pagePath}`);
 	const pageNavItems = $derived(
-		pagePath === '/contact'
+		pagePath === '/contact' || pagePath.startsWith('/articles')
 			? []
 			: pagePath === '/business/it-ai'
 				? aiOverviewNavItems
@@ -125,7 +126,11 @@
 					{#each localeOptions as option (option.locale)}
 						<DropdownMenu.Item>
 							{#snippet child({ props })}
-								<a href={`/${option.locale}${pagePath}`} lang={option.locale} {...props}>
+								<a
+									href={`/${option.locale}${option.locale === locale ? pagePath : translationPath}`}
+									lang={option.locale}
+									{...props}
+								>
 									{option.label}
 									{#if option.locale === locale}
 										<Check class="ml-auto text-brand" />
