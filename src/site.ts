@@ -75,6 +75,13 @@ export const officialMedia = [
 	}
 ] as const;
 
+// Official accounts linked from the footer and the organization data. YouTube has no
+// posts to feature yet, so it stays out of the article list block.
+export const officialAccounts = [
+	...officialMedia.map(({ id, label, url }) => ({ id, label, url })),
+	{ id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@cauchye_asia' }
+] as const;
+
 export const addressLines = [
 	site.address.street,
 	site.address.unit,
