@@ -79,7 +79,9 @@ export const officialMedia = [
 // posts to feature yet, so it stays out of the article list block.
 export const officialAccounts = [
 	...officialMedia.map(({ id, label, url }) => ({ id, label, url })),
-	{ id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@cauchye_asia' }
+	{ id: 'qiita', label: 'Qiita', url: 'https://qiita.com/cauchye_asia' },
+	{ id: 'youtube', label: 'YouTube', url: 'https://www.youtube.com/@cauchye_asia' },
+	{ id: 'linkedin', label: 'LinkedIn', url: 'https://www.linkedin.com/company/cauchye' }
 ] as const;
 
 export const addressLines = [
