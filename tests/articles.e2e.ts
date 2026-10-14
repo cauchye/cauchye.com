@@ -526,21 +526,23 @@ test.describe('official media', () => {
 	const profiles = [
 		'https://note.com/cauchye_asia',
 		'https://zenn.dev/cauchye_asia',
-		'https://www.youtube.com/@cauchye_asia'
+		'https://qiita.com/cauchye_asia',
+		'https://www.youtube.com/@cauchye_asia',
+		'https://www.linkedin.com/company/cauchye'
 	];
 
 	test('links the official accounts from the footer and the organization data', async ({
 		page
 	}) => {
 		for (const [locale, label] of [
-			['ja', '公式アカウント'],
-			['en', 'Official accounts']
+			['ja', '公式メディア'],
+			['en', 'Official media']
 		]) {
 			await page.goto(`/${locale}`);
 			const group = page.locator('footer [data-official-accounts]');
 			await expect(group.locator('h2')).toHaveText(label);
 			const links = group.locator('a');
-			await expect(links).toHaveText(['note', 'Zenn', 'YouTube']);
+			await expect(links).toHaveText(['note', 'Zenn', 'Qiita', 'YouTube', 'LinkedIn']);
 			for (const index of profiles.keys()) {
 				await expect(links.nth(index)).toHaveAttribute('rel', 'noopener noreferrer');
 			}
