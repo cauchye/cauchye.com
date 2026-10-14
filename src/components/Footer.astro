@@ -3,7 +3,7 @@ import { ExternalLink, Mail } from 'lucide-astro';
 
 import { Separator } from './ui/separator/index.js';
 import type { Dictionary, Locale } from '../i18n';
-import { addressLines, navItems, officialMedia, site } from '../site';
+import { addressLines, navItems, officialAccounts, site } from '../site';
 
 interface Props {
 	locale: Locale;
@@ -71,7 +71,7 @@ const year = new Date().getFullYear();
 				</h2>
 				<ul class="mt-4 flex flex-col gap-2.5">
 					{
-						officialMedia.map((media) => (
+						officialAccounts.map((media) => (
 							<li>
 								<a
 									href={media.url}

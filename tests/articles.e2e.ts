@@ -523,7 +523,11 @@ test.describe('with published articles', () => {
 });
 
 test.describe('official media', () => {
-	const profiles = ['https://note.com/shiny_ivy9017', 'https://zenn.dev/cauchye_asia'];
+	const profiles = [
+		'https://note.com/shiny_ivy9017',
+		'https://zenn.dev/cauchye_asia',
+		'https://www.youtube.com/@cauchye_asia'
+	];
 
 	test('links the official accounts from the footer and the organization data', async ({
 		page
@@ -536,7 +540,10 @@ test.describe('official media', () => {
 			const group = page.locator('footer [data-official-accounts]');
 			await expect(group.locator('h2')).toHaveText(label);
 			const links = group.locator('a');
-			await expect(links).toHaveText(['note', 'Zenn']);
+			await expect(links).toHaveText(['note', 'Zenn', 'YouTube']);
+			for (const index of profiles.keys()) {
+				await expect(links.nth(index)).toHaveAttribute('rel', 'noopener noreferrer');
+			}
 			for (const [index, url] of profiles.entries()) {
 				await expect(links.nth(index)).toHaveAttribute('href', url);
 				await expect(links.nth(index)).toHaveAttribute('target', '_blank');
