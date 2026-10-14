@@ -44,15 +44,15 @@ export const officialMedia = [
 	{
 		id: 'note',
 		label: 'note',
-		url: 'https://note.com/shiny_ivy9017',
+		url: 'https://note.com/cauchye_asia',
 		posts: [
 			{
 				title: '20年動かなかった壁を、Claudeは約3週間で越えた。でも作者は18万行を読み切れなかった',
-				url: 'https://note.com/shiny_ivy9017/n/nf25d5f3832bf'
+				url: 'https://note.com/cauchye_asia/n/nf25d5f3832bf'
 			},
 			{
 				title: '【月$20 vs $2,000】GPT-6 Luna の登場で「安いモデル」の基準が変わった',
-				url: 'https://note.com/shiny_ivy9017/n/nad0b7bce8581'
+				url: 'https://note.com/cauchye_asia/n/nad0b7bce8581'
 			}
 		]
 	},

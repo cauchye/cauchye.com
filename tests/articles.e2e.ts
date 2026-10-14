@@ -524,7 +524,7 @@ test.describe('with published articles', () => {
 
 test.describe('official media', () => {
 	const profiles = [
-		'https://note.com/shiny_ivy9017',
+		'https://note.com/cauchye_asia',
 		'https://zenn.dev/cauchye_asia',
 		'https://www.youtube.com/@cauchye_asia'
 	];
@@ -572,7 +572,7 @@ test.describe('official media', () => {
 			await expect(posts).toHaveCount(4);
 			await expect(posts.first()).toHaveAttribute(
 				'href',
-				'https://note.com/shiny_ivy9017/n/nf25d5f3832bf'
+				'https://note.com/cauchye_asia/n/nf25d5f3832bf'
 			);
 			await expect(posts.last()).toHaveAttribute(
 				'href',
