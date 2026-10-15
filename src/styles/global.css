@@ -296,9 +296,9 @@
 	}
 }
 
-/* Native date pickers inside the dark contact panel: keep the calendar icon visible. */
+/* Native date pickers inside the dark contact panel. Their `scheme-dark` already gives them a
+   light calendar icon, so it is not inverted here: that would make it dark again. */
 .dark input[type='date']::-webkit-calendar-picker-indicator {
-	filter: invert(1);
 	opacity: 0.8;
 	cursor: pointer;
 }
