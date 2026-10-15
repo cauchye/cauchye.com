@@ -1,0 +1,93 @@
+---
+// Landing page for outbound email (not in the sitemap, kept out of search results).
+// Suggested link: /ja/lp/ai-agent?utm_source=email&utm_medium=outbound&utm_campaign=<campaign>
+import { ArrowRight } from 'lucide-astro';
+
+import ArticleTeasers from '../../../components/sections/ArticleTeasers.astro';
+import Company from '../../../components/sections/Company.astro';
+import OfficialMedia from '../../../components/sections/OfficialMedia.astro';
+import { Button } from '../../../components/ui/button/index.js';
+import { getMessages } from '../../../cms/content';
+import { isLocale } from '../../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { consultHref } from '../../../site';
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) return Astro.redirect('/ja/lp/ai-agent', 302);
+const m = await getMessages(Astro, lang);
+const consult = consultHref(lang);
+const steps = [
+	{ title: m.lp_step_1_title, body: m.lp_step_1_body },
+	{ title: m.lp_step_2_title, body: m.lp_step_2_body },
+	{ title: m.lp_step_3_title, body: m.lp_step_3_body }
+];
+---
+
+<BaseLayout
+	locale={lang}
+	messages={m}
+	pageTitle={m.lp_title}
+	description={m.lp_description}
+	pagePath="/lp/ai-agent"
+	noindex
+>
+	<section class="pt-20 pb-14 md:pt-28" data-lp-hero>
+		<p class="font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
+			{m.business_ai_title}
+		</p>
+		<h1 class="mt-4 text-4xl leading-[1.15] font-semibold md:text-5xl">{m.lp_title}</h1>
+		<p class="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">{m.lp_lead}</p>
+		<div class="mt-10 flex flex-wrap items-center gap-3">
+			<Button href={consult} variant="brand" size="lg" class="h-12 px-6" data-cta="lp-hero-consult">
+				{m.cta_consult}
+				<ArrowRight data-icon="inline-end" />
+			</Button>
+			<Button
+				href={`/${lang}/business/it-ai/agent-adoption`}
+				variant="outline"
+				size="lg"
+				class="h-12 px-6"
+				data-cta="lp-hero-service"
+			>
+				{m.lp_service_link}
+			</Button>
+		</div>
+		<p class="mt-4 text-xs text-muted-foreground">{m.hero_cta_note}</p>
+	</section>
+
+	<section class="border-t border-border section" data-lp-steps>
+		<h2 class="text-3xl font-semibold md:text-4xl">{m.lp_steps_title}</h2>
+		<ol class="mt-10 grid gap-6 md:grid-cols-3">
+			{
+				steps.map((step, index) => (
+					<li class="rounded-2xl border border-border p-6">
+						<p class="font-mono text-xs text-brand">0{index + 1}</p>
+						<p class="mt-3 text-lg font-semibold">{step.title}</p>
+						<p class="mt-3 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
+					</li>
+				))
+			}
+		</ol>
+	</section>
+
+	<ArticleTeasers locale={lang} messages={m} title={m.lp_read_title} />
+	<OfficialMedia messages={m} placement="lp" />
+	<Company messages={m} />
+
+	<section class="pb-20 md:pb-28" data-lp-contact>
+		<div class="rounded-3xl bg-brand px-6 py-14 text-brand-foreground md:px-12 md:py-18">
+			<h2 class="text-3xl font-semibold md:text-5xl">{m.lp_cta_title}</h2>
+			<p class="mt-4 text-white/70 md:text-lg">{m.lp_cta_body}</p>
+			<Button
+				href={consult}
+				variant="secondary"
+				size="lg"
+				class="mt-8 h-11 px-5"
+				data-cta="lp-bottom-consult"
+			>
+				{m.cta_consult}
+				<ArrowRight data-icon="inline-end" />
+			</Button>
+		</div>
+	</section>
+</BaseLayout>

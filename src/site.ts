@@ -96,3 +96,21 @@ export const navItems = [
 	{ path: '/business/it-ai', label: 'nav_ai' },
 	{ path: '/business/corporate-advisory', label: 'nav_advisory' }
 ] as const satisfies ReadonlyArray<{ path: string; label: MessageKey }>;
+
+// Booking for the first meeting. While no scheduling tool is chosen, `url` stays empty and
+// every "free consultation" button leads to the contact form. Set it to the tool's URL
+// (TimeRex, Calendly, Google Calendar appointment schedule, ...) to send buttons there.
+export const booking = {
+	url: ''
+} as const;
+
+// Where a "free consultation" button leads, for the given locale.
+export function consultHref(locale: string): string {
+	return booking.url || `/${locale}/contact`;
+}
+
+// Cloudflare Web Analytics. Paste the site token from the dashboard (Web Analytics → the
+// cauchye.com site → "Manage site" → JS snippet) to load the beacon; empty loads nothing.
+export const analytics = {
+	cloudflareBeaconToken: ''
+} as const;

@@ -10,6 +10,7 @@
 	import { Separator } from '@/components/ui/separator/index.js';
 	import * as Sheet from '@/components/ui/sheet/index.js';
 	import type { Dictionary, Locale, MessageKey } from '@/i18n';
+	import { consultHref } from '@/site';
 	import { site } from '@/site';
 
 	interface Props {
@@ -64,14 +65,18 @@
 	let scrolled = $state(false);
 
 	const home = $derived(`/${locale}`);
+	const consult = $derived(consultHref(locale));
 	const currentPage = $derived(`${home}${pagePath}`);
 	const articlesCurrent = $derived(pagePath.startsWith('/articles') ? 'page' : undefined);
-	// Pages without sections of their own (contact, articles) link to the home page's.
+	// Pages without sections of their own (contact, articles, landing pages) link to the home
+	// page's.
 	const navBase = $derived(
-		pagePath === '/contact' || pagePath.startsWith('/articles') ? home : currentPage
+		pagePath === '/contact' || pagePath.startsWith('/articles') || pagePath.startsWith('/lp/')
+			? home
+			: currentPage
 	);
 	const pageNavItems = $derived(
-		pagePath === '/contact' || pagePath.startsWith('/articles')
+		pagePath === '/contact' || pagePath.startsWith('/articles') || pagePath.startsWith('/lp/')
 			? homeNavItems
 			: pagePath === '/business/it-ai'
 				? aiOverviewNavItems
@@ -165,12 +170,13 @@
 			</DropdownMenu.Root>
 
 			<Button
-				href={`${home}/contact`}
+				href={consult}
 				variant="brand"
 				size="sm"
 				class="ml-2 hidden h-8 px-3 sm:inline-flex"
+				data-cta="header-consult"
 			>
-				{m.nav_contact}
+				{m.cta_consult}
 			</Button>
 
 			<Sheet.Root bind:open={mobileOpen}>
@@ -236,12 +242,13 @@
 						<Sheet.Close>
 							{#snippet child({ props })}
 								<Button
-									href={`${home}/contact`}
+									href={consult}
+									data-cta="header-menu-consult"
 									variant="brand"
 									class="h-11 w-full px-6"
 									{...props}
 								>
-									{m.contact_cta}
+									{m.cta_consult}
 									<ArrowRight data-icon="inline-end" />
 								</Button>
 							{/snippet}

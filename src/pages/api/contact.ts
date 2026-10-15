@@ -6,6 +6,7 @@ import {
 	type ContactInquiryType,
 	contactSchema,
 	escapeSlackMrkdwn,
+	readAttribution,
 	readContactValues,
 	splitSlackMessage
 } from '../../contact';
@@ -123,7 +124,18 @@ export const POST: APIRoute = async ({ request }) => {
 		sales: messages.form_inquiry_sales
 	};
 	const inquiryTypeLabel = inquiryTypeLabels[inquiryType];
-	const messageChunks = splitSlackMessage(message);
+	const messageChunks = message ? splitSlackMessage(message) : [];
+	const attribution = readAttribution(data);
+	const attributionText = [
+		`流入元: ${attribution.utm_source ? `utm_source=${attribution.utm_source}` : attribution.referrer ? `referrer=${attribution.referrer}` : 'リファラなし（直接・メールアプリ等）'}`,
+		...(attribution.utm_medium ? [`utm_medium=${attribution.utm_medium}`] : []),
+		...(attribution.utm_campaign ? [`utm_campaign=${attribution.utm_campaign}`] : []),
+		...(attribution.utm_content ? [`utm_content=${attribution.utm_content}`] : []),
+		...(attribution.utm_term ? [`utm_term=${attribution.utm_term}`] : []),
+		...(attribution.utm_source && attribution.referrer ? [`referrer=${attribution.referrer}`] : []),
+		`着地ページ: ${attribution.landing ?? '不明'}`,
+		...(attribution.cta ? [`押したボタン: ${attribution.cta}`] : [])
+	].join('\n');
 	const detail = (label: string, value: string) => ({
 		type: 'section',
 		text: { type: 'mrkdwn', text: `*${label}*\n${value}` }
@@ -146,9 +158,13 @@ export const POST: APIRoute = async ({ request }) => {
 						`<mailto:${escapeSlackMrkdwn(email)}|${escapeSlackMrkdwn(email)}>`
 					),
 					{ type: 'divider' },
-					...messageChunks.map((chunk, index) =>
-						detail(index === 0 ? 'ご相談内容' : `ご相談内容（続き ${index + 1}）`, chunk)
-					),
+					...(messageChunks.length
+						? messageChunks.map((chunk, index) =>
+								detail(index === 0 ? 'ご相談内容' : `ご相談内容（続き ${index + 1}）`, chunk)
+							)
+						: [detail('ご相談内容', '（未記入）')]),
+					{ type: 'divider' },
+					detail('流入情報', escapeSlackMrkdwn(attributionText)),
 					{
 						type: 'context',
 						elements: [{ type: 'mrkdwn', text: `${locale} · cauchye.com` }]

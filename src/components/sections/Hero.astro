@@ -1,12 +1,18 @@
 ---
-import type { Dictionary } from '../../i18n';
+import { ArrowRight, Check } from 'lucide-astro';
+
+import type { Dictionary, Locale } from '../../i18n';
+import { consultHref } from '../../site';
 import MapBackdrop from '../MapBackdrop.astro';
+import { Button } from '../ui/button/index.js';
 
 interface Props {
+	locale: Locale;
 	messages: Dictionary;
 }
 
-const { messages: m } = Astro.props;
+const { locale, messages: m } = Astro.props;
+const points = [m.hero_point_1, m.hero_point_2, m.hero_point_3];
 ---
 
 <section class="relative isolate pt-20 pb-16 md:pt-28 md:pb-20">
@@ -27,4 +33,36 @@ const { messages: m } = Astro.props;
 	<p class="mt-8 text-base leading-relaxed text-muted-foreground md:text-lg">
 		{m.hero_body}
 	</p>
+	<ul class="mt-8 flex flex-col gap-2.5" data-hero-points>
+		{
+			points.map((point) => (
+				<li class="flex items-start gap-2.5 text-sm md:text-base">
+					<Check class="mt-0.5 size-4 shrink-0 text-brand" aria-hidden="true" />
+					<span>{point}</span>
+				</li>
+			))
+		}
+	</ul>
+	<div class="mt-10 flex flex-wrap items-center gap-3" data-hero-cta>
+		<Button
+			href={consultHref(locale)}
+			variant="brand"
+			size="lg"
+			class="h-12 px-6"
+			data-cta="hero-consult"
+		>
+			{m.cta_consult}
+			<ArrowRight data-icon="inline-end" />
+		</Button>
+		<Button
+			href="#official-media"
+			variant="outline"
+			size="lg"
+			class="h-12 px-6"
+			data-cta="hero-media"
+		>
+			{m.cta_media}
+		</Button>
+	</div>
+	<p class="mt-4 text-xs text-muted-foreground">{m.hero_cta_note}</p>
 </section>

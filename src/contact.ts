@@ -4,6 +4,30 @@ import type { Dictionary } from './i18n';
 
 export const CONTACT_INQUIRY_TYPES = ['it-ai', 'corporate-advisory', 'company', 'sales'] as const;
 export const CONTACT_FIELDS = ['inquiryType', 'name', 'company', 'email', 'message'] as const;
+// Where the visitor came from, filled in by the page from the first page of the visit.
+export const ATTRIBUTION_FIELDS = [
+	'utm_source',
+	'utm_medium',
+	'utm_campaign',
+	'utm_content',
+	'utm_term',
+	'landing',
+	'referrer',
+	'cta'
+] as const;
+export type AttributionField = (typeof ATTRIBUTION_FIELDS)[number];
+
+// Attribution values, trimmed and capped; empty ones are left out.
+export function readAttribution(data: FormData): Partial<Record<AttributionField, string>> {
+	const result: Partial<Record<AttributionField, string>> = {};
+	for (const field of ATTRIBUTION_FIELDS) {
+		const value = String(data.get(field) ?? '')
+			.trim()
+			.slice(0, 300);
+		if (value) result[field] = value;
+	}
+	return result;
+}
 export const SLACK_MESSAGE_CHUNK_LIMIT = 2900;
 export type ContactInquiryType = (typeof CONTACT_INQUIRY_TYPES)[number];
 export type ContactField = (typeof CONTACT_FIELDS)[number];
@@ -25,11 +49,8 @@ export function contactSchema(messages: Dictionary) {
 			.min(1, messages.form_error_required)
 			.max(200, messages.form_error_too_long)
 			.pipe(z.email(messages.form_error_email)),
-		message: z
-			.string()
-			.trim()
-			.min(10, messages.form_error_message_short)
-			.max(4000, messages.form_error_too_long)
+		// Optional: a first meeting matters more than a full brief.
+		message: z.string().trim().max(4000, messages.form_error_too_long)
 	});
 }
 

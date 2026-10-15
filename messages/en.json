@@ -2,7 +2,6 @@
 	"brand_name": "CAUCHYE",
 	"brand_legal_name": "CAUCHYE ASIA PTE. LTD.",
 	"brand_descriptor": "IT & AI solutions and corporate advisory.",
-
 	"nav_services": "Services",
 	"nav_ai": "IT & AI Solutions",
 	"nav_advisory": "Corporate Advisory",
@@ -27,22 +26,17 @@
 	"nav_menu_label": "Navigation",
 	"breadcrumb_label": "Breadcrumb",
 	"breadcrumb_home": "Home",
-
 	"locale_label": "Language",
 	"locale_en": "English",
 	"locale_ja": "日本語",
-
 	"hero_title_lead": "There are no answers",
 	"hero_title_accent": "in the average.",
 	"hero_body": "Expected methods produce nothing but expected results. Whatever sits inside the industry average, the domestic consensus, or the well-precedented option has already been claimed by someone else. From Singapore, we work across borders and sectors to reach the answers that lie outside the average.",
-
 	"about_title": "About our name",
 	"about_body_1": "CAUCHYE is named after the Cauchy distribution. Named in turn for the 19th-century mathematician Augustin-Louis Cauchy, it has no expected value: however many samples you draw, the sample mean never converges, and the law of large numbers does not hold. It describes a world where the average is simply not a usable instrument.",
 	"about_body_2": "That is our starting point. Anything an average can settle has been settled already. What we take on sits outside it — AI implementations with little precedent, platforms that do not yet exist, and cross-border assets that no domestic benchmark describes. Results there cannot be predicted from the mean, which is precisely why they can exceed it.",
-
 	"services_eyebrow": "Business",
 	"services_title": "Business Overview",
-
 	"business_ai_title": "IT & AI Solutions",
 	"business_ai_lead": "Make AI an organizational capability.",
 	"business_ai_body": "From AI agent adoption and tailored solution development to our own product, we help teams start small and put AI to work in everyday operations.",
@@ -50,7 +44,6 @@
 	"business_ai_point_2": "AI solution development",
 	"business_ai_point_3": "d6e AI Gateway",
 	"business_ai_cta": "Explore our support",
-
 	"business_advisory_title": "Corporate Advisory",
 	"business_advisory_lead": "Turn the market's view into decisions that build value.",
 	"business_advisory_body": "We connect capital-markets perception with management decisions through IR and shareholder relations, investor perception studies, capital allocation, portfolio review, and M&A evaluation.",
@@ -59,7 +52,6 @@
 	"business_advisory_point_3": "Capital allocation & portfolio",
 	"business_advisory_point_4": "M&A evaluation",
 	"business_advisory_cta": "Explore our support",
-
 	"ai_meta_title": "IT & AI Solutions",
 	"ai_meta_description": "AI agent adoption, tailored AI solution development, and our d6e AI Gateway product.",
 	"ai_eyebrow": "IT & AI Solutions",
@@ -91,7 +83,6 @@
 	"ai_offering_gateway_note": "Our product",
 	"ai_overview_cta_title": "We can help decide where to start.",
 	"ai_overview_cta_body": "You do not need to have selected a tool or finalized requirements. Tell us how work happens today and what you want to change.",
-
 	"agent_meta_title": "AI Agent Adoption",
 	"agent_meta_description": "Bring Codex, Claude Code, and Grok Bot into everyday work and build the practices needed for safe, sustained organizational adoption.",
 	"agent_eyebrow": "AI Agent Adoption",
@@ -149,7 +140,6 @@
 	"agent_faq_3_a": "Yes. Start with one team and a small user group, measure the change in time and quality, and expand only when the value is clear.",
 	"agent_cta_title": "Start with one team.",
 	"agent_cta_body": "The first workflow does not need to be decided. Tell us how your team works today and where work is getting stuck.",
-
 	"development_meta_title": "AI Solution Development",
 	"development_meta_description": "Design and build AI agents, operational workflows, internal tools, and data foundations, integrated safely with existing systems.",
 	"development_eyebrow": "AI Solution Development",
@@ -157,7 +147,6 @@
 	"development_hero_title_accent": "into systems people use.",
 	"development_hero_body": "We design and build AI agents, operational workflows, data integrations, and internal tools, supporting the work from requirements through existing-system integration, production operations, and handover.",
 	"development_cta_primary": "Discuss solution development",
-
 	"ai_challenges_eyebrow": "Challenges",
 	"ai_challenges_title": "Does this sound familiar?",
 	"ai_challenge_1": "You want to use AI but cannot identify the right first workflow",
@@ -165,7 +154,6 @@
 	"ai_challenge_3": "ChatGPT or Claude is available, but adoption varies widely by team",
 	"ai_challenge_4": "Security and data-governance concerns prevent broader rollout",
 	"ai_challenge_5": "You want capability to remain in-house instead of outsourcing it indefinitely",
-
 	"ai_services_eyebrow": "Capabilities",
 	"ai_services_title": "One team from strategy to systems to production.",
 	"development_vibe_title": "Production readiness for internally vibe-coded tools",
@@ -188,7 +176,6 @@
 	"ai_client_company_point_1": "Routine and document workflow efficiency",
 	"ai_client_company_point_2": "Integration with internal systems",
 	"ai_client_company_point_3": "Organization-wide AI adoption",
-
 	"ai_security_eyebrow": "Security Expertise",
 	"ai_security_title": "Security is a foundation, not an afterthought.",
 	"ai_security_body": "A security specialist with real incident-response experience participates from the design stage. That lets AI involving confidential data move beyond a proof of concept toward an architecture suitable for broader deployment.",
@@ -197,7 +184,6 @@
 	"ai_security_point_3": "Access control, auditability, and operating guidance",
 	"ai_strengths_eyebrow": "Our Strengths",
 	"ai_strengths_title": "What sets us apart",
-
 	"ai_why_title": "Working systems and internal capability remain after delivery.",
 	"ai_why_reasons_title": "What CAUCHYE ASIA enables",
 	"ai_why_point_1": "Measure success through time saved and better decisions, not AI adoption itself",
@@ -205,7 +191,6 @@
 	"ai_why_point_3": "Choose the right AI for each use case without forced model lock-in",
 	"ai_why_point_4": "Design for security, operations, and broader deployment from the beginning",
 	"ai_why_point_5": "Keep improving in-house through documentation and operational handover",
-
 	"d6e_foundation_eyebrow": "Our Foundation",
 	"d6e_foundation_title": "Turn accumulated experience into a shared foundation.",
 	"d6e_foundation_body": "CAUCHYE ASIA develops d6e, our own AI workflow foundation. Where the engagement calls for it, d6e accelerates integrations, access control, and operating design. We do not make d6e a prerequisite: the right architecture follows the security requirements, existing environment, operating model, and future options.",
@@ -213,7 +198,6 @@
 	"d6e_foundation_point_2": "Existing-system integration through APIs and MCP",
 	"d6e_foundation_point_3": "Design that avoids single-vendor lock-in",
 	"d6e_foundation_cta": "Visit d6e.ai",
-
 	"gateway_eyebrow": "Featured Product",
 	"gateway_title": "Cut AI costs. Automate customer billing. Get paid sooner.",
 	"gateway_body": "d6e AI Gateway selects lower-cost execution paths request by request while preserving the required speed. It connects customer-level usage to invoice creation and payment tracking, with optional early funding for selected receivables.",
@@ -223,7 +207,6 @@
 	"gateway_providers_label": "Available providers",
 	"gateway_api_label": "OpenAI-compatible API",
 	"gateway_cta": "Explore d6e AI Gateway",
-
 	"ai_faq_eyebrow": "FAQ",
 	"ai_faq_title": "Questions we often hear before an engagement",
 	"ai_faq_1_q": "Can we talk before there is a defined development project?",
@@ -234,7 +217,6 @@
 	"ai_faq_3_a": "Yes. We can design usage guidance, role-specific training, workshops based on real work, and the review practices needed for sustained adoption.",
 	"ai_cta_title": "Build an AI-native organization.",
 	"ai_cta_body": "The problem does not need to be fully defined. Tell us how work happens today and what you want to change.",
-
 	"advisory_meta_title": "Corporate Advisory",
 	"advisory_meta_description": "Support for IR and shareholder relations, investor perception studies, capital allocation, business portfolios, and M&A evaluation.",
 	"advisory_eyebrow": "Corporate Advisory",
@@ -243,7 +225,6 @@
 	"advisory_hero_body": "From understanding how Asian institutional investors see the company to capital allocation, portfolio choices, and M&A evaluation, we connect capital-markets dialogue with management decisions.",
 	"advisory_cta_primary": "Discuss corporate advisory",
 	"advisory_scope_label": "Enterprise Value & Capital Strategy Advisory",
-
 	"advisory_services_eyebrow": "Capabilities",
 	"advisory_services_title": "Understand the market's view and make the next options concrete.",
 	"advisory_service_1_title": "IR, shareholder relations & investor perception",
@@ -252,7 +233,6 @@
 	"advisory_service_2_body": "We consider growth, liquidity, risk, and shareholder returns together and organize the options for building enterprise value over the medium to long term.",
 	"advisory_service_3_title": "M&A evaluation support",
 	"advisory_service_3_body": "We clarify strategic intent, target areas, expected effects, and principal risks to support evaluation and management decisions.",
-
 	"advisory_strength_eyebrow": "Perspective",
 	"advisory_strength_title": "Connecting Japanese companies with Asian investors from Singapore.",
 	"advisory_strength_body": "We read the company's disclosure closely and design the research around its specific questions. We interview Japanese-language decision makers in Japanese and others in English, quantifying assessments an issuer may struggle to obtain directly.",
@@ -262,16 +242,13 @@
 	"advisory_strength_point_4": "Recommendations for the next disclosure and dialogue themes",
 	"advisory_partners_eyebrow": "Partners",
 	"advisory_partners_title": "Partners in building enterprise value.",
-
 	"advisory_cta_title": "Clarify the next question around enterprise value.",
 	"advisory_cta_body": "Tell us what you need to understand about investor perception, IR, shareholder relations, or capital allocation.",
-
 	"leader_title": "Leadership",
 	"leader_name": "KIMURA Yu",
 	"leader_name_native": "木村 優",
 	"leader_role": "Representative Director",
-	"leader_bio": "Graduated in Economics from Kyoto University and completed an MBA at its Graduate School of Management; currently enrolled in the doctoral programme at its Graduate School of Informatics. As a white-hat engineer, recovered crypto assets worth roughly ¥500 million from an active hack. Also serves as Co-General Partner of a construction-materials leasing fund in Singapore, through a subsidiary joint venture.",
-
+	"leader_bio": "Born in Shiga, Japan. Graduated from the Faculty of Economics, Kyoto University, completed a master's programme at its Graduate School of Management, and researches AI in the doctoral programme in Social Informatics at its Graduate School of Informatics. As a white-hat hacker, he helped rescue crypto assets worth ¥500 million from a hack. He works on value creation for PE fund portfolio companies, including AI adoption, and is involved in structuring and managing FUKU Steel Plate Fund L.P., which leases steel plates to construction sites in Singapore.",
 	"company_eyebrow": "Company",
 	"company_title": "Company profile",
 	"company_information_title": "Company information",
@@ -282,12 +259,10 @@
 	"company_label_address": "Registered address",
 	"company_label_business": "Business",
 	"company_label_representative": "Representative",
-
 	"contact_eyebrow": "Contact",
 	"contact_title": "Get in touch",
 	"contact_body": "From AI strategy, engineering, and organizational adoption to IR, shareholder relations, investor perception, and capital strategy — send us a note using the form.",
 	"contact_cta": "Contact us",
-
 	"form_label_name": "Name",
 	"form_label_company": "Company",
 	"form_label_company_optional": "optional",
@@ -299,22 +274,20 @@
 	"form_inquiry_company": "About the company",
 	"form_inquiry_sales": "Sales inquiry",
 	"form_label_message": "How can we help?",
-	"form_hint_message": "Tell us where things stand and what you would like to discuss.",
+	"form_hint_message": "Tell us where things stand, if you like (you can leave this blank).",
 	"form_submit": "Send",
 	"form_submitting": "Sending…",
 	"form_success_title": "Message sent",
-	"form_success_body": "We will read it and get back to you.",
+	"form_success_body": "We will read it and usually reply within two business days.",
 	"form_error_required": "This field is required.",
 	"form_error_email": "Enter a valid email address.",
 	"form_error_message_short": "Please write at least 10 characters.",
 	"form_error_too_long": "This is longer than the maximum allowed.",
 	"form_error_unavailable": "Sending failed. Please wait a moment and try again.",
-
 	"footer_rights": "All rights reserved.",
 	"footer_nav_label": "Site",
 	"footer_company_label": "Company",
 	"footer_official_label": "Official media",
-
 	"articles_meta_title": "Articles",
 	"articles_meta_description": "Articles from CAUCHYE ASIA on AI implementation, operations, and corporate advisory.",
 	"articles_eyebrow": "Articles",
@@ -335,5 +308,35 @@
 	"articles_contact_title": "Talk to us about what you read",
 	"articles_contact_body": "From AI adoption and solution development to corporate advisory, tell us what you are working on.",
 	"articles_official_title": "Also publishing on note and Zenn",
-	"articles_official_japanese": "Japanese"
+	"articles_official_japanese": "Japanese",
+	"cta_consult": "Book a free consultation",
+	"cta_media": "Read our articles and media",
+	"hero_cta_note": "Starts with a 30-minute online call. Early-stage questions are welcome.",
+	"hero_point_1": "Start AI agent adoption small, with one workflow",
+	"hero_point_2": "Custom AI solutions, from development to operation",
+	"hero_point_3": "Corporate advisory, including IR/SR and capital strategy",
+	"member_name": "OHMURA Senna",
+	"member_name_native": "大村 瀬奈",
+	"member_role": "Developer",
+	"member_bio": "Works across blockchain and AI. Contributes to the L1 blockchain \"Sunrise\" and the AI business-efficiency tool \"D6E\". Studied economics at Kyoto University.",
+	"media_eyebrow": "Official media",
+	"media_title": "Official media",
+	"media_body": "We share practical know-how on using AI agents and generative AI at work (mostly in Japanese).",
+	"media_more_title": "More on our official media",
+	"form_label_message_optional": "optional",
+	"form_reply_time": "We usually reply by email within two business days, and suggest a 30-minute online call first.",
+	"lp_title": "Start AI agent adoption with one workflow",
+	"lp_description": "AI agent adoption support by CAUCHYE ASIA: start small with one workflow and stay with you until it is used every day.",
+	"lp_lead": "Not a company-wide rollout on day one: start with one workflow where the effect is easy to see, and we stay with you until it is used every day.",
+	"lp_steps_title": "How it works",
+	"lp_step_1_title": "Free 30-minute call",
+	"lp_step_1_body": "We hear about your work and find the workflows AI agents can take over most easily.",
+	"lp_step_2_title": "Try one workflow",
+	"lp_step_2_body": "We start small with one workflow and check the effect and the operational issues.",
+	"lp_step_3_title": "Expand and embed",
+	"lp_step_3_body": "We take what worked to other workflows and make it stick in your organisation.",
+	"lp_read_title": "Learn from our articles",
+	"lp_cta_title": "Start with a 30-minute conversation",
+	"lp_cta_body": "Early-stage questions are welcome. The form takes about a minute.",
+	"lp_service_link": "About AI agent adoption"
 }

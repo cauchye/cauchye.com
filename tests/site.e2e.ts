@@ -201,7 +201,8 @@ test('presents the revised Japanese business structure and company identity', as
 		company.locator('#leadership').getByRole('heading', { name: '経営陣' })
 	).toBeVisible();
 	await expect(company.locator('[data-representative-card]')).toBeVisible();
-	await expect(company.locator('[data-representative-photo-placeholder]')).toBeVisible();
+	await expect(company.locator('[data-representative-photo-placeholder]')).toHaveCount(0);
+	await expect(company.locator('[data-member="ohmura"]')).toContainText('デベロッパー');
 	await expect(company.locator('[data-representative-card]')).toContainText('代表取締役');
 	await expect(company.locator('#leadership').getByText('代表', { exact: true })).toHaveCount(0);
 	await expect(page.locator('main > #about, main > #leadership')).toHaveCount(0);
@@ -469,7 +470,7 @@ test('shows localized server validation without native browser messages', async 
 	await submitButton.click();
 	await expect(page.locator('#inquiryType-error')).toHaveText('入力してください。');
 	await expect(page.locator('#name-error')).toHaveText('入力してください。');
-	await expect(page.locator('#message-error')).toHaveText('10文字以上でご記入ください。');
+	await expect(page.locator('#message-error')).toBeHidden();
 	await expect(inquiryType).toHaveAttribute('aria-invalid', 'true');
 	await expect(page.locator('#name')).toHaveAttribute('aria-invalid', 'true');
 });
@@ -491,7 +492,7 @@ test('returns locale-aware contact validation errors', async ({ request, baseURL
 	const result = await response.json();
 	expect(result.errors.inquiryType[0]).toBe('入力してください。');
 	expect(result.errors.name[0]).toBe('入力してください。');
-	expect(result.errors.message[0]).toBe('10文字以上でご記入ください。');
+	expect(result.errors.message).toBeUndefined();
 });
 
 test('silently accepts honeypot submissions', async ({ request, baseURL }) => {

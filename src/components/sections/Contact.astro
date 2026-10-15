@@ -6,6 +6,7 @@ import { Button } from '../ui/button/index.js';
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '../ui/field/index.js';
 import { Input } from '../ui/input/index.js';
 import { Textarea } from '../ui/textarea/index.js';
+import { ATTRIBUTION_FIELDS } from '../../contact';
 import type { Dictionary, Locale } from '../../i18n';
 
 interface Props {
@@ -39,6 +40,9 @@ const inquiryTypes = [
 				</p>
 				<h1 class="mt-3 text-3xl font-semibold md:text-4xl">{m.contact_title}</h1>
 				<p class="mt-4 leading-relaxed text-muted-foreground">{m.contact_body}</p>
+				<p class="mt-6 rounded-xl bg-muted/60 p-4 text-sm leading-relaxed" data-reply-time>
+					{m.form_reply_time}
+				</p>
 			</div>
 
 			<div
@@ -70,6 +74,11 @@ const inquiryTypes = [
 				data-unavailable-message={m.form_error_unavailable}
 			>
 				<input type="hidden" name="locale" value={locale} />
+				{
+					ATTRIBUTION_FIELDS.map((field) => (
+						<input type="hidden" name={field} value="" data-attribution={field} />
+					))
+				}
 				<div class="hidden" aria-hidden="true">
 					<label for="website">Website</label>
 					<input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
@@ -146,12 +155,15 @@ const inquiryTypes = [
 					</Field>
 
 					<Field>
-						<FieldLabel for="message">{m.form_label_message}</FieldLabel>
+						<FieldLabel for="message">
+							{m.form_label_message}
+							<span class="font-normal text-muted-foreground">
+								{m.form_label_message_optional}
+							</span>
+						</FieldLabel>
 						<Textarea
 							id="message"
 							name="message"
-							required
-							minlength={10}
 							maxlength={4000}
 							rows={5}
 							aria-describedby="message-hint message-error"
@@ -194,6 +206,20 @@ const inquiryTypes = [
 	const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 	const success = document.querySelector<HTMLElement>('[data-contact-success]');
 
+	// Fill in where the visit came from (stored by the layout on the first page).
+	try {
+		const attribution = JSON.parse(sessionStorage.getItem('cauchye_attribution') ?? '{}') as Record<
+			string,
+			string
+		>;
+		attribution.cta = sessionStorage.getItem('cauchye_cta') ?? '';
+		form?.querySelectorAll<HTMLInputElement>('[data-attribution]').forEach((input) => {
+			input.value = attribution[input.dataset.attribution ?? ''] ?? '';
+		});
+	} catch {
+		// Attribution is best effort.
+	}
+
 	form?.addEventListener('submit', async (event) => {
 		event.preventDefault();
 		const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
@@ -224,6 +250,8 @@ const inquiryTypes = [
 
 			if (response.ok && result.success) {
 				form.reset();
+				const dataLayer = ((window as unknown as { dataLayer?: object[] }).dataLayer ??= []);
+				dataLayer.push({ event: 'contact_submit', page: location.pathname });
 				form.classList.add('hidden');
 				success?.classList.remove('hidden');
 				success?.classList.add('flex');
