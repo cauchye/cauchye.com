@@ -4,7 +4,7 @@ import Header from '../components/Header.svelte';
 import { hasArticles } from '../cms/content';
 import { type Dictionary, type Locale, locales } from '../i18n';
 import { feedPath } from '../cms/rss';
-import { absoluteUrl, defaultShareImage, officialAccounts, site } from '../site';
+import { absoluteUrl, analytics, defaultShareImage, officialAccounts, site } from '../site';
 import '../styles/global.css';
 
 interface Props {
@@ -22,6 +22,8 @@ interface Props {
 	ogImage?: string;
 	ogImageAlt?: string;
 	publishedTime?: Date;
+	// Keeps the page out of search results (campaign landing pages).
+	noindex?: boolean;
 }
 
 const {
@@ -35,7 +37,8 @@ const {
 	ogType = 'website',
 	ogImage,
 	ogImageAlt,
-	publishedTime
+	publishedTime,
+	noindex = false
 } = Astro.props;
 const title = pageTitle
 	? `${pageTitle} | ${site.shortName}`
@@ -81,6 +84,7 @@ const organizationSchema = JSON.stringify({
 		<meta name="description" content={description} />
 		<title>{title}</title>
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		{noindex && <meta name="robots" content="noindex, nofollow" />}
 		<link rel="canonical" href={pageUrl} />
 		{
 			alternateLocales.map((alternate) => (
@@ -121,6 +125,77 @@ const organizationSchema = JSON.stringify({
 		<meta name="twitter:image" content={imageUrl} />
 		{imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
 		<script is:inline type="application/ld+json" set:html={organizationSchema} />
+		{
+			analytics.cloudflareBeaconToken && (
+				<script
+					is:inline
+					defer
+					src="https://static.cloudflareinsights.com/beacon.min.js"
+					data-cf-beacon={JSON.stringify({ token: analytics.cloudflareBeaconToken })}
+				/>
+			)
+		}
+		<script is:inline>
+			// Scroll reveal (see global.css): only when motion is welcome.
+			(function () {
+				if (!('IntersectionObserver' in window)) return;
+				if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+				document.documentElement.classList.add('js-reveal');
+				const observer = new IntersectionObserver(
+					function (entries) {
+						entries.forEach(function (entry) {
+							if (!entry.isIntersecting) return;
+							entry.target.classList.add('is-visible');
+							observer.unobserve(entry.target);
+						});
+					},
+					{ rootMargin: '0px 0px -10% 0px', threshold: 0.1 }
+				);
+				document.addEventListener('DOMContentLoaded', function () {
+					document.querySelectorAll('[data-reveal]').forEach(function (element) {
+						observer.observe(element);
+					});
+				});
+			})();
+		</script>
+		<script is:inline>
+			// Lead attribution: remember the first page of the visit (UTM, referrer, landing
+			// path) and the last CTA clicked, so the contact form can send them. Clicks are also
+			// pushed to `dataLayer` for an analytics tool that reads it, even when storage fails.
+			(function () {
+				try {
+					const key = 'cauchye_attribution';
+					if (!sessionStorage.getItem(key)) {
+						const params = new URLSearchParams(location.search);
+						const first = { landing: location.pathname };
+						['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(
+							function (name) {
+								const value = params.get(name);
+								if (value) first[name] = value;
+							}
+						);
+						const referrer = document.referrer;
+						if (referrer && new URL(referrer).host !== location.host) first.referrer = referrer;
+						sessionStorage.setItem(key, JSON.stringify(first));
+					}
+				} catch {
+					// Storage can be unavailable (private mode); attribution is best effort.
+				}
+				window.dataLayer = window.dataLayer || [];
+				document.addEventListener('click', function (event) {
+					const target =
+						event.target instanceof Element ? event.target.closest('[data-cta]') : null;
+					if (!target) return;
+					const cta = target.getAttribute('data-cta');
+					try {
+						sessionStorage.setItem('cauchye_cta', cta);
+					} catch {
+						// Best effort as above; the click is still pushed below.
+					}
+					window.dataLayer.push({ event: 'cta_click', cta: cta, page: location.pathname });
+				});
+			})();
+		</script>
 	</head>
 	<body>
 		<div class="flex min-h-svh flex-col">

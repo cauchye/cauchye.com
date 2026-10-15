@@ -96,3 +96,22 @@ export const navItems = [
 	{ path: '/business/it-ai', label: 'nav_ai' },
 	{ path: '/business/corporate-advisory', label: 'nav_advisory' }
 ] as const satisfies ReadonlyArray<{ path: string; label: MessageKey }>;
+
+// Booking for the first meeting. Set `url` to an external scheduling tool to send every
+// "free consultation" button there instead.
+// `url` empty: the site's own booking page (/<locale>/book), which posts the preferred slots
+// to the contact Slack channel.
+export const booking = {
+	url: ''
+} as const;
+
+// Where a "free consultation" button leads, for the given locale.
+export function consultHref(locale: string): string {
+	return booking.url || `/${locale}/book`;
+}
+
+// Cloudflare Web Analytics. Paste the site token from the dashboard (Web Analytics → the
+// cauchye.com site → "Manage site" → JS snippet) to load the beacon; empty loads nothing.
+export const analytics = {
+	cloudflareBeaconToken: ''
+} as const;

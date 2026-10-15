@@ -18,6 +18,8 @@ import {
 } from '../../../cms/content';
 import { isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
+import OfficialMedia from '../../../components/sections/OfficialMedia.astro';
+import { consultHref } from '../../../site';
 
 const { lang, slug = '' } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/articles', 302);
@@ -133,18 +135,20 @@ const portableTextComponents = {
 					title={related?.matched ? m.articles_related_title : m.articles_other_title}
 					articles={related?.articles}
 				/>
+				<OfficialMedia messages={m} compact placement="article" />
 				<section class="pb-20 md:pb-28" data-article-contact>
 					<div class="relative overflow-hidden rounded-3xl bg-brand px-6 py-14 text-brand-foreground md:px-12 md:py-18">
 						<div class="relative">
 							<h2 class="text-3xl font-semibold md:text-5xl">{m.articles_contact_title}</h2>
 							<p class="mt-4 text-white/70 md:text-lg">{m.articles_contact_body}</p>
 							<Button
-								href={`/${lang}/contact`}
+								href={consultHref(lang)}
+								data-cta="article-consult"
 								variant="secondary"
 								size="lg"
 								class="mt-8 h-11 px-5"
 							>
-								{m.contact_cta}
+								{m.cta_consult}
 								<ArrowRight data-icon="inline-end" />
 							</Button>
 						</div>

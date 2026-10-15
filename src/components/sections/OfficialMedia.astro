@@ -1,0 +1,105 @@
+---
+import { ExternalLink } from 'lucide-astro';
+
+import type { Dictionary } from '../../i18n';
+import { officialAccounts, officialMedia } from '../../site';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+	messages: Dictionary;
+	// Compact: links only, for the end of an article.
+	compact?: boolean;
+	// Where the block sits, sent with the click event (`data-cta`).
+	placement?: string;
+}
+
+const { messages: m, compact = false, placement = 'home' } = Astro.props;
+const linkClass =
+	'inline-flex items-center gap-1.5 rounded-full border border-border px-4 py-2 text-sm transition-colors hover:border-brand hover:text-brand';
+---
+
+{
+	compact ? (
+		<section class="pb-12" data-official-media={placement}>
+			<h2 class="text-xl font-semibold">{m.media_more_title}</h2>
+			<ul class="mt-5 flex flex-wrap gap-2.5">
+				{officialAccounts.map((media) => (
+					<li>
+						<a
+							href={media.url}
+							target="_blank"
+							rel="noopener"
+							class={linkClass}
+							data-cta={`${placement}-media-${media.id}`}
+						>
+							{media.label}
+							<ExternalLink class="size-3.5" aria-hidden="true" />
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+	) : (
+		<section
+			id="official-media"
+			class="border-t border-border section"
+			data-official-media={placement}
+		>
+			<SectionHeading eyebrow={m.media_eyebrow} title={m.media_title} />
+			<p class="mt-6 leading-relaxed text-muted-foreground">{m.media_body}</p>
+			<div class="mt-10 grid gap-6 md:grid-cols-2">
+				{officialMedia.map((media, index) => (
+					<div
+						class="rounded-2xl border border-border p-6 transition-colors hover:border-brand/50"
+						data-reveal
+						style={`--reveal-index: ${index}`}
+					>
+						<a
+							href={media.url}
+							target="_blank"
+							rel="noopener"
+							class="inline-flex items-center gap-1.5 font-semibold hover:text-brand"
+							data-cta={`${placement}-media-${media.id}`}
+						>
+							{media.label}
+							<ExternalLink class="size-4" aria-hidden="true" />
+						</a>
+						<ul class="mt-4 flex flex-col gap-3">
+							{media.posts.map((post) => (
+								<li>
+									<a
+										href={post.url}
+										target="_blank"
+										rel="noopener"
+										class="text-sm leading-relaxed text-muted-foreground hover:text-foreground"
+										data-cta={`${placement}-media-${media.id}-post`}
+									>
+										{post.title}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+			<ul class="mt-8 flex flex-wrap gap-2.5">
+				{officialAccounts
+					.filter((account) => !officialMedia.some((media) => media.id === account.id))
+					.map((media) => (
+						<li>
+							<a
+								href={media.url}
+								target="_blank"
+								rel="noopener"
+								class={linkClass}
+								data-cta={`${placement}-media-${media.id}`}
+							>
+								{media.label}
+								<ExternalLink class="size-3.5" aria-hidden="true" />
+							</a>
+						</li>
+					))}
+			</ul>
+		</section>
+	)
+}

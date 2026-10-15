@@ -1,0 +1,26 @@
+---
+import Contact from '../../components/sections/Contact.astro';
+import { getMessages } from '../../cms/content';
+import { isLocale } from '../../i18n';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) return Astro.redirect('/en/book', 302);
+const messages = await getMessages(Astro, lang);
+const contactState =
+	Astro.url.searchParams.get('contact') === 'success'
+		? 'success'
+		: Astro.url.searchParams.get('contact') === 'error'
+			? 'error'
+			: undefined;
+---
+
+<BaseLayout
+	locale={lang}
+	{messages}
+	pageTitle={messages.booking_title}
+	description={messages.booking_body}
+	pagePath="/book"
+>
+	<Contact locale={lang} {messages} state={contactState} mode="book" />
+</BaseLayout>

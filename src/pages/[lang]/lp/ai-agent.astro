@@ -1,0 +1,62 @@
+---
+// Landing page for outbound email (not in the sitemap, kept out of search results).
+// Suggested link: /ja/lp/ai-agent?utm_source=email&utm_medium=outbound&utm_campaign=<campaign>
+import { ArrowRight } from 'lucide-astro';
+
+import ArticleTeasers from '../../../components/sections/ArticleTeasers.astro';
+import Company from '../../../components/sections/Company.astro';
+import CtaBand from '../../../components/sections/CtaBand.astro';
+import Flow from '../../../components/sections/Flow.astro';
+import OfficialMedia from '../../../components/sections/OfficialMedia.astro';
+import { Button } from '../../../components/ui/button/index.js';
+import { getMessages } from '../../../cms/content';
+import { isLocale } from '../../../i18n';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { consultHref } from '../../../site';
+
+const { lang } = Astro.params;
+if (!isLocale(lang)) return Astro.redirect('/ja/lp/ai-agent', 302);
+const m = await getMessages(Astro, lang);
+const consult = consultHref(lang);
+---
+
+<BaseLayout
+	locale={lang}
+	messages={m}
+	pageTitle={m.lp_title}
+	description={m.lp_description}
+	pagePath="/lp/ai-agent"
+	noindex
+>
+	<section class="pt-20 pb-14 md:pt-28" data-lp-hero>
+		<p class="font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
+			{m.business_ai_title}
+		</p>
+		<h1 class="mt-4 text-4xl leading-[1.15] font-semibold md:text-5xl">{m.lp_title}</h1>
+		<p class="mt-6 text-base leading-relaxed text-muted-foreground md:text-lg">{m.lp_lead}</p>
+		<div class="mt-10 flex flex-wrap items-center gap-3">
+			<Button href={consult} variant="brand" size="lg" class="h-12 px-6" data-cta="lp-hero-consult">
+				{m.cta_consult}
+				<ArrowRight data-icon="inline-end" />
+			</Button>
+			<Button
+				href={`/${lang}/business/it-ai/agent-adoption`}
+				variant="outline"
+				size="lg"
+				class="h-12 px-6"
+				data-cta="lp-hero-service"
+			>
+				{m.lp_service_link}
+			</Button>
+		</div>
+		<p class="mt-4 text-xs text-muted-foreground">{m.hero_cta_note}</p>
+	</section>
+
+	<Flow messages={m} />
+
+	<ArticleTeasers locale={lang} messages={m} title={m.lp_read_title} />
+	<OfficialMedia messages={m} placement="lp" />
+	<Company messages={m} />
+
+	<CtaBand locale={lang} messages={m} placement="lp-band" />
+</BaseLayout>
