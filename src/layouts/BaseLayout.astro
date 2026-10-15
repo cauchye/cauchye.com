@@ -138,7 +138,7 @@ const organizationSchema = JSON.stringify({
 		<script is:inline>
 			// Lead attribution: remember the first page of the visit (UTM, referrer, landing
 			// path) and the last CTA clicked, so the contact form can send them. Clicks are also
-			// pushed to `dataLayer` for an analytics tool that reads it.
+			// pushed to `dataLayer` for an analytics tool that reads it, even when storage fails.
 			(function () {
 				try {
 					const key = 'cauchye_attribution';
@@ -155,18 +155,22 @@ const organizationSchema = JSON.stringify({
 						if (referrer && new URL(referrer).host !== location.host) first.referrer = referrer;
 						sessionStorage.setItem(key, JSON.stringify(first));
 					}
-					window.dataLayer = window.dataLayer || [];
-					document.addEventListener('click', function (event) {
-						const target =
-							event.target instanceof Element ? event.target.closest('[data-cta]') : null;
-						if (!target) return;
-						const cta = target.getAttribute('data-cta');
-						sessionStorage.setItem('cauchye_cta', cta);
-						window.dataLayer.push({ event: 'cta_click', cta: cta, page: location.pathname });
-					});
 				} catch {
 					// Storage can be unavailable (private mode); attribution is best effort.
 				}
+				window.dataLayer = window.dataLayer || [];
+				document.addEventListener('click', function (event) {
+					const target =
+						event.target instanceof Element ? event.target.closest('[data-cta]') : null;
+					if (!target) return;
+					const cta = target.getAttribute('data-cta');
+					try {
+						sessionStorage.setItem('cauchye_cta', cta);
+					} catch {
+						// Best effort as above; the click is still pushed below.
+					}
+					window.dataLayer.push({ event: 'cta_click', cta: cta, page: location.pathname });
+				});
 			})();
 		</script>
 	</head>
