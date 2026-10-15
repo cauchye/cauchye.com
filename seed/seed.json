@@ -218,7 +218,7 @@
 						"leader_name": "KIMURA Yu",
 						"leader_name_native": "木村 優",
 						"leader_role": "Representative Director",
-						"leader_bio": "Graduated in Economics from Kyoto University and completed an MBA at its Graduate School of Management; currently enrolled in the doctoral programme at its Graduate School of Informatics. As a white-hat engineer, recovered crypto assets worth roughly ¥500 million from an active hack. Also serves as Co-General Partner of a construction-materials leasing fund in Singapore, through a subsidiary joint venture.",
+						"leader_bio": "Born in Shiga, Japan. Graduated from the Faculty of Economics, Kyoto University, completed a master's programme at its Graduate School of Management, and researches AI in the doctoral programme in Social Informatics at its Graduate School of Informatics. As a white-hat hacker, he helped rescue crypto assets worth ¥500 million from a hack. He works on value creation for PE fund portfolio companies, including AI adoption, and is involved in structuring and managing FUKU Steel Plate Fund L.P., which leases steel plates to construction sites in Singapore.",
 						"company_eyebrow": "Company",
 						"company_title": "Company profile",
 						"company_information_title": "Company information",
@@ -228,7 +228,15 @@
 						"company_label_uen": "UEN",
 						"company_label_address": "Registered address",
 						"company_label_business": "Business",
-						"company_label_representative": "Representative"
+						"company_label_representative": "Representative",
+						"hero_cta_note": "Starts with a 30-minute online call. Early-stage questions are welcome.",
+						"hero_point_1": "Start AI agent adoption small, with one workflow",
+						"hero_point_2": "Custom AI solutions, from development to operation",
+						"hero_point_3": "Corporate advisory, including IR/SR and capital strategy",
+						"member_name": "OHMURA Senna",
+						"member_name_native": "大村 瀬奈",
+						"member_role": "Developer",
+						"member_bio": "Works across blockchain and AI. Contributes to the L1 blockchain \"Sunrise\" and the AI business-efficiency tool \"D6E\". Studied economics at Kyoto University."
 					}
 				}
 			},
@@ -268,7 +276,7 @@
 						"leader_name": "木村 優",
 						"leader_name_native": "KIMURA Yu",
 						"leader_role": "代表取締役",
-						"leader_bio": "京都大学経済学部を卒業後、同大学経営管理大学院を修了。同大学情報学研究科博士課程に在籍。ホワイトハッカーとして、進行中のハッキングから5億円相当の暗号資産を救出した経験を持つ。子会社のジョイントベンチャーを通じ、シンガポールにおける建設資材リースファンドの共同ゼネラルパートナーも務める。",
+						"leader_bio": "滋賀県出身。京都大学経済学部卒業、同大学経営管理大学院修士課程修了、同大学情報学研究科社会情報学専攻博士後期課程でAIを研究。5億円分の暗号資産のハッキングを救ったホワイトハッカーとして活躍。PEファンドの投資先へのAI導入をはじめとしたバリューアップに携わっているほか、シンガポールの建設現場に敷鉄板をリースするファンド FUKU Steel Plate Fund L.P. の組成、運用にも携わっている。",
 						"company_eyebrow": "Company",
 						"company_title": "会社概要",
 						"company_information_title": "会社情報",
@@ -278,7 +286,15 @@
 						"company_label_uen": "登記番号（UEN）",
 						"company_label_address": "登記住所",
 						"company_label_business": "事業内容",
-						"company_label_representative": "代表"
+						"company_label_representative": "代表",
+						"hero_cta_note": "30分のオンライン相談から。検討段階のご相談も歓迎です。",
+						"hero_point_1": "AIエージェント導入を「1つの業務」から小さく始める",
+						"hero_point_2": "業務に合わせたAIソリューション開発・運用まで伴走",
+						"hero_point_3": "IR・SR、資本戦略などコーポレートアドバイザリーも一体で",
+						"member_name": "大村 瀬奈",
+						"member_name_native": "OHMURA Senna",
+						"member_role": "デベロッパー",
+						"member_bio": "ブロックチェーンとAIの両領域で開発に携わる。L1ブロックチェーン「Sunrise」や、業務効率化AIツール「D6E」の開発に参加。京都大学で経済学を専攻。"
 					}
 				}
 			},

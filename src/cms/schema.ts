@@ -100,7 +100,11 @@ const UI_PREFIXES = [
 	'form_',
 	'footer_',
 	'articles_',
-	'contact_cta'
+	'contact_cta',
+	'cta_',
+	'media_',
+	// The email landing page is not a CMS page.
+	'lp_'
 ];
 
 // First match wins, so the narrower `ai_` prefixes of the overview page precede the catch-all
@@ -108,7 +112,16 @@ const UI_PREFIXES = [
 const PAGE_PREFIXES: ReadonlyArray<readonly [PageSlug, readonly string[]]> = [
 	[
 		'home',
-		['brand_descriptor', 'hero_', 'about_', 'services_', 'business_', 'leader_', 'company_']
+		[
+			'brand_descriptor',
+			'hero_',
+			'about_',
+			'services_',
+			'business_',
+			'leader_',
+			'member_',
+			'company_'
+		]
 	],
 	[
 		'it-ai',
