@@ -52,10 +52,12 @@ const businesses = [
 	<SectionHeading eyebrow={m.services_eyebrow} title={m.services_title} />
 	<div class="mt-14 grid gap-5 lg:grid-cols-2">
 		{
-			businesses.map((business) => {
+			businesses.map((business, index) => {
 				const Icon = business.icon;
 				return (
 					<article
+						data-reveal
+						style={`--reveal-index: ${index}`}
 						class:list={[
 							'group relative isolate flex min-h-[34rem] flex-col overflow-hidden rounded-2xl border p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl md:p-9',
 							business.accent

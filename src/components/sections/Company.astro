@@ -60,10 +60,12 @@ const rows = [
 		<h3 class="text-xl font-semibold md:text-2xl">{m.leader_title}</h3>
 		<div class="mt-8 grid gap-6 md:grid-cols-2">
 			{
-				people.map((person) => (
+				people.map((person, index) => (
 					<Card
 						data-representative-card={person.id === 'kimura' ? '' : undefined}
 						data-member={person.id}
+						data-reveal
+						style={`--reveal-index: ${index}`}
 						class="py-0"
 					>
 						<div class="flex flex-col py-6 md:py-8">

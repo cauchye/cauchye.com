@@ -48,8 +48,12 @@ const linkClass =
 			<SectionHeading eyebrow={m.media_eyebrow} title={m.media_title} />
 			<p class="mt-6 leading-relaxed text-muted-foreground">{m.media_body}</p>
 			<div class="mt-10 grid gap-6 md:grid-cols-2">
-				{officialMedia.map((media) => (
-					<div class="rounded-2xl border border-border p-6">
+				{officialMedia.map((media, index) => (
+					<div
+						class="rounded-2xl border border-border p-6 transition-colors hover:border-brand/50"
+						data-reveal
+						style={`--reveal-index: ${index}`}
+					>
 						<a
 							href={media.url}
 							target="_blank"

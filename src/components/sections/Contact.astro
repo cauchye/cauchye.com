@@ -6,16 +6,34 @@ import { Button } from '../ui/button/index.js';
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '../ui/field/index.js';
 import { Input } from '../ui/input/index.js';
 import { Textarea } from '../ui/textarea/index.js';
-import { ATTRIBUTION_FIELDS } from '../../contact';
+import {
+	ATTRIBUTION_FIELDS,
+	BOOKING_SLOTS,
+	BOOKING_TIMES,
+	MEETING_TOOLS,
+	bookingWindow
+} from '../../contact';
 import type { Dictionary, Locale } from '../../i18n';
 
 interface Props {
 	locale: Locale;
 	messages: Dictionary;
 	state?: 'success' | 'error';
+	// `book`: the meeting request page, where the first preferred slot is required.
+	mode?: 'contact' | 'book';
 }
 
-const { locale, messages: m, state } = Astro.props;
+const { locale, messages: m, state, mode = 'contact' } = Astro.props;
+const isBooking = mode === 'book';
+const slotWindow = bookingWindow();
+const toolLabels: Record<(typeof MEETING_TOOLS)[number], string> = {
+	'google-meet': 'Google Meet',
+	zoom: 'Zoom',
+	teams: 'Microsoft Teams',
+	any: m.booking_tool_any
+};
+const title = isBooking ? m.booking_title : m.contact_title;
+const body = isBooking ? m.booking_body : m.contact_body;
 const inquiryTypes = [
 	{ value: 'it-ai', label: m.form_inquiry_it_ai },
 	{ value: 'corporate-advisory', label: m.form_inquiry_advisory },
@@ -38,8 +56,8 @@ const inquiryTypes = [
 				<p class="font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
 					{m.contact_eyebrow}
 				</p>
-				<h1 class="mt-3 text-3xl font-semibold md:text-4xl">{m.contact_title}</h1>
-				<p class="mt-4 leading-relaxed text-muted-foreground">{m.contact_body}</p>
+				<h1 class="mt-3 text-3xl font-semibold md:text-4xl">{title}</h1>
+				<p class="mt-4 leading-relaxed text-muted-foreground">{body}</p>
 				<p class="mt-6 rounded-xl bg-muted/60 p-4 text-sm leading-relaxed" data-reply-time>
 					{m.form_reply_time}
 				</p>
@@ -59,7 +77,9 @@ const inquiryTypes = [
 				</span>
 				<div>
 					<p class="font-medium">{m.form_success_title}</p>
-					<p class="mt-1 text-sm text-muted-foreground">{m.form_success_body}</p>
+					<p class="mt-1 text-sm text-muted-foreground">
+						{isBooking ? m.booking_success_body : m.form_success_body}
+					</p>
 				</div>
 			</div>
 
@@ -69,11 +89,13 @@ const inquiryTypes = [
 				action={`/api/contact?locale=${locale}`}
 				novalidate
 				class:list={['flex flex-col gap-5', state === 'success' && 'hidden']}
-				data-submit-label={m.form_submit}
+				data-submit-label={isBooking ? m.booking_submit : m.form_submit}
 				data-submitting-label={m.form_submitting}
 				data-unavailable-message={m.form_error_unavailable}
+				data-weekend-message={m.booking_error_weekend}
 			>
 				<input type="hidden" name="locale" value={locale} />
+				<input type="hidden" name="mode" value={mode} />
 				{
 					ATTRIBUTION_FIELDS.map((field) => (
 						<input type="hidden" name={field} value="" data-attribution={field} />
@@ -154,6 +176,76 @@ const inquiryTypes = [
 						</FieldError>
 					</Field>
 
+					{
+						isBooking && (
+							<fieldset
+								class="flex flex-col gap-4 rounded-xl border border-border p-4"
+								data-booking
+							>
+								<legend class="px-1 text-sm font-medium">{m.booking_slots_label}</legend>
+								<p class="text-xs leading-relaxed text-muted-foreground">{m.booking_slots_hint}</p>
+								{BOOKING_SLOTS.map((slot, index) => (
+									<div class="flex flex-col gap-1.5">
+										<label class="text-sm" for={`${slot}_date`}>
+											{m.booking_slot_label.replace('{n}', String(index + 1))}
+											{index > 0 && (
+												<span class="font-normal text-muted-foreground">
+													{' '}
+													{m.form_label_company_optional}
+												</span>
+											)}
+										</label>
+										<div class="grid grid-cols-[1fr_8rem] gap-2" data-field-control={slot}>
+											<input
+												type="date"
+												id={`${slot}_date`}
+												name={`${slot}_date`}
+												min={slotWindow.min}
+												max={slotWindow.max}
+												data-booking-date
+												aria-describedby={`${slot}-error`}
+												class="h-10 rounded-3xl bg-input/50 px-3 text-base md:text-sm"
+											/>
+											<select
+												name={`${slot}_time`}
+												aria-label={m.booking_time_label}
+												class="h-10 rounded-3xl bg-input/50 px-3 text-base md:text-sm"
+											>
+												<option value="">{m.booking_time_label}</option>
+												{BOOKING_TIMES.map((time) => (
+													<option value={time}>{time}</option>
+												))}
+											</select>
+										</div>
+										<FieldError id={`${slot}-error`} data-error-for={slot} class="hidden">
+											<span />
+										</FieldError>
+									</div>
+								))}
+								<div class="flex flex-col gap-2" data-field-control="meetingTool">
+									<p class="text-sm">{m.booking_tool_label}</p>
+									<div class="flex flex-wrap gap-2">
+										{MEETING_TOOLS.map((tool, index) => (
+											<label class="inline-flex cursor-pointer items-center gap-2 rounded-full border border-border px-3 py-1.5 text-sm has-checked:border-brand has-checked:text-brand">
+												<input
+													type="radio"
+													name="meetingTool"
+													value={tool}
+													checked={index === 0}
+													class="accent-current"
+												/>
+												{toolLabels[tool]}
+											</label>
+										))}
+									</div>
+									<FieldError id="meetingTool-error" data-error-for="meetingTool" class="hidden">
+										<span />
+									</FieldError>
+								</div>
+							</fieldset>
+						)
+					}
+
 					<Field>
 						<FieldLabel for="message">
 							{m.form_label_message}
@@ -188,7 +280,7 @@ const inquiryTypes = [
 				</p>
 
 				<Button type="submit" variant="brand" class="h-12 gap-2 self-start px-8">
-					<span data-submit-text>{m.form_submit}</span>
+					<span data-submit-text>{isBooking ? m.booking_submit : m.form_submit}</span>
 					<Send />
 				</Button>
 			</form>
@@ -205,6 +297,24 @@ const inquiryTypes = [
 
 	const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
 	const success = document.querySelector<HTMLElement>('[data-contact-success]');
+
+	// Weekends cannot be picked: clear the date and say so.
+	document.querySelectorAll<HTMLInputElement>('[data-booking-date]').forEach((input) => {
+		input.addEventListener('change', () => {
+			if (!input.value) return;
+			const weekday = new Date(`${input.value}T00:00:00Z`).getUTCDay();
+			const error = document.querySelector<HTMLElement>(
+				`[data-error-for="${input.id.replace('_date', '')}"]`
+			);
+			if (weekday === 0 || weekday === 6) {
+				input.value = '';
+				if (error) {
+					error.textContent = form?.dataset.weekendMessage ?? '';
+					error.classList.remove('hidden');
+				}
+			} else error?.classList.add('hidden');
+		});
+	});
 
 	// Fill in where the visit came from (stored by the layout on the first page).
 	try {
@@ -251,7 +361,13 @@ const inquiryTypes = [
 			if (response.ok && result.success) {
 				form.reset();
 				const dataLayer = ((window as unknown as { dataLayer?: object[] }).dataLayer ??= []);
-				dataLayer.push({ event: 'contact_submit', page: location.pathname });
+				dataLayer.push({
+					event:
+						form.querySelector<HTMLInputElement>('[name="mode"]')?.value === 'book'
+							? 'booking_submit'
+							: 'contact_submit',
+					page: location.pathname
+				});
 				form.classList.add('hidden');
 				success?.classList.remove('hidden');
 				success?.classList.add('flex');

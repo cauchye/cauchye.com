@@ -71,12 +71,18 @@
 	// Pages without sections of their own (contact, articles, landing pages) link to the home
 	// page's.
 	const navBase = $derived(
-		pagePath === '/contact' || pagePath.startsWith('/articles') || pagePath.startsWith('/lp/')
+		pagePath === '/contact' ||
+			pagePath === '/book' ||
+			pagePath.startsWith('/articles') ||
+			pagePath.startsWith('/lp/')
 			? home
 			: currentPage
 	);
 	const pageNavItems = $derived(
-		pagePath === '/contact' || pagePath.startsWith('/articles') || pagePath.startsWith('/lp/')
+		pagePath === '/contact' ||
+			pagePath === '/book' ||
+			pagePath.startsWith('/articles') ||
+			pagePath.startsWith('/lp/')
 			? homeNavItems
 			: pagePath === '/business/it-ai'
 				? aiOverviewNavItems

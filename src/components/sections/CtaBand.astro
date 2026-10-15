@@ -1,0 +1,55 @@
+---
+import { ArrowRight, CalendarDays } from 'lucide-astro';
+
+import type { Dictionary, Locale } from '../../i18n';
+import { consultHref } from '../../site';
+import { Button } from '../ui/button/index.js';
+
+interface Props {
+	locale: Locale;
+	messages: Dictionary;
+	placement?: string;
+}
+
+const { locale, messages: m, placement = 'band' } = Astro.props;
+---
+
+<section class="pb-20 md:pb-28" data-cta-band>
+	<div
+		class="relative overflow-hidden rounded-3xl bg-brand px-6 py-16 text-brand-foreground md:px-14 md:py-20"
+		data-reveal="scale"
+	>
+		<div
+			class="pointer-events-none absolute -top-20 -right-16 size-80 rounded-full bg-white/15 blur-3xl"
+			data-glow
+			aria-hidden="true"
+		>
+		</div>
+		<div class="relative grid items-center gap-8 md:grid-cols-[1fr_auto]">
+			<div>
+				<h2 class="text-3xl font-semibold md:text-5xl">{m.band_title}</h2>
+				<p class="mt-4 max-w-2xl text-white/75 md:text-lg">{m.band_body}</p>
+			</div>
+			<div class="flex flex-col gap-3">
+				<Button
+					href={consultHref(locale)}
+					variant="secondary"
+					size="lg"
+					class="h-12 px-6"
+					data-cta={`${placement}-consult`}
+				>
+					<CalendarDays data-icon="inline-start" />
+					{m.cta_consult}
+					<ArrowRight data-icon="inline-end" />
+				</Button>
+				<a
+					href={`/${locale}/contact`}
+					class="text-center text-sm text-white/80 underline-offset-4 hover:underline"
+					data-cta={`${placement}-contact`}
+				>
+					{m.cta_contact_other}
+				</a>
+			</div>
+		</div>
+	</div>
+</section>

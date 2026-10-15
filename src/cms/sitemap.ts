@@ -8,7 +8,8 @@ export const STATIC_PAGE_PATHS = [
 	'/business/it-ai/agent-adoption',
 	'/business/it-ai/solution-development',
 	'/business/corporate-advisory',
-	'/contact'
+	'/contact',
+	'/book'
 ] as const;
 
 export interface SitemapArticle {

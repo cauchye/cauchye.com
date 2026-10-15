@@ -102,6 +102,9 @@ const UI_PREFIXES = [
 	'articles_',
 	'contact_cta',
 	'cta_',
+	'booking_',
+	'flow_',
+	'band_',
 	'media_',
 	// The email landing page is not a CMS page.
 	'lp_'
