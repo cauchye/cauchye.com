@@ -51,7 +51,7 @@ const inquiryTypes = [
 			aria-hidden="true"
 		>
 		</div>
-		<div class="relative grid gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
+		<div class="relative grid gap-10 scheme-dark md:grid-cols-[1fr_1.2fr] md:gap-16">
 			<div>
 				<p class="font-mono text-[0.6875rem] tracking-[0.14em] text-brand uppercase">
 					{m.contact_eyebrow}
@@ -204,16 +204,20 @@ const inquiryTypes = [
 												max={slotWindow.max}
 												data-booking-date
 												aria-describedby={`${slot}-error`}
-												class="h-10 rounded-3xl bg-input/50 px-3 text-base md:text-sm"
+												class="h-10 rounded-3xl bg-input/50 px-3 text-base text-foreground scheme-dark md:text-sm"
 											/>
 											<select
 												name={`${slot}_time`}
 												aria-label={m.booking_time_label}
-												class="h-10 rounded-3xl bg-input/50 px-3 text-base md:text-sm"
+												class="h-10 rounded-3xl bg-input/50 px-3 text-base text-foreground scheme-dark md:text-sm"
 											>
-												<option value="">{m.booking_time_label}</option>
+												<option value="" class="bg-popover text-popover-foreground">
+													{m.booking_time_label}
+												</option>
 												{BOOKING_TIMES.map((time) => (
-													<option value={time}>{time}</option>
+													<option value={time} class="bg-popover text-popover-foreground">
+														{time}
+													</option>
 												))}
 											</select>
 										</div>
