@@ -35,10 +35,12 @@ export function localeFromRequest(request: Request): Locale {
 	for (const preference of preferences) {
 		const primaryLanguage = preference.languageRange.split('-')[0];
 		if (isLocale(primaryLanguage)) return primaryLanguage;
-		if (preference.languageRange === '*') return 'en';
+		if (preference.languageRange === '*') return 'ja';
 	}
 
-	return 'en';
+	// No usable header (e.g. in-app browsers): Japanese is the primary audience.
+	// A browser asking only for other languages gets English.
+	return preferences.some((preference) => preference.languageRange) ? 'en' : 'ja';
 }
 
 export function getDictionary(locale: Locale): Dictionary {
