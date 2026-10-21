@@ -5,7 +5,10 @@ import { GET } from '../../src/pages/index';
 
 const call = (url: string, acceptLanguage?: string) =>
 	(GET as unknown as (ctx: { request: Request }) => Response)({
-		request: new Request(url, acceptLanguage ? { headers: { 'accept-language': acceptLanguage } } : undefined)
+		request: new Request(
+			url,
+			acceptLanguage ? { headers: { 'accept-language': acceptLanguage } } : undefined
+		)
 	});
 
 describe('root redirect', () => {
@@ -21,8 +24,16 @@ describe('root redirect', () => {
 	});
 
 	it('uses en for other languages and ja when nothing is usable', () => {
-		expect(localeFromRequest(new Request('https://x/', { headers: { 'accept-language': 'fr-FR' } }))).toBe('en');
-		expect(localeFromRequest(new Request('https://x/', { headers: { 'accept-language': 'ja,en;q=0.8' } }))).toBe('ja');
-		expect(localeFromRequest(new Request('https://x/', { headers: { 'accept-language': '*' } }))).toBe('ja');
+		expect(
+			localeFromRequest(new Request('https://x/', { headers: { 'accept-language': 'fr-FR' } }))
+		).toBe('en');
+		expect(
+			localeFromRequest(
+				new Request('https://x/', { headers: { 'accept-language': 'ja,en;q=0.8' } })
+			)
+		).toBe('ja');
+		expect(
+			localeFromRequest(new Request('https://x/', { headers: { 'accept-language': '*' } }))
+		).toBe('ja');
 	});
 });
