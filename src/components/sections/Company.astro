@@ -1,7 +1,7 @@
 ---
 import type { Dictionary } from '../../i18n';
 import type { Locale } from '../../i18n';
-import { addressLines, d6e, d6eUrl, site, sunriseNoticeUrl } from '../../site';
+import { addressLines, d6e, d6eUrl, site } from '../../site';
 import { Card, CardContent, CardHeader } from '../ui/card/index.js';
 import SectionHeading from './SectionHeading.astro';
 
@@ -95,17 +95,6 @@ const sites = [
 				))
 			}
 		</ol>
-		<p data-sunrise-status class="mt-8 text-sm leading-relaxed text-muted-foreground">
-			{m.history_note}
-			<a
-				href={sunriseNoticeUrl}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="underline underline-offset-4 transition-colors hover:text-foreground"
-			>
-				{m.history_note_link}
-			</a>
-		</p>
 	</div>
 
 	<div id="leadership" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">

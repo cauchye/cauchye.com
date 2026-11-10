@@ -294,20 +294,20 @@ test('tells the blockchain history briefly and does not promote Sunrise', async 
 	await expect(history.locator('[data-history-item]').nth(4)).toContainText('2026年2月');
 	await expect(history.locator('[data-history-item]').last()).toContainText('現在');
 
-	// The developer's card names the role, the Sunrise and d6e work, and the research post.
+	// The developer's card names the role, the Sunrise and d6e work, and the ministry stint;
+	// it does not name a research post.
 	const member = page.locator('#company [data-member="ohmura"]');
 	await expect(member).toContainText('リードデベロッパー');
-	await expect(member).toContainText('Sunrise');
-	await expect(member).toContainText('2025年8月のメインネット公開');
+	await expect(member).toContainText('「Sunrise」');
 	await expect(member).toContainText('「d6e」');
-	await expect(member).toContainText('客員研究員');
+	await expect(member).toContainText('経済産業省に勤務（2021年4〜6月）');
+	await expect(member).not.toContainText('客員研究員');
 
-	// The mainnet is stopped: the page says so, links the network's own notice, and has no
-	// button, card, or call to action for Sunrise.
-	const status = history.locator('[data-sunrise-status]');
-	await expect(status).toContainText('メインネットは、現在停止しており、移行期間中です');
-	await expect(status.getByRole('link')).toHaveAttribute('href', 'https://sunriselayer.io/');
-	await expect(page.locator('a[href*="sunriselayer.io"]')).toHaveCount(1);
+	// Sunrise appears only as a dated milestone: no status note, no link to its site, and no
+	// button, card, or call to action.
+	await expect(page.locator('[data-sunrise-status]')).toHaveCount(0);
+	await expect(page.locator('a[href*="sunriselayer.io"]')).toHaveCount(0);
+	await expect(history).not.toContainText('移行期間');
 	await expect(page.locator('main').getByRole('button', { name: /Sunrise/ })).toHaveCount(0);
 
 	// Company information: founding, both lines of business, and the product sites.
@@ -325,9 +325,11 @@ test('tells the blockchain history briefly and does not promote Sunrise', async 
 	await expect(page.locator('#history')).toContainText('Before we turned to AI');
 	await expect(page.locator('#history')).toContainText('August 2025');
 	await expect(page.locator('#company [data-member="ohmura"]')).toContainText('Lead Developer');
-	await expect(page.locator('#history [data-sunrise-status]')).toContainText(
-		'mainnet is currently stopped and in a migration period'
+	await expect(page.locator('#company [data-member="ohmura"]')).toContainText(
+		'Ministry of Economy, Trade and Industry (April–June 2021)'
 	);
+	await expect(page.locator('#history')).not.toContainText('migration');
+	await expect(page.locator('a[href*="sunriselayer.io"]')).toHaveCount(0);
 });
 
 test('presents four clear entry points on the IT and AI overview', async ({ page }) => {

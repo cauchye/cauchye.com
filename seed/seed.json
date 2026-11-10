@@ -217,8 +217,6 @@
 						"history_6_date": "Today",
 						"history_6_title": "AI consulting and product development",
 						"history_6_body": "Our focus is consulting on AI adoption and improvement, and developing the AI product d6e.",
-						"history_note": "The Sunrise mainnet is currently stopped and in a migration period.",
-						"history_note_link": "Migration notice (sunriselayer.io)",
 						"services_eyebrow": "Business",
 						"services_title": "Business Overview",
 						"services_subtitle": "Consulting and product development, together, to bring AI to where the work is.",
@@ -279,7 +277,7 @@
 						"member_name": "OHMURA Senna",
 						"member_name_native": "大村 瀬奈",
 						"member_position": "Lead Developer",
-						"member_profile": "Works across blockchain and AI. As a core developer of the L1 blockchain Sunrise, worked on a new consensus mechanism based on Proof of Liquidity and on zero-knowledge-proof-based interoperability, and took part in the mainnet release in August 2025. Also a core developer of d6e, the AI workflow automation platform released in February 2026. Graduated in economics from Kyoto University. Joined CauchyE, Inc. in July 2021 and moved to CAUCHYE ASIA (Singapore) in April 2022. Visiting researcher at the Kyoto University Social Innovation Center."
+						"member_profile": "Works across blockchain and AI. Core developer of the L1 blockchain Sunrise and the AI workflow automation platform d6e. After graduating in economics from Kyoto University, worked at the Ministry of Economy, Trade and Industry (April–June 2021). Joined CauchyE, Inc. in July 2021 and moved to CAUCHYE ASIA (Singapore) in April 2022."
 					}
 				}
 			},
@@ -318,8 +316,6 @@
 						"history_6_date": "現在",
 						"history_6_title": "AIの導入支援とプロダクト開発へ",
 						"history_6_body": "AIの導入・改善コンサルティングと、AIプロダクト d6e の開発を、事業の軸としています。",
-						"history_note": "Sunrise のメインネットは、現在停止しており、移行期間中です。",
-						"history_note_link": "移行のお知らせ（sunriselayer.io）",
 						"services_eyebrow": "Business",
 						"services_title": "事業内容",
 						"services_subtitle": "コンサルティングとプロダクト開発の両方で、AIを現場へ届けます。",
@@ -380,7 +376,7 @@
 						"member_name": "大村 瀬奈",
 						"member_name_native": "OHMURA Senna",
 						"member_position": "リードデベロッパー",
-						"member_profile": "ブロックチェーンとAIの両領域で開発に携わる。L1ブロックチェーン「Sunrise」のコア開発者として、Proof of Liquidity に基づく新しいコンセンサスの実装や、ゼロ知識証明を用いた相互運用性の構築に携わり、2025年8月のメインネット公開に参加。2026年2月に公開したAI業務自動化基盤「d6e」でもコア開発者を務める。京都大学経済学部卒業。2021年7月に CauchyE, Inc. に入社し、2022年4月に CAUCHYE ASIA（シンガポール）へ異動。京都大学ソーシャルイノベーションセンター客員研究員。"
+						"member_profile": "ブロックチェーンとAIの両領域で開発に携わる。L1ブロックチェーン「Sunrise」とAI業務自動化基盤「d6e」のコア開発者。京都大学経済学部を卒業後、経済産業省に勤務（2021年4〜6月）。2021年7月に CauchyE, Inc. へ入社し、2022年4月に CAUCHYE ASIA（シンガポール）へ異動。"
 					}
 				}
 			},

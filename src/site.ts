@@ -41,10 +41,6 @@ export function d6eUrl(locale: Locale, path = ''): string {
 	return `${d6e.url}/${prefix}${path}?utm_source=cauchye.com&utm_medium=referral`;
 }
 
-// The Sunrise network's own notice about the end of its mainnet and the migration. Linked
-// as plain text only; the site does not promote the product.
-export const sunriseNoticeUrl = 'https://sunriselayer.io/';
-
 export const fdeMission = {
 	url: 'https://fde-mission.cauchye.com'
 } as const;
