@@ -208,9 +208,15 @@
 						"history_3_date": "December 2024",
 						"history_3_title": "Enterprise blockchain consulting",
 						"history_3_body": "We launched MyLayer, which helps design and build an original chain, and OurLayer, which helps adopt a shared chain.",
-						"history_4_date": "Today",
-						"history_4_title": "AI consulting and product development",
-						"history_4_body": "Our focus is consulting on AI adoption and improvement, and developing the AI product d6e.",
+						"history_4_date": "August 2025",
+						"history_4_title": "Sunrise mainnet release",
+						"history_4_body": "We released the mainnet of Sunrise, a layer-1 chain that integrates a data availability layer and a liquidity hub.",
+						"history_5_date": "February 2026",
+						"history_5_title": "d6e, an AI workflow automation platform",
+						"history_5_body": "We released d6e, an AI workflow automation platform that can also be deployed on premises or in a private cloud.",
+						"history_6_date": "Today",
+						"history_6_title": "AI consulting and product development",
+						"history_6_body": "Our focus is consulting on AI adoption and improvement, and developing the AI product d6e.",
 						"history_note": "The Sunrise mainnet is currently stopped and in a migration period.",
 						"history_note_link": "Migration notice (sunriselayer.io)",
 						"services_eyebrow": "Business",
@@ -272,8 +278,8 @@
 						"hero_point_3": "Corporate advisory, including IR/SR and capital strategy",
 						"member_name": "OHMURA Senna",
 						"member_name_native": "大村 瀬奈",
-						"member_role": "Developer",
-						"member_bio": "Works across blockchain and AI. Contributes to the L1 blockchain \"Sunrise\" and the AI business-efficiency tool \"D6E\". Studied economics at Kyoto University."
+						"member_position": "Lead Developer",
+						"member_profile": "Works across blockchain and AI. As a core developer of the L1 blockchain Sunrise, worked on a new consensus mechanism based on Proof of Liquidity and on zero-knowledge-proof-based interoperability, and took part in the mainnet release in August 2025. Also a core developer of d6e, the AI workflow automation platform released in February 2026. Graduated in economics from Kyoto University. Joined CauchyE, Inc. in July 2021 and moved to CAUCHYE ASIA (Singapore) in April 2022. Visiting researcher at the Kyoto University Social Innovation Center."
 					}
 				}
 			},
@@ -303,9 +309,15 @@
 						"history_3_date": "2024年12月",
 						"history_3_title": "企業向けブロックチェーン導入支援を開始",
 						"history_3_body": "独自チェーンの設計・構築を支援する「MyLayer」と、共有チェーンの導入を支援する「OurLayer」を始めました。",
-						"history_4_date": "現在",
-						"history_4_title": "AIの導入支援とプロダクト開発へ",
-						"history_4_body": "AIの導入・改善コンサルティングと、AIプロダクト d6e の開発を、事業の軸としています。",
+						"history_4_date": "2025年8月",
+						"history_4_title": "Sunrise のメインネットを公開",
+						"history_4_body": "データ可用性レイヤーと流動性ハブを統合したレイヤー1チェーン「Sunrise」のメインネットを公開しました。",
+						"history_5_date": "2026年2月",
+						"history_5_title": "AI業務自動化基盤 d6e を公開",
+						"history_5_body": "オンプレミスやプライベートクラウドにも導入できる、AI業務自動化プラットフォーム「d6e」を公開しました。",
+						"history_6_date": "現在",
+						"history_6_title": "AIの導入支援とプロダクト開発へ",
+						"history_6_body": "AIの導入・改善コンサルティングと、AIプロダクト d6e の開発を、事業の軸としています。",
 						"history_note": "Sunrise のメインネットは、現在停止しており、移行期間中です。",
 						"history_note_link": "移行のお知らせ（sunriselayer.io）",
 						"services_eyebrow": "Business",
@@ -367,8 +379,8 @@
 						"hero_point_3": "IR・SR、資本戦略などコーポレートアドバイザリーも一体で",
 						"member_name": "大村 瀬奈",
 						"member_name_native": "OHMURA Senna",
-						"member_role": "デベロッパー",
-						"member_bio": "ブロックチェーンとAIの両領域で開発に携わる。L1ブロックチェーン「Sunrise」や、業務効率化AIツール「D6E」の開発に参加。京都大学で経済学を専攻。"
+						"member_position": "リードデベロッパー",
+						"member_profile": "ブロックチェーンとAIの両領域で開発に携わる。L1ブロックチェーン「Sunrise」のコア開発者として、Proof of Liquidity に基づく新しいコンセンサスの実装や、ゼロ知識証明を用いた相互運用性の構築に携わり、2025年8月のメインネット公開に参加。2026年2月に公開したAI業務自動化基盤「d6e」でもコア開発者を務める。京都大学経済学部卒業。2021年7月に CauchyE, Inc. に入社し、2022年4月に CAUCHYE ASIA（シンガポール）へ異動。京都大学ソーシャルイノベーションセンター客員研究員。"
 					}
 				}
 			},

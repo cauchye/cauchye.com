@@ -24,12 +24,12 @@ const people = [
 		id: 'ohmura',
 		name: m.member_name,
 		native: m.member_name_native,
-		role: m.member_role,
-		bio: m.member_bio
+		role: m.member_position,
+		bio: m.member_profile
 	}
 ];
 // Dated milestones, oldest first. The last one has no date: the shift to AI is the present.
-const history = [1, 2, 3, 4].map((n) => ({
+const history = [1, 2, 3, 4, 5, 6].map((n) => ({
 	date: m[`history_${n}_date` as keyof Dictionary],
 	title: m[`history_${n}_title` as keyof Dictionary],
 	body: m[`history_${n}_body` as keyof Dictionary]

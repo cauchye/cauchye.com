@@ -286,9 +286,21 @@ test('tells the blockchain history briefly and does not promote Sunrise', async 
 	const history = page.locator('#company #history');
 	await expect(history.getByRole('heading', { name: 'これまでの歩み' })).toBeVisible();
 	await expect(history).toContainText('ブロックチェーンの開発を主な事業としていました');
-	await expect(history.locator('[data-history-item]')).toHaveCount(4);
+	await expect(history.locator('[data-history-item]')).toHaveCount(6);
 	await expect(history.locator('[data-history-item]').first()).toContainText('2022年4月');
+	// The mainnet release and the d6e release are dated; the last item is the present.
+	await expect(history.locator('[data-history-item]').nth(3)).toContainText('2025年8月');
+	await expect(history.locator('[data-history-item]').nth(3)).toContainText('メインネットを公開');
+	await expect(history.locator('[data-history-item]').nth(4)).toContainText('2026年2月');
 	await expect(history.locator('[data-history-item]').last()).toContainText('現在');
+
+	// The developer's card names the role, the Sunrise and d6e work, and the research post.
+	const member = page.locator('#company [data-member="ohmura"]');
+	await expect(member).toContainText('リードデベロッパー');
+	await expect(member).toContainText('Sunrise');
+	await expect(member).toContainText('2025年8月のメインネット公開');
+	await expect(member).toContainText('「d6e」');
+	await expect(member).toContainText('客員研究員');
 
 	// The mainnet is stopped: the page says so, links the network's own notice, and has no
 	// button, card, or call to action for Sunrise.
@@ -311,6 +323,8 @@ test('tells the blockchain history briefly and does not promote Sunrise', async 
 
 	await page.goto('/en');
 	await expect(page.locator('#history')).toContainText('Before we turned to AI');
+	await expect(page.locator('#history')).toContainText('August 2025');
+	await expect(page.locator('#company [data-member="ohmura"]')).toContainText('Lead Developer');
 	await expect(page.locator('#history [data-sunrise-status]')).toContainText(
 		'mainnet is currently stopped and in a migration period'
 	);
