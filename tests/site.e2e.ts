@@ -226,7 +226,7 @@ test('presents the revised Japanese business structure and company identity', as
 	]);
 });
 
-test('presents consulting and product development, and how d6e relates to this site', async ({
+test('presents consulting and product development, and how D6E relates to this site', async ({
 	page
 }) => {
 	await page.goto('/ja');
@@ -236,25 +236,25 @@ test('presents consulting and product development, and how d6e relates to this s
 
 	const products = page.locator('#products');
 	await expect(products.locator('[data-slot="card-title"] h3')).toHaveText([
-		'd6e Bots',
-		'd6e',
-		'd6e AI Gateway'
+		'D6E Bots',
+		'D6E',
+		'D6E AI Gateway'
 	]);
 	// d6e Bots is the lead product and says who provides its adoption consulting.
 	await expect(products.locator('[data-product="bots"] [data-product-consulting]')).toContainText(
 		'CAUCHYE ASIA が提供します'
 	);
-	const botsLink = products.getByRole('link', { name: 'd6e Bots を見る' });
+	const botsLink = products.getByRole('link', { name: 'D6E Bots を見る' });
 	await expect(botsLink).toHaveAttribute(
 		'href',
 		'https://www.d6e.ai/ja-JP/bots?utm_source=cauchye.com&utm_medium=referral'
 	);
 	await expect(botsLink).toHaveAttribute('target', '_blank');
-	await expect(products.getByRole('link', { name: 'd6e を見る' })).toHaveAttribute(
+	await expect(products.getByRole('link', { name: 'D6E を見る' })).toHaveAttribute(
 		'href',
 		'https://www.d6e.ai/ja-JP?utm_source=cauchye.com&utm_medium=referral'
 	);
-	await expect(products.getByRole('link', { name: 'd6e AI Gatewayを見る' })).toHaveAttribute(
+	await expect(products.getByRole('link', { name: 'D6E AI Gatewayを見る' })).toHaveAttribute(
 		'href',
 		'https://gateway.d6e.ai'
 	);
@@ -266,7 +266,7 @@ test('presents consulting and product development, and how d6e relates to this s
 
 	// The footer of every page links the d6e products and names their developer.
 	const footerProducts = page.locator('footer [data-footer-products]');
-	await expect(footerProducts.locator('a')).toHaveText(['d6e Bots', 'd6e', 'd6e AI Gateway']);
+	await expect(footerProducts.locator('a')).toHaveText(['D6E Bots', 'D6E', 'D6E AI Gateway']);
 	await expect(footerProducts).toContainText('CAUCHYE ASIA が開発するプロダクトです');
 	await page.goto('/ja/business/corporate-advisory');
 	await expect(page.locator('footer [data-footer-products] a')).toHaveCount(3);
@@ -299,7 +299,7 @@ test('tells the blockchain history briefly and does not promote Sunrise', async 
 	const member = page.locator('#company [data-member="ohmura"]');
 	await expect(member).toContainText('リードデベロッパー');
 	await expect(member).toContainText('「Sunrise」');
-	await expect(member).toContainText('「d6e」');
+	await expect(member).toContainText('「D6E」');
 	await expect(member).toContainText('経済産業省に勤務（2021年4〜6月）');
 	await expect(member).not.toContainText('客員研究員');
 
@@ -314,11 +314,11 @@ test('tells the blockchain history briefly and does not promote Sunrise', async 
 	const information = page.locator('#company-information');
 	await expect(information).toContainText('2022年4月');
 	await expect(information).toContainText('コンサルティング：AIの導入・改善支援');
-	await expect(information).toContainText('プロダクト開発：d6e、d6e Bots、d6e AI Gateway');
+	await expect(information).toContainText('プロダクト開発：D6E、D6E Bots、D6E AI Gateway');
 	await expect(information.locator('[data-product-sites] a')).toHaveText([
-		'd6e Bots',
-		'd6e',
-		'd6e AI Gateway'
+		'D6E Bots',
+		'D6E',
+		'D6E AI Gateway'
 	]);
 
 	await page.goto('/en');
@@ -348,10 +348,10 @@ test('presents four clear entry points on the IT and AI overview', async ({ page
 	await expect(offerings.locator('[data-slot="card-title"] h3')).toHaveText([
 		'AIエージェント導入支援',
 		'AIソリューション開発',
-		'd6e Bots',
-		'd6e AI Gateway'
+		'D6E Bots',
+		'D6E AI Gateway'
 	]);
-	await expect(offerings.getByRole('link', { name: 'd6e Bots を見る' })).toHaveAttribute(
+	await expect(offerings.getByRole('link', { name: 'D6E Bots を見る' })).toHaveAttribute(
 		'href',
 		'https://www.d6e.ai/ja-JP/bots?utm_source=cauchye.com&utm_medium=referral'
 	);
@@ -363,7 +363,7 @@ test('presents four clear entry points on the IT and AI overview', async ({ page
 		'href',
 		'/ja/business/it-ai/solution-development'
 	);
-	const gatewayLink = offerings.getByRole('link', { name: 'd6e AI Gatewayを見る' });
+	const gatewayLink = offerings.getByRole('link', { name: 'D6E AI Gatewayを見る' });
 	await expect(gatewayLink).toHaveAttribute('href', 'https://gateway.d6e.ai');
 	await expect(gatewayLink).toHaveAttribute('target', '_blank');
 	await expect(gatewayLink.locator('svg.lucide-external-link')).toBeVisible();
