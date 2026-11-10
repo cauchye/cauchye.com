@@ -80,12 +80,12 @@ test.describe('with published articles', () => {
 
 	test('keeps the site navigation in the header on every page', async ({ page }) => {
 		const pages = [
-			['ja', '/ja', ['事業内容', '会社概要', '記事']],
-			['ja', '/ja/contact', ['事業内容', '会社概要', '記事']],
-			['ja', '/ja/articles', ['事業内容', '会社概要', '記事']],
-			['ja', '/ja/articles/sample-article', ['事業内容', '会社概要', '記事']],
-			['en', '/en/articles', ['Services', 'Company', 'Articles']],
-			['en', '/en/articles/sample-article', ['Services', 'Company', 'Articles']]
+			['ja', '/ja', ['事業内容', 'プロダクト', '会社概要', '記事']],
+			['ja', '/ja/contact', ['事業内容', 'プロダクト', '会社概要', '記事']],
+			['ja', '/ja/articles', ['事業内容', 'プロダクト', '会社概要', '記事']],
+			['ja', '/ja/articles/sample-article', ['事業内容', 'プロダクト', '会社概要', '記事']],
+			['en', '/en/articles', ['Services', 'Products', 'Company', 'Articles']],
+			['en', '/en/articles/sample-article', ['Services', 'Products', 'Company', 'Articles']]
 		] as const;
 		for (const [locale, path, labels] of pages) {
 			await page.setViewportSize({ width: 1280, height: 800 });
@@ -136,6 +136,7 @@ test.describe('with published articles', () => {
 		await expect(page.locator('[data-site-header]')).toBeVisible();
 		await expect(page.locator('[data-site-header] nav').first().locator('a')).toHaveText([
 			'事業内容',
+			'プロダクト',
 			'会社概要',
 			'記事'
 		]);
@@ -215,6 +216,7 @@ test.describe('with published articles', () => {
 		await page.goto('/ja');
 		await expect(page.locator('footer nav a')).toHaveText([
 			'事業内容',
+			'プロダクト',
 			'会社概要',
 			'IT・AIソリューション',
 			'コーポレートアドバイザリー',

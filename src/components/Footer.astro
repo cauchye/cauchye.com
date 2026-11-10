@@ -3,7 +3,7 @@ import { ExternalLink, Mail } from 'lucide-astro';
 
 import { Separator } from './ui/separator/index.js';
 import type { Dictionary, Locale } from '../i18n';
-import { addressLines, navItems, officialAccounts, site } from '../site';
+import { addressLines, d6e, d6eUrl, navItems, officialAccounts, site } from '../site';
 
 interface Props {
 	locale: Locale;
@@ -14,11 +14,17 @@ interface Props {
 const { locale, messages: m, showArticles = false } = Astro.props;
 const home = `/${locale}`;
 const year = new Date().getFullYear();
+// d6e is ours: the footer of every page links it, and says whose product it is.
+const productLinks = [
+	{ id: 'd6e-bots', label: 'd6e Bots', href: d6eUrl(locale, '/bots') },
+	{ id: 'd6e', label: 'd6e', href: d6eUrl(locale) },
+	{ id: 'd6e-gateway', label: 'd6e AI Gateway', href: d6e.gatewayUrl }
+];
 ---
 
 <footer class="mt-auto border-t border-border bg-muted/30">
 	<div class="container mx-auto py-14">
-		<div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+		<div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr_1fr]">
 			<div>
 				<div class="flex items-center gap-2.5">
 					<img src="/favicon.svg" alt="" class="size-6" width="24" height="24" loading="lazy" />
@@ -64,6 +70,32 @@ const year = new Date().getFullYear();
 					}
 				</ul>
 			</nav>
+
+			<div data-footer-products>
+				<h2 class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase">
+					{m.footer_products_label}
+				</h2>
+				<ul class="mt-4 flex flex-col gap-2.5">
+					{
+						productLinks.map((product) => (
+							<li>
+								<a
+									href={product.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
+								>
+									{product.label}
+									<ExternalLink class="size-3.5" aria-hidden="true" />
+								</a>
+							</li>
+						))
+					}
+				</ul>
+				<p class="mt-4 max-w-60 text-xs leading-relaxed text-balance text-muted-foreground">
+					{m.footer_products_note}
+				</p>
+			</div>
 
 			<div data-official-accounts>
 				<h2 class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase">

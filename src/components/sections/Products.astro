@@ -1,0 +1,128 @@
+---
+import { ArrowRight, ExternalLink } from 'lucide-astro';
+
+import type { Dictionary, Locale } from '../../i18n';
+import { d6e, d6eUrl } from '../../site';
+import { Badge } from '../ui/badge/index.js';
+import { Button } from '../ui/button/index.js';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '../ui/card/index.js';
+import D6eMark from '../D6eMark.astro';
+import SectionHeading from './SectionHeading.astro';
+
+interface Props {
+	locale: Locale;
+	messages: Dictionary;
+}
+
+const { locale, messages: m } = Astro.props;
+// d6e Bots comes first: it is the product we lead with, and the only one that ships with
+// consulting from CAUCHYE ASIA.
+const products = [
+	{
+		id: 'bots',
+		label: m.products_bots_label,
+		title: 'd6e Bots',
+		body: m.products_bots_body,
+		consulting: m.products_bots_consulting,
+		cta: m.products_bots_cta,
+		href: d6eUrl(locale, '/bots'),
+		lead: true
+	},
+	{
+		id: 'platform',
+		label: m.products_platform_label,
+		title: 'd6e',
+		body: m.products_platform_body,
+		consulting: undefined,
+		cta: m.products_platform_cta,
+		href: d6eUrl(locale),
+		lead: false
+	},
+	{
+		id: 'gateway',
+		label: m.products_gateway_label,
+		title: 'd6e AI Gateway',
+		body: m.products_gateway_body,
+		consulting: undefined,
+		cta: m.gateway_cta,
+		href: d6e.gatewayUrl,
+		lead: false
+	}
+];
+---
+
+<section id="products" class="border-t border-border section">
+	<SectionHeading
+		eyebrow={m.products_eyebrow}
+		title={m.products_title}
+		subtitle={m.products_lead}
+	/>
+
+	<div class="mt-12 grid items-stretch gap-5 lg:grid-cols-3">
+		{
+			products.map((product, index) => (
+				<Card
+					data-product={product.id}
+					data-reveal
+					style={`--reveal-index: ${index}`}
+					class:list={[
+						'h-full overflow-hidden transition-all hover:-translate-y-1 hover:shadow-lg',
+						product.lead ? 'border-brand/25 bg-brand-subtle' : 'hover:border-brand/30'
+					]}
+				>
+					<CardHeader>
+						<div class="flex items-start justify-between gap-4">
+							<span class="flex size-11 items-center justify-center rounded-xl bg-brand-subtle text-brand">
+								<D6eMark class="size-7" />
+							</span>
+							<Badge variant="outline" class="h-auto rounded-full px-2.5 py-1 text-[0.6875rem]">
+								{product.label}
+							</Badge>
+						</div>
+						<CardTitle class="mt-5">
+							<h3 class="text-xl leading-tight font-semibold md:text-2xl">{product.title}</h3>
+						</CardTitle>
+					</CardHeader>
+					<CardContent class="flex-auto">
+						<p class="leading-relaxed text-muted-foreground">{product.body}</p>
+						{product.consulting && (
+							<p
+								data-product-consulting
+								class="mt-4 border-l-2 border-brand pl-3 text-sm leading-relaxed font-medium"
+							>
+								{product.consulting}
+							</p>
+						)}
+					</CardContent>
+					<CardFooter>
+						<Button
+							href={product.href}
+							target="_blank"
+							rel="noreferrer"
+							variant={product.lead ? 'brand' : 'outline'}
+							class="w-full"
+						>
+							{product.cta}
+							<ExternalLink data-icon="inline-end" />
+						</Button>
+					</CardFooter>
+				</Card>
+			))
+		}
+	</div>
+
+	<div
+		data-d6e-relation
+		data-reveal
+		class="mt-6 flex flex-col gap-5 rounded-2xl border border-border bg-muted/30 p-6 md:flex-row md:items-center md:justify-between md:p-8"
+	>
+		<div class="max-w-3xl">
+			<h3 class="text-lg font-semibold">{m.products_relation_title}</h3>
+			<p class="mt-2 leading-relaxed text-muted-foreground">{m.products_relation_body}</p>
+		</div>
+		<Button href={`/${locale}/contact`} variant="outline" size="lg" class="h-11 shrink-0 px-5">
+			{m.products_relation_cta}
+			<ArrowRight data-icon="inline-end" />
+		</Button>
+	</div>
+</section>

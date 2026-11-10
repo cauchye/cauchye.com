@@ -120,7 +120,9 @@ const PAGE_PREFIXES: ReadonlyArray<readonly [PageSlug, readonly string[]]> = [
 			'hero_',
 			'about_',
 			'services_',
+			'products_',
 			'business_',
+			'history_',
 			'leader_',
 			'member_',
 			'company_'

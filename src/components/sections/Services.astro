@@ -49,7 +49,11 @@ const businesses = [
 ---
 
 <section id="services" class="border-t border-border section">
-	<SectionHeading eyebrow={m.services_eyebrow} title={m.services_title} />
+	<SectionHeading
+		eyebrow={m.services_eyebrow}
+		title={m.services_title}
+		subtitle={m.services_subtitle}
+	/>
 	<div class="mt-14 grid gap-5 lg:grid-cols-2">
 		{
 			businesses.map((business, index) => {

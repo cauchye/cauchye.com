@@ -1,4 +1,4 @@
-import type { MessageKey } from './i18n';
+import type { Locale, MessageKey } from './i18n';
 
 export const site = {
 	legalName: 'CAUCHYE ASIA PTE. LTD.',
@@ -33,6 +33,17 @@ export const d6e = {
 	docsUrl: 'https://docs.d6e.ai',
 	gatewayUrl: 'https://gateway.d6e.ai'
 } as const;
+
+// A page of the d6e site in the visitor's language. d6e.ai names its locales `ja-JP` and
+// `en-US`; the source parameters let d6e.ai tell visits that come from this site.
+export function d6eUrl(locale: Locale, path = ''): string {
+	const prefix = locale === 'ja' ? 'ja-JP' : 'en-US';
+	return `${d6e.url}/${prefix}${path}?utm_source=cauchye.com&utm_medium=referral`;
+}
+
+// The Sunrise network's own notice about the end of its mainnet and the migration. Linked
+// as plain text only; the site does not promote the product.
+export const sunriseNoticeUrl = 'https://sunriselayer.io/';
 
 export const fdeMission = {
 	url: 'https://fde-mission.cauchye.com'
@@ -92,6 +103,7 @@ export const addressLines = [
 
 export const navItems = [
 	{ path: '/#services', label: 'nav_services' },
+	{ path: '/#products', label: 'nav_products' },
 	{ path: '/#company', label: 'nav_company' },
 	{ path: '/business/it-ai', label: 'nav_ai' },
 	{ path: '/business/corporate-advisory', label: 'nav_advisory' }
