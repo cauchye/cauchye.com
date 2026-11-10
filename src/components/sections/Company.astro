@@ -1,14 +1,16 @@
 ---
 import type { Dictionary } from '../../i18n';
-import { addressLines, site } from '../../site';
+import type { Locale } from '../../i18n';
+import { addressLines, d6e, d6eUrl, site } from '../../site';
 import { Card, CardContent, CardHeader } from '../ui/card/index.js';
 import SectionHeading from './SectionHeading.astro';
 
 interface Props {
+	locale: Locale;
 	messages: Dictionary;
 }
 
-const { messages: m } = Astro.props;
+const { locale, messages: m } = Astro.props;
 // Photos are left out until we have ones we can publish.
 const people = [
 	{
@@ -22,10 +24,16 @@ const people = [
 		id: 'ohmura',
 		name: m.member_name,
 		native: m.member_name_native,
-		role: m.member_role,
-		bio: m.member_bio
+		role: m.member_position,
+		bio: m.member_profile
 	}
 ];
+// Dated milestones, oldest first. The last one has no date: the shift to AI is the present.
+const history = [1, 2, 3, 4, 5, 6].map((n) => ({
+	date: m[`history_${n}_date` as keyof Dictionary],
+	title: m[`history_${n}_title` as keyof Dictionary],
+	body: m[`history_${n}_body` as keyof Dictionary]
+}));
 const rows = [
 	{ id: 'name', label: m.company_label_name, lines: [site.legalName], list: false },
 	{
@@ -35,13 +43,21 @@ const rows = [
 		list: false
 	},
 	{ id: 'uen', label: m.company_label_uen, lines: [site.uen], list: false },
+	{ id: 'founded', label: m.company_label_founded, lines: [m.company_founded], list: false },
 	{ id: 'address', label: m.company_label_address, lines: addressLines, list: false },
 	{
 		id: 'business',
 		label: m.company_label_business,
-		lines: [m.business_ai_title, m.business_advisory_title],
+		lines: [m.company_business_consulting, m.company_business_products],
 		list: true
 	}
+];
+// The product sites, so a reader of this page can find d6e (and the other way round: d6e.ai
+// names CAUCHYE ASIA as its developer).
+const sites = [
+	{ id: 'd6e-bots', label: 'd6e Bots', href: d6eUrl(locale, '/bots') },
+	{ id: 'd6e', label: 'd6e', href: d6eUrl(locale) },
+	{ id: 'd6e-gateway', label: 'd6e AI Gateway', href: d6e.gatewayUrl }
 ];
 ---
 
@@ -54,6 +70,31 @@ const rows = [
 			<p>{m.about_body_1}</p>
 			<p>{m.about_body_2}</p>
 		</div>
+	</div>
+
+	<div id="history" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
+		<h3 class="text-xl font-semibold md:text-2xl">{m.history_title}</h3>
+		<p class="mt-6 max-w-3xl leading-relaxed text-muted-foreground">{m.history_lead}</p>
+		<ol class="mt-10 border-l border-border">
+			{
+				history.map((item) => (
+					<li
+						data-history-item
+						class="relative grid gap-1 pb-9 pl-6 last:pb-0 sm:grid-cols-[9rem_1fr] sm:gap-6 sm:pl-8"
+					>
+						<span
+							class="absolute top-2 -left-[0.3125rem] size-2.5 rounded-full bg-brand ring-4 ring-background"
+							aria-hidden="true"
+						/>
+						<p class="font-mono text-xs tracking-widest text-brand sm:pt-1">{item.date}</p>
+						<div>
+							<p class="font-semibold">{item.title}</p>
+							<p class="mt-1.5 leading-relaxed text-muted-foreground">{item.body}</p>
+						</div>
+					</li>
+				))
+			}
+		</ol>
 	</div>
 
 	<div id="leadership" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
@@ -109,6 +150,34 @@ const rows = [
 					</div>
 				))
 			}
+			<div
+				data-product-sites
+				class="grid gap-1 border-b border-border py-5 sm:grid-cols-[12rem_1fr] sm:gap-6"
+			>
+				<dt
+					class="font-mono text-[0.6875rem] tracking-[0.14em] text-muted-foreground uppercase sm:pt-1"
+				>
+					{m.company_label_sites}
+				</dt>
+				<dd class="leading-relaxed">
+					<ul class="flex flex-wrap gap-x-6 gap-y-2">
+						{
+							sites.map((link) => (
+								<li>
+									<a
+										href={link.href}
+										target="_blank"
+										rel="noreferrer"
+										class="underline underline-offset-4 transition-colors hover:text-brand"
+									>
+										{link.label}
+									</a>
+								</li>
+							))
+						}
+					</ul>
+				</dd>
+			</div>
 		</dl>
 	</div>
 </section>

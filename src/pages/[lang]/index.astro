@@ -5,6 +5,7 @@ import CtaBand from '../../components/sections/CtaBand.astro';
 import Flow from '../../components/sections/Flow.astro';
 import Hero from '../../components/sections/Hero.astro';
 import OfficialMedia from '../../components/sections/OfficialMedia.astro';
+import Products from '../../components/sections/Products.astro';
 import Services from '../../components/sections/Services.astro';
 import { getMessages } from '../../cms/content';
 import { isLocale } from '../../i18n';
@@ -20,8 +21,9 @@ const messages = await getMessages(Astro, lang);
 <BaseLayout locale={lang} {messages}>
 	<Hero locale={lang} {messages} />
 	<Services locale={lang} {messages} />
+	<Products locale={lang} {messages} />
 	<Flow {messages} />
-	<Company {messages} />
+	<Company locale={lang} {messages} />
 	<OfficialMedia {messages} />
 	<ArticleTeasers locale={lang} {messages} title={messages.articles_latest_title} />
 	<CtaBand locale={lang} {messages} placement="home-band" />

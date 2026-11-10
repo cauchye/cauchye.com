@@ -113,9 +113,10 @@ test('preserves the business page when changing language', async ({ page }) => {
 test('uses only page-local links in the header navigation', async ({ page }) => {
 	await page.goto('/ja');
 	let headerNav = page.locator('[data-site-header] nav').first();
-	await expect(headerNav.locator('a')).toHaveCount(2);
+	await expect(headerNav.locator('a')).toHaveCount(3);
 	await expect(headerNav.locator('a[href*="/business/"]')).toHaveCount(0);
 	await expect(headerNav.locator('a').first()).toHaveAttribute('href', '/ja#services');
+	await expect(headerNav.locator('a').nth(1)).toHaveAttribute('href', '/ja#products');
 	await expect(headerNav.locator('a').last()).toHaveAttribute('href', '/ja#company');
 
 	await page.goto('/ja/business/it-ai');
@@ -185,7 +186,12 @@ test('presents the revised Japanese business structure and company identity', as
 	await expect(page.getByText('コーシー・アジア・プライベート・リミテッド')).toBeVisible();
 	await expect(page.getByText(/BUSINESS 0[1-9]/)).toHaveCount(0);
 	const company = page.locator('#company');
-	await expect(company.locator('h3')).toHaveText(['社名について', '経営陣', '会社情報']);
+	await expect(company.locator('h3')).toHaveText([
+		'社名について',
+		'これまでの歩み',
+		'経営陣',
+		'会社情報'
+	]);
 	await expect(company.getByText('About', { exact: true })).toHaveCount(0);
 	await expect(
 		company.locator('#about').getByRole('heading', { name: '社名について' })
@@ -213,13 +219,120 @@ test('presents the revised Japanese business structure and company identity', as
 	).toHaveCount(0);
 	await expect(footerLinks).toHaveText([
 		'事業内容',
+		'プロダクト',
 		'会社概要',
 		'IT・AIソリューション',
 		'コーポレートアドバイザリー'
 	]);
 });
 
-test('presents three clear entry points on the IT and AI overview', async ({ page }) => {
+test('presents consulting and product development, and how d6e relates to this site', async ({
+	page
+}) => {
+	await page.goto('/ja');
+	await expect(page.locator('#services [data-section-heading]')).toContainText(
+		'コンサルティングとプロダクト開発の両方で'
+	);
+
+	const products = page.locator('#products');
+	await expect(products.locator('[data-slot="card-title"] h3')).toHaveText([
+		'd6e Bots',
+		'd6e',
+		'd6e AI Gateway'
+	]);
+	// d6e Bots is the lead product and says who provides its adoption consulting.
+	await expect(products.locator('[data-product="bots"] [data-product-consulting]')).toContainText(
+		'CAUCHYE ASIA が提供します'
+	);
+	const botsLink = products.getByRole('link', { name: 'd6e Bots を見る' });
+	await expect(botsLink).toHaveAttribute(
+		'href',
+		'https://www.d6e.ai/ja-JP/bots?utm_source=cauchye.com&utm_medium=referral'
+	);
+	await expect(botsLink).toHaveAttribute('target', '_blank');
+	await expect(products.getByRole('link', { name: 'd6e を見る' })).toHaveAttribute(
+		'href',
+		'https://www.d6e.ai/ja-JP?utm_source=cauchye.com&utm_medium=referral'
+	);
+	await expect(products.getByRole('link', { name: 'd6e AI Gatewayを見る' })).toHaveAttribute(
+		'href',
+		'https://gateway.d6e.ai'
+	);
+	const relation = products.locator('[data-d6e-relation]');
+	await expect(relation).toContainText('d6e.ai は、プロダクトの紹介とご利用の窓口です');
+	await expect(relation.getByRole('link')).toHaveAttribute('href', '/ja/contact');
+	// No price is shown here; fees live on the d6e Bots page.
+	await expect(products.getByText(/円|タイムチャージ/)).toHaveCount(0);
+
+	// The footer of every page links the d6e products and names their developer.
+	const footerProducts = page.locator('footer [data-footer-products]');
+	await expect(footerProducts.locator('a')).toHaveText(['d6e Bots', 'd6e', 'd6e AI Gateway']);
+	await expect(footerProducts).toContainText('CAUCHYE ASIA が開発するプロダクトです');
+	await page.goto('/ja/business/corporate-advisory');
+	await expect(page.locator('footer [data-footer-products] a')).toHaveCount(3);
+
+	await page.goto('/en');
+	await expect(page.locator('#products [data-product="bots"] a')).toHaveAttribute(
+		'href',
+		'https://www.d6e.ai/en-US/bots?utm_source=cauchye.com&utm_medium=referral'
+	);
+	await expect(page.locator('#products [data-product-consulting]')).toContainText(
+		'CAUCHYE ASIA provides the consulting'
+	);
+});
+
+test('tells the blockchain history briefly and does not promote Sunrise', async ({ page }) => {
+	await page.goto('/ja');
+	const history = page.locator('#company #history');
+	await expect(history.getByRole('heading', { name: 'これまでの歩み' })).toBeVisible();
+	await expect(history).toContainText('ブロックチェーンの開発を主な事業としていました');
+	await expect(history.locator('[data-history-item]')).toHaveCount(6);
+	await expect(history.locator('[data-history-item]').first()).toContainText('2022年4月');
+	// The mainnet release and the d6e release are dated; the last item is the present.
+	await expect(history.locator('[data-history-item]').nth(3)).toContainText('2025年8月');
+	await expect(history.locator('[data-history-item]').nth(3)).toContainText('メインネットを公開');
+	await expect(history.locator('[data-history-item]').nth(4)).toContainText('2026年2月');
+	await expect(history.locator('[data-history-item]').last()).toContainText('現在');
+
+	// The developer's card names the role, the Sunrise and d6e work, and the ministry stint;
+	// it does not name a research post.
+	const member = page.locator('#company [data-member="ohmura"]');
+	await expect(member).toContainText('リードデベロッパー');
+	await expect(member).toContainText('「Sunrise」');
+	await expect(member).toContainText('「d6e」');
+	await expect(member).toContainText('経済産業省に勤務（2021年4〜6月）');
+	await expect(member).not.toContainText('客員研究員');
+
+	// Sunrise appears only as a dated milestone: no status note, no link to its site, and no
+	// button, card, or call to action.
+	await expect(page.locator('[data-sunrise-status]')).toHaveCount(0);
+	await expect(page.locator('a[href*="sunriselayer.io"]')).toHaveCount(0);
+	await expect(history).not.toContainText('移行期間');
+	await expect(page.locator('main').getByRole('button', { name: /Sunrise/ })).toHaveCount(0);
+
+	// Company information: founding, both lines of business, and the product sites.
+	const information = page.locator('#company-information');
+	await expect(information).toContainText('2022年4月');
+	await expect(information).toContainText('コンサルティング：AIの導入・改善支援');
+	await expect(information).toContainText('プロダクト開発：d6e、d6e Bots、d6e AI Gateway');
+	await expect(information.locator('[data-product-sites] a')).toHaveText([
+		'd6e Bots',
+		'd6e',
+		'd6e AI Gateway'
+	]);
+
+	await page.goto('/en');
+	await expect(page.locator('#history')).toContainText('Before we turned to AI');
+	await expect(page.locator('#history')).toContainText('August 2025');
+	await expect(page.locator('#company [data-member="ohmura"]')).toContainText('Lead Developer');
+	await expect(page.locator('#company [data-member="ohmura"]')).toContainText(
+		'Ministry of Economy, Trade and Industry (April–June 2021)'
+	);
+	await expect(page.locator('#history')).not.toContainText('migration');
+	await expect(page.locator('a[href*="sunriselayer.io"]')).toHaveCount(0);
+});
+
+test('presents four clear entry points on the IT and AI overview', async ({ page }) => {
 	await page.goto('/ja/business/it-ai');
 	await expect(
 		page.getByRole('heading', {
@@ -231,12 +344,17 @@ test('presents three clear entry points on the IT and AI overview', async ({ pag
 	).toEqual(['partners', 'capabilities']);
 
 	const offerings = page.locator('#capabilities');
-	await expect(offerings.locator('[data-slot="card"]')).toHaveCount(3);
+	await expect(offerings.locator('[data-slot="card"]')).toHaveCount(4);
 	await expect(offerings.locator('[data-slot="card-title"] h3')).toHaveText([
 		'AIエージェント導入支援',
 		'AIソリューション開発',
+		'd6e Bots',
 		'd6e AI Gateway'
 	]);
+	await expect(offerings.getByRole('link', { name: 'd6e Bots を見る' })).toHaveAttribute(
+		'href',
+		'https://www.d6e.ai/ja-JP/bots?utm_source=cauchye.com&utm_medium=referral'
+	);
 	await expect(offerings.getByRole('link', { name: '導入支援を見る' })).toHaveAttribute(
 		'href',
 		'/ja/business/it-ai/agent-adoption'

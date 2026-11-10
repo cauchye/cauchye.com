@@ -1,5 +1,14 @@
 ---
-import { ArrowRight, Bot, Check, ChevronRight, CodeXml, ExternalLink, Gauge } from 'lucide-astro';
+import {
+	ArrowRight,
+	Bot,
+	Check,
+	ChevronRight,
+	CodeXml,
+	ExternalLink,
+	Gauge,
+	MonitorCog
+} from 'lucide-astro';
 
 import ArticleTeasers from '../../../components/sections/ArticleTeasers.astro';
 import PartnerShowcase from '../../../components/sections/PartnerShowcase.astro';
@@ -17,7 +26,7 @@ import {
 import { getMessages, getPartners } from '../../../cms/content';
 import { isLocale } from '../../../i18n';
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { d6e } from '../../../site';
+import { d6e, d6eUrl } from '../../../site';
 
 const { lang } = Astro.params;
 if (!isLocale(lang)) return Astro.redirect('/en/business/it-ai', 302);
@@ -50,6 +59,17 @@ const offerings = [
 		cta: m.ai_offering_development_cta,
 		external: false,
 		product: false
+	},
+	{
+		icon: MonitorCog,
+		title: m.ai_offering_bots_title,
+		body: m.ai_offering_bots_body,
+		note: m.ai_offering_bots_note,
+		points: [m.ai_offering_bots_point_1, m.ai_offering_bots_point_2, m.ai_offering_bots_point_3],
+		href: d6eUrl(lang, '/bots'),
+		cta: m.ai_offering_bots_cta,
+		external: true,
+		product: true
 	},
 	{
 		icon: Gauge,
@@ -132,7 +152,7 @@ const partners = await getPartners(Astro, lang, 'it-ai');
 
 	<section id="capabilities" class="border-t border-border section">
 		<SectionHeading eyebrow={m.ai_offerings_eyebrow} title={m.ai_offerings_title} />
-		<div class="mt-12 grid items-stretch gap-5 lg:grid-cols-3">
+		<div class="mt-12 grid items-stretch gap-5 md:grid-cols-2">
 			{
 				offerings.map(({ icon: Icon, title, body, note, points, href, cta, external, product }) => (
 					<Card

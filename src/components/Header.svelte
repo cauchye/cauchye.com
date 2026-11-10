@@ -29,6 +29,7 @@
 	type PageNavItem = { hash: string; label: MessageKey };
 	const homeNavItems: PageNavItem[] = [
 		{ hash: '#services', label: 'nav_services' },
+		{ hash: '#products', label: 'nav_products' },
 		{ hash: '#company', label: 'nav_company' }
 	];
 	const aiOverviewNavItems: PageNavItem[] = [
