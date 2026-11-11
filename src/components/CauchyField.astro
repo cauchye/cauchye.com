@@ -1,0 +1,210 @@
+---
+// Hero background: samples from a Cauchy distribution fall and pile up into a
+// heavy-tailed dot histogram under its density curve, while the line of the
+// running mean keeps jumping and never settles. It draws the company's line,
+// "there is no answer in the average", without words.
+//
+// Constraints: decorative only (aria-hidden); brand colour for the curve, the
+// mean and the outliers, muted colour for the rest; pauses off screen; with
+// reduced motion it draws one finished histogram and stops.
+interface Props {
+	class?: string;
+}
+const { class: className = '' } = Astro.props;
+---
+
+<canvas data-cauchy-field class:list={['pointer-events-none', className]} aria-hidden="true"
+></canvas>
+
+<script>
+	type Drop = { x: number; y: number; v: number; bin: number; outlier: boolean };
+
+	function start(canvas: HTMLCanvasElement) {
+		const context = canvas.getContext('2d');
+		if (!context) return;
+		const ctx: CanvasRenderingContext2D = context;
+		const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+		const dot = 5; // dot size and bin width, px
+		let width = 0;
+		let height = 0;
+		let bins: { count: number; outliers: number }[] = [];
+		let drops: Drop[] = [];
+		let sum = 0;
+		let samples = 0;
+		let meanX = 0;
+		let shownMeanX = 0;
+		let fade = 1;
+		let brand = '#3b5bdb';
+		let muted = '#888';
+		let frame = 0;
+		let running = false;
+		let lastSpawn = 0;
+
+		const center = () => width * 0.6;
+		const scale = () => Math.max(28, width * 0.045);
+		const maxStack = () => Math.max(10, Math.floor((height * 0.16) / dot));
+
+		const readColors = () => {
+			const styles = getComputedStyle(document.documentElement);
+			brand = getComputedStyle(canvas).color || brand;
+			muted = styles.getPropertyValue('--muted-foreground').trim() || muted;
+		};
+
+		const reset = () => {
+			bins = Array.from({ length: Math.ceil(width / dot) + 1 }, () => ({ count: 0, outliers: 0 }));
+			drops = [];
+			sum = 0;
+			samples = 0;
+			meanX = shownMeanX = center();
+			fade = 1;
+		};
+
+		// A Cauchy sample: centre + scale * tan(pi * (u - 1/2)).
+		const sample = () => center() + scale() * Math.tan(Math.PI * (Math.random() - 0.5));
+
+		const spawn = () => {
+			const x = sample();
+			sum += x;
+			samples += 1;
+			meanX = sum / samples;
+			if (x < 0 || x >= width) return; // far outliers move the mean but land off screen
+			const bin = Math.floor(x / dot);
+			drops.push({
+				x: bin * dot,
+				y: height * 0.08,
+				v: 0,
+				bin,
+				outlier: Math.abs(x - center()) > scale() * 3
+			});
+		};
+
+		const resize = () => {
+			const ratio = Math.min(window.devicePixelRatio || 1, 2);
+			// Keep the pile when only the height changes (for example a mobile
+			// address bar showing or hiding); start again when the width changes.
+			const widthChanged = Math.abs(canvas.clientWidth - width) > 1;
+			width = canvas.clientWidth;
+			height = canvas.clientHeight;
+			canvas.width = Math.round(width * ratio);
+			canvas.height = Math.round(height * ratio);
+			ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+			readColors();
+			if (!widthChanged && bins.length) {
+				draw();
+				return;
+			}
+			reset();
+			if (still) {
+				for (let i = 0; i < 900; i++) {
+					spawn();
+					const d = drops.pop();
+					if (d && bins[d.bin].count < maxStack()) {
+						bins[d.bin].count += 1;
+						if (d.outlier) bins[d.bin].outliers += 1;
+					}
+				}
+				shownMeanX = meanX;
+				draw();
+			}
+		};
+
+		const baseline = () => height - 6;
+
+		const draw = () => {
+			ctx.clearRect(0, 0, width, height);
+			ctx.globalAlpha = fade;
+			const base = baseline();
+			const peak = maxStack() * dot;
+
+			// Density curve, scaled so its peak meets the tallest stack allowed.
+			ctx.strokeStyle = brand;
+			ctx.lineWidth = 1.5;
+			ctx.globalAlpha = 0.55 * fade;
+			ctx.beginPath();
+			for (let x = 0; x <= width; x += 3) {
+				const z = (x - center()) / scale();
+				const y = base - peak / (1 + z * z);
+				if (x === 0) ctx.moveTo(x, y);
+				else ctx.lineTo(x, y);
+			}
+			ctx.stroke();
+
+			// Settled dots.
+			for (let b = 0; b < bins.length; b++) {
+				const { count, outliers } = bins[b];
+				for (let k = 0; k < count; k++) {
+					const isOutlier = k >= count - outliers;
+					ctx.fillStyle = isOutlier ? brand : muted;
+					ctx.globalAlpha = (isOutlier ? 0.9 : 0.32) * fade;
+					ctx.fillRect(b * dot + 0.5, base - (k + 1) * dot + 0.5, dot - 1, dot - 1);
+				}
+			}
+
+			// Falling dots.
+			for (const d of drops) {
+				ctx.fillStyle = d.outlier ? brand : muted;
+				ctx.globalAlpha = (d.outlier ? 0.95 : 0.5) * fade;
+				ctx.fillRect(d.x + 0.5, d.y, dot - 1, dot - 1);
+			}
+
+			// The running mean: it never settles.
+			const mx = Math.min(width - 2, Math.max(2, shownMeanX));
+			ctx.globalAlpha = 0.85 * fade;
+			ctx.strokeStyle = brand;
+			ctx.setLineDash([4, 5]);
+			ctx.lineWidth = 1.25;
+			ctx.beginPath();
+			ctx.moveTo(mx, base);
+			ctx.lineTo(mx, base - peak * 1.35);
+			ctx.stroke();
+			ctx.setLineDash([]);
+			ctx.fillStyle = brand;
+			ctx.font = 'italic 600 13px ui-serif, Georgia, serif';
+			ctx.textAlign = 'center';
+			ctx.fillText('x̄', mx, base - peak * 1.35 - 8);
+			ctx.globalAlpha = 1;
+		};
+
+		const tick = (now: number) => {
+			if (now - lastSpawn > 22) {
+				lastSpawn = now;
+				spawn();
+			}
+			const base = baseline();
+			drops = drops.filter((d) => {
+				d.v = Math.min(d.v + 0.35, 9);
+				d.y += d.v;
+				const top = base - (bins[d.bin].count + 1) * dot;
+				if (d.y < top) return true;
+				if (bins[d.bin].count < maxStack()) {
+					bins[d.bin].count += 1;
+					if (d.outlier) bins[d.bin].outliers += 1;
+				}
+				return false;
+			});
+			shownMeanX += (meanX - shownMeanX) * 0.12;
+			// When the middle is full, fade out and start again.
+			const middle = bins[Math.floor(center() / dot)];
+			if (middle && middle.count >= maxStack()) fade -= 0.012;
+			if (fade <= 0) reset();
+			draw();
+			frame = running ? requestAnimationFrame(tick) : 0;
+		};
+
+		const setRunning = (on: boolean) => {
+			if (still || on === running) return;
+			running = on;
+			if (on && !frame) frame = requestAnimationFrame(tick);
+		};
+
+		new ResizeObserver(resize).observe(canvas);
+		new IntersectionObserver(([entry]) => setRunning(entry.isIntersecting)).observe(canvas);
+		new MutationObserver(() => {
+			readColors();
+			if (still) draw();
+		}).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
+
+	document.querySelectorAll<HTMLCanvasElement>('canvas[data-cauchy-field]').forEach(start);
+</script>

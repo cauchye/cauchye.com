@@ -302,3 +302,73 @@
 	opacity: 0.8;
 	cursor: pointer;
 }
+
+/* Scroll-linked details (CSS scroll-driven animations). Browsers without support, and
+   visitors who prefer reduced motion, see the finished state. */
+@media (prefers-reduced-motion: no-preference) {
+	@supports (animation-timeline: view()) {
+		@keyframes history-fill {
+			from {
+				scale: 1 0;
+			}
+			to {
+				scale: 1 1;
+			}
+		}
+		@keyframes history-dot {
+			from {
+				scale: 0.3;
+				opacity: 0.35;
+			}
+			to {
+				scale: 1;
+				opacity: 1;
+			}
+		}
+		@keyframes history-item {
+			from {
+				opacity: 0.25;
+				translate: 1.5rem 0;
+			}
+			to {
+				opacity: 1;
+				translate: 0 0;
+			}
+		}
+		[data-history-line] {
+			transform-origin: 50% 0;
+			animation: history-fill linear both;
+			animation-timeline: --history;
+			animation-range: entry 70% exit 30%;
+		}
+		[data-history-list] {
+			view-timeline: --history block;
+		}
+		[data-history-item] > [data-history-dot] {
+			animation: history-dot linear both;
+			animation-timeline: view();
+			animation-range: entry 100% cover 45%;
+		}
+		[data-history-item] > :not([data-history-dot]) {
+			animation: history-item linear both;
+			animation-timeline: view();
+			animation-range: entry 60% cover 40%;
+		}
+
+		@keyframes band-curve {
+			from {
+				stroke-dashoffset: 1;
+			}
+			to {
+				stroke-dashoffset: 0;
+			}
+		}
+		[data-band-curves] path {
+			stroke-dasharray: 1;
+			animation: band-curve linear both;
+			animation-timeline: view();
+			animation-range: entry calc(10% + var(--curve-index) * 12%) cover
+				calc(45% + var(--curve-index) * 8%);
+		}
+	}
+}

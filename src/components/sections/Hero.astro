@@ -3,6 +3,7 @@ import { ArrowRight, CalendarDays, Check } from 'lucide-astro';
 
 import type { Dictionary, Locale } from '../../i18n';
 import { consultHref } from '../../site';
+import CauchyField from '../CauchyField.astro';
 import MapBackdrop from '../MapBackdrop.astro';
 import { Button } from '../ui/button/index.js';
 
@@ -15,7 +16,7 @@ const { locale, messages: m } = Astro.props;
 const points = [m.hero_point_1, m.hero_point_2, m.hero_point_3];
 ---
 
-<section class="relative isolate pt-16 pb-16 md:pt-24 md:pb-24">
+<section class="relative isolate pt-16 pb-32 md:pt-24 md:pb-44">
 	<div
 		class="pointer-events-none absolute inset-0 -z-10 -mx-5 grid-backdrop md:-mx-8"
 		aria-hidden="true"
@@ -27,8 +28,11 @@ const points = [m.hero_point_1, m.hero_point_2, m.hero_point_3];
 		aria-hidden="true"
 	>
 	</div>
+	<CauchyField
+		class="absolute inset-0 -z-10 -mx-5 hidden h-full w-[calc(100%+2.5rem)] mask-[linear-gradient(to_bottom,transparent_0%,#000_40%)] text-brand md:-mx-8 md:block md:w-[calc(100%+4rem)]"
+	/>
 	<MapBackdrop
-		class="pointer-events-none absolute right-0 bottom-4 -z-10 hidden h-60 w-72 text-brand/12 lg:block"
+		class="pointer-events-none absolute top-2 right-0 -z-10 hidden h-60 w-72 text-brand/12 lg:block"
 	/>
 	<div class="grid items-end gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
 		<div>
