@@ -75,7 +75,11 @@ const sites = [
 	<div id="history" class="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
 		<h3 class="text-xl font-semibold md:text-2xl">{m.history_title}</h3>
 		<p class="mt-6 max-w-3xl leading-relaxed text-muted-foreground">{m.history_lead}</p>
-		<ol class="mt-10 border-l border-border">
+		<ol class="relative mt-10 border-l border-border" data-history-list>
+			<span
+				class="pointer-events-none absolute top-0 -left-px h-full w-0.5 bg-brand"
+				data-history-line
+				aria-hidden="true"></span>
 			{
 				history.map((item) => (
 					<li
@@ -84,6 +88,7 @@ const sites = [
 					>
 						<span
 							class="absolute top-2 -left-[0.3125rem] size-2.5 rounded-full bg-brand ring-4 ring-background"
+							data-history-dot
 							aria-hidden="true"
 						/>
 						<p class="font-mono text-xs tracking-widest text-brand sm:pt-1">{item.date}</p>
